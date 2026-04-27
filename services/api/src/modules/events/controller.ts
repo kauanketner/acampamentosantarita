@@ -5,7 +5,15 @@ const notImplemented = (_req: FastifyRequest, reply: FastifyReply) =>
   reply.code(501).send({ error: 'NOT_IMPLEMENTED' });
 
 export const eventsController = {
-  list: notImplemented,
+  async list(req: FastifyRequest, reply: FastifyReply) {
+    if (!req.user || req.user.role === 'participante') {
+      reply.code(403).send({ error: 'FORBIDDEN' });
+      return;
+    }
+    const items = await eventsService.listAll(req.server.db);
+    return { items };
+  },
+
   create: notImplemented,
 
   async getById(req: FastifyRequest, reply: FastifyReply) {

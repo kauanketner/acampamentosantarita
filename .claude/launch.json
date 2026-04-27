@@ -6,6 +6,12 @@
       "runtimeExecutable": "bun",
       "runtimeArgs": ["--cwd", "apps/app", "run", "dev"],
       "port": 3002
+    },
+    {
+      "name": "admin",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": ["--cwd", "apps/admin", "run", "dev"],
+      "port": 3001
     }
   ]
 }
