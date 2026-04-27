@@ -22,5 +22,19 @@ export const cancelRegistrationSchema = z
   })
   .strict();
 
+export const adminCancelRegistrationSchema = z
+  .object({
+    reason: z.string().min(1).max(500).optional(),
+  })
+  .strict();
+
+export const rejectRegistrationSchema = z
+  .object({
+    reason: z.string().min(1).max(500).optional(),
+  })
+  .strict();
+
 export type CreateRegistration = z.infer<typeof createRegistrationSchema>;
 export type CancelRegistration = z.infer<typeof cancelRegistrationSchema>;
+export type AdminCancelRegistration = z.infer<typeof adminCancelRegistrationSchema>;
+export type RejectRegistration = z.infer<typeof rejectRegistrationSchema>;

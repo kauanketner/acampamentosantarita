@@ -71,17 +71,21 @@ function EventoVisaoGeral() {
             </p>
           </div>
           {adminRow && (
-            <div className="text-right">
+            <Link
+              to="/eventos/$id/inscricoes"
+              params={{ id }}
+              className="text-right rounded-md border bg-card p-3 hover:bg-secondary/50 transition"
+            >
               <p className="text-xs uppercase tracking-wider text-muted-foreground">
                 Inscrições
               </p>
               <p className="font-mono text-2xl">{adminRow.registrationCount}</p>
               {adminRow.pendingCount > 0 && (
                 <p className="text-xs text-amber-700 dark:text-amber-400">
-                  {adminRow.pendingCount} pendentes
+                  {adminRow.pendingCount} pendentes →
                 </p>
               )}
-            </div>
+            </Link>
           )}
         </div>
       </header>

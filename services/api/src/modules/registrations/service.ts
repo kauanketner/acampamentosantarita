@@ -1,7 +1,12 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
 import { and, desc, eq, isNull } from 'drizzle-orm';
-import type { CancelRegistration, CreateRegistration } from './schemas.ts';
+import type {
+  AdminCancelRegistration,
+  CancelRegistration,
+  CreateRegistration,
+  RejectRegistration,
+} from './schemas.ts';
 
 export class RegistrationError extends Error {
   constructor(
@@ -14,7 +19,8 @@ export class RegistrationError extends Error {
       | 'HEALTH_PROFILE_REQUIRED'
       | 'NOT_FOUND'
       | 'NOT_OWNED'
-      | 'INVALID_CANCEL',
+      | 'INVALID_CANCEL'
+      | 'INVALID_TRANSITION',
     message: string,
   ) {
     super(message);
@@ -222,6 +228,237 @@ export const registrationsService = {
         status: 'cancelada',
         cancelledAt: new Date(),
         cancellationReason: payload.reason ?? null,
+        updatedAt: new Date(),
+      })
+      .where(eq(schema.registrations.id, registrationId))
+      .returning();
+    return updated!;
+  },
+
+  // ===== Admin =====
+
+  async listByEvent(db: Database, eventId: string) {
+    const rows = await db
+      .select({
+        registration: schema.registrations,
+        person: {
+          id: schema.persons.id,
+          fullName: schema.persons.fullName,
+          gender: schema.persons.gender,
+          birthDate: schema.persons.birthDate,
+          city: schema.persons.city,
+          state: schema.persons.state,
+          mobilePhone: schema.persons.mobilePhone,
+          avatarUrl: schema.persons.avatarUrl,
+          shirtSize: schema.persons.shirtSize,
+        },
+      })
+      .from(schema.registrations)
+      .innerJoin(
+        schema.persons,
+        eq(schema.registrations.personId, schema.persons.id),
+      )
+      .where(eq(schema.registrations.eventId, eventId))
+      .orderBy(desc(schema.registrations.registeredAt));
+
+    return rows.map((r) => ({
+      ...r.registration,
+      person: r.person,
+    }));
+  },
+
+  async listAllPending(db: Database) {
+    const rows = await db
+      .select({
+        registration: schema.registrations,
+        event: {
+          id: schema.events.id,
+          name: schema.events.name,
+          slug: schema.events.slug,
+          startDate: schema.events.startDate,
+          endDate: schema.events.endDate,
+        },
+        person: {
+          id: schema.persons.id,
+          fullName: schema.persons.fullName,
+          mobilePhone: schema.persons.mobilePhone,
+          avatarUrl: schema.persons.avatarUrl,
+        },
+      })
+      .from(schema.registrations)
+      .innerJoin(
+        schema.persons,
+        eq(schema.registrations.personId, schema.persons.id),
+      )
+      .innerJoin(
+        schema.events,
+        eq(schema.registrations.eventId, schema.events.id),
+      )
+      .where(eq(schema.registrations.status, 'pendente'))
+      .orderBy(desc(schema.registrations.registeredAt));
+
+    return rows.map((r) => ({
+      ...r.registration,
+      event: r.event,
+      person: r.person,
+    }));
+  },
+
+  // Admin: ver detalhe sem o filtro de "owned"
+  async getByIdAdmin(db: Database, registrationId: string) {
+    const [row] = await db
+      .select({
+        registration: schema.registrations,
+        event: schema.events,
+        person: schema.persons,
+      })
+      .from(schema.registrations)
+      .innerJoin(schema.events, eq(schema.registrations.eventId, schema.events.id))
+      .innerJoin(
+        schema.persons,
+        eq(schema.registrations.personId, schema.persons.id),
+      )
+      .where(eq(schema.registrations.id, registrationId))
+      .limit(1);
+    if (!row) {
+      throw new RegistrationError('NOT_FOUND', 'Inscrição não encontrada.');
+    }
+
+    const answers = await db
+      .select({
+        id: schema.registrationAnswers.id,
+        customQuestionId: schema.registrationAnswers.customQuestionId,
+        answer: schema.registrationAnswers.answer,
+        question: schema.eventCustomQuestions.question,
+        type: schema.eventCustomQuestions.type,
+      })
+      .from(schema.registrationAnswers)
+      .innerJoin(
+        schema.eventCustomQuestions,
+        eq(schema.registrationAnswers.customQuestionId, schema.eventCustomQuestions.id),
+      )
+      .where(eq(schema.registrationAnswers.registrationId, registrationId));
+
+    return {
+      ...row.registration,
+      event: row.event,
+      person: row.person,
+      answers,
+    };
+  },
+
+  async approve(db: Database, registrationId: string, approvedByUserId: string) {
+    const [existing] = await db
+      .select()
+      .from(schema.registrations)
+      .where(eq(schema.registrations.id, registrationId))
+      .limit(1);
+    if (!existing) {
+      throw new RegistrationError('NOT_FOUND', 'Inscrição não encontrada.');
+    }
+    if (existing.status !== 'pendente' && existing.status !== 'em_espera') {
+      throw new RegistrationError(
+        'INVALID_TRANSITION',
+        'Só inscrições pendentes ou em espera podem ser aprovadas.',
+      );
+    }
+    const [updated] = await db
+      .update(schema.registrations)
+      .set({
+        status: 'aprovada',
+        approvedAt: new Date(),
+        approvedByUserId,
+        updatedAt: new Date(),
+      })
+      .where(eq(schema.registrations.id, registrationId))
+      .returning();
+    return updated!;
+  },
+
+  async reject(
+    db: Database,
+    registrationId: string,
+    payload: RejectRegistration,
+  ) {
+    const [existing] = await db
+      .select()
+      .from(schema.registrations)
+      .where(eq(schema.registrations.id, registrationId))
+      .limit(1);
+    if (!existing) {
+      throw new RegistrationError('NOT_FOUND', 'Inscrição não encontrada.');
+    }
+    if (existing.status === 'rejeitada' || existing.status === 'cancelada') {
+      return existing;
+    }
+    if (existing.status === 'confirmada' || existing.attended) {
+      throw new RegistrationError(
+        'INVALID_TRANSITION',
+        'Inscrição já confirmada/atendida não pode ser rejeitada.',
+      );
+    }
+    const [updated] = await db
+      .update(schema.registrations)
+      .set({
+        status: 'rejeitada',
+        cancelledAt: new Date(),
+        cancellationReason: payload.reason ?? null,
+        updatedAt: new Date(),
+      })
+      .where(eq(schema.registrations.id, registrationId))
+      .returning();
+    return updated!;
+  },
+
+  // Admin pode cancelar a qualquer momento (inclusive confirmadas).
+  async adminCancel(
+    db: Database,
+    registrationId: string,
+    payload: AdminCancelRegistration,
+  ) {
+    const [existing] = await db
+      .select()
+      .from(schema.registrations)
+      .where(eq(schema.registrations.id, registrationId))
+      .limit(1);
+    if (!existing) {
+      throw new RegistrationError('NOT_FOUND', 'Inscrição não encontrada.');
+    }
+    if (existing.status === 'cancelada') return existing;
+    const [updated] = await db
+      .update(schema.registrations)
+      .set({
+        status: 'cancelada',
+        cancelledAt: new Date(),
+        cancellationReason: payload.reason ?? null,
+        updatedAt: new Date(),
+      })
+      .where(eq(schema.registrations.id, registrationId))
+      .returning();
+    return updated!;
+  },
+
+  async markAttended(db: Database, registrationId: string) {
+    const [existing] = await db
+      .select()
+      .from(schema.registrations)
+      .where(eq(schema.registrations.id, registrationId))
+      .limit(1);
+    if (!existing) {
+      throw new RegistrationError('NOT_FOUND', 'Inscrição não encontrada.');
+    }
+    if (existing.status !== 'aprovada' && existing.status !== 'confirmada') {
+      throw new RegistrationError(
+        'INVALID_TRANSITION',
+        'Só inscrições aprovadas/confirmadas podem ter presença marcada.',
+      );
+    }
+    const [updated] = await db
+      .update(schema.registrations)
+      .set({
+        attended: true,
+        // Aprovada → confirmada quando o check-in acontece.
+        status: 'confirmada',
         updatedAt: new Date(),
       })
       .where(eq(schema.registrations.id, registrationId))

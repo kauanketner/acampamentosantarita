@@ -24,4 +24,10 @@ export const registrationsRoutes: FastifyPluginAsync = async (app) => {
     { schema: { tags: ['registrations'] } },
     registrationsController.listByEvent,
   );
+
+  app.get(
+    '/pending',
+    { schema: { tags: ['registrations'] } },
+    registrationsController.listAllPending,
+  );
 };
