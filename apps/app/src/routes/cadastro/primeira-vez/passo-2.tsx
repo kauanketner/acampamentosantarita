@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MaskedInput } from '@/components/ui/masked-input';
-import { useState } from 'react';
 
 export const Route = createFileRoute('/cadastro/primeira-vez/passo-2')({
   component: PassoDois,
@@ -12,7 +12,6 @@ export const Route = createFileRoute('/cadastro/primeira-vez/passo-2')({
 
 function PassoDois() {
   const [cep, setCep] = useState('');
-  const [phone, setPhone] = useState('');
   return (
     <CadastroFrame
       step={2}
@@ -53,13 +52,6 @@ function PassoDois() {
             <Input id="state" maxLength={2} className="uppercase" placeholder="MG" />
           </Field>
         </FieldRow>
-
-        <Field
-          label={<Label htmlFor="phone">Celular</Label>}
-          hint="WhatsApp preferencialmente. Usado para mensagens da comunidade."
-        >
-          <MaskedInput id="phone" mask="phone" value={phone} onValueChange={(v) => setPhone(v)} />
-        </Field>
       </div>
     </CadastroFrame>
   );

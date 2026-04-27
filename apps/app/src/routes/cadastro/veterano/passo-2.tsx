@@ -12,7 +12,6 @@ export const Route = createFileRoute('/cadastro/veterano/passo-2')({
 
 function PassoDois() {
   const [cep, setCep] = useState('');
-  const [phone, setPhone] = useState('');
   return (
     <CadastroFrame
       step={2}
@@ -48,12 +47,6 @@ function PassoDois() {
             <Input id="state" maxLength={2} className="uppercase" placeholder="MG" />
           </Field>
         </FieldRow>
-        <Field
-          label={<Label htmlFor="phone">Celular</Label>}
-          hint="WhatsApp preferencialmente."
-        >
-          <MaskedInput id="phone" mask="phone" value={phone} onValueChange={(v) => setPhone(v)} />
-        </Field>
       </div>
     </CadastroFrame>
   );

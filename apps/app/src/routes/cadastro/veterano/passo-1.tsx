@@ -2,12 +2,19 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
+import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MaskedInput } from '@/components/ui/masked-input';
-import { DatePicker } from '@/components/ui/date-picker';
+import { PhotoUpload } from '@/components/ui/photo-upload';
 import { RadioCard, RadioGroup } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export const Route = createFileRoute('/cadastro/veterano/passo-1')({
   component: PassoUm,
@@ -16,7 +23,11 @@ export const Route = createFileRoute('/cadastro/veterano/passo-1')({
 function PassoUm() {
   const [gender, setGender] = useState<string>('');
   const [cpf, setCpf] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [birth, setBirth] = useState<Date | undefined>();
+  const [avatar, setAvatar] = useState<File | null>(null);
+
   return (
     <CadastroFrame
       step={1}
@@ -27,9 +38,23 @@ function PassoUm() {
       description="Seus dados ajudam a equipe a te encontrar e cuidar bem de você."
       ctaTo="/cadastro/veterano/passo-2"
     >
-      <div className="grid gap-5">
+      <div className="grid gap-6">
+        <PhotoUpload
+          variant="avatar"
+          size="lg"
+          name={name}
+          onChange={setAvatar}
+          hint="Use uma foto sua. Ajuda a equipe te reconhecer."
+        />
+
         <Field label={<Label htmlFor="fullName">Nome completo</Label>}>
-          <Input id="fullName" autoComplete="name" placeholder="Como aparece no documento" />
+          <Input
+            id="fullName"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            autoComplete="name"
+            placeholder="Como aparece no documento"
+          />
         </Field>
 
         <Field label="Sexo">
@@ -46,12 +71,20 @@ function PassoUm() {
         <Field label={<Label htmlFor="birth">Data de nascimento</Label>}>
           <DatePicker id="birth" value={birth} onChange={setBirth} />
         </Field>
+
         <Field label={<Label htmlFor="cpf">CPF</Label>}>
+          <MaskedInput id="cpf" mask="cpf" value={cpf} onValueChange={(v) => setCpf(v)} />
+        </Field>
+
+        <Field
+          label={<Label htmlFor="phone">Celular</Label>}
+          hint="WhatsApp preferencialmente."
+        >
           <MaskedInput
-            id="cpf"
-            mask="cpf"
-            value={cpf}
-            onValueChange={(v) => setCpf(v)}
+            id="phone"
+            mask="phone"
+            value={phone}
+            onValueChange={(v) => setPhone(v)}
           />
         </Field>
 
@@ -93,6 +126,7 @@ function PassoUm() {
           </div>
         </Field>
       </div>
+      {avatar && null}
     </CadastroFrame>
   );
 }
