@@ -11,6 +11,7 @@ out/
 .turbo/
 .vite/
 .cache/
+*.tsbuildinfo
 
 # Bun
 bun.lockb

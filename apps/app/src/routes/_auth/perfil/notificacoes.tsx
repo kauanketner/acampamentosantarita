@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { SectionTitle } from '@/components/shell/SectionTitle';
-import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/cn';
 
@@ -30,12 +29,10 @@ function PerfilNotificacoes() {
           Como prefere ouvir.
         </h1>
         <p className="mt-2 text-[15px] text-(color:--color-muted-foreground) leading-relaxed">
-          Você pode silenciar quando quiser. Avisos importantes (financeiro, cancelamentos)
-          chegam mesmo sem push.
+          Avisos importantes (financeiro, cancelamentos) chegam mesmo sem push.
         </p>
       </div>
 
-      {/* Push setup */}
       <div className="px-5 pt-4">
         <button
           type="button"
@@ -64,9 +61,8 @@ function PerfilNotificacoes() {
           <div className="flex-1">
             <p className="font-medium text-[16px]">Notificações push</p>
             <p className="text-[13px] text-(color:--color-muted-foreground) mt-0.5 leading-relaxed">
-              {pushEnabled
-                ? 'Você receberá os avisos da comunidade no seu aparelho.'
-                : 'Toque para autorizar e receber avisos no aparelho.'}
+              Em breve. Vamos ativar quando o app estiver instalado em homescreen e
+              tivermos a infraestrutura de push pronta.
             </p>
           </div>
         </button>
@@ -94,17 +90,18 @@ function PerfilNotificacoes() {
             onChange={setNews}
           />
         </div>
+        <p className="mt-3 text-xs text-(color:--color-muted-foreground) leading-relaxed">
+          As preferências serão salvas no servidor assim que a infraestrutura de push
+          estiver ativa. Por enquanto vivem só neste aparelho.
+        </p>
       </div>
 
       <SectionTitle>E-mail</SectionTitle>
       <div className="px-5 pb-12">
         <p className="text-sm text-(color:--color-muted-foreground) leading-relaxed">
-          Mensagens transacionais (confirmações, recibos, redefinição de senha) sempre são
-          enviadas para o e-mail cadastrado.
+          Mensagens transacionais (confirmações de inscrição, recibos) sempre são
+          enviadas para o e-mail cadastrado, se houver.
         </p>
-        <Button variant="link" size="sm" className="-ml-2 mt-2">
-          Trocar e-mail
-        </Button>
       </div>
     </Page>
   );

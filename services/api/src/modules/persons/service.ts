@@ -1,6 +1,8 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
 import { eq } from 'drizzle-orm';
+import { toE164 } from '../../lib/whatsapp.ts';
+import type { PersonUpdate } from './schemas.ts';
 
 export const personsService = {
   async getFullProfile(db: Database, personId: string) {
@@ -42,9 +44,9 @@ export const personsService = {
       person,
       health,
       faith,
-      contacts,
+      contacts: contacts.sort((a, b) => a.order - b.order),
       sacraments: sacraments.map((s) => s.sacrament),
-      participations,
+      participations: participations.sort((a, b) => b.campEdition - a.campEdition),
     };
   },
 
@@ -53,5 +55,54 @@ export const personsService = {
       .update(schema.persons)
       .set({ avatarUrl, updatedAt: new Date() })
       .where(eq(schema.persons.id, personId));
+  },
+
+  async updatePerson(db: Database, personId: string, payload: PersonUpdate) {
+    const { emergencyContacts, mobilePhone, ...rest } = payload;
+
+    const personPatch: Record<string, unknown> = { updatedAt: new Date() };
+    for (const [key, value] of Object.entries(rest)) {
+      if (value !== undefined) personPatch[key] = value;
+    }
+    if (mobilePhone !== undefined) {
+      personPatch.mobilePhone = toE164(mobilePhone);
+    }
+    if (typeof personPatch.state === 'string') {
+      personPatch.state = (personPatch.state as string).toUpperCase();
+    }
+    if (typeof personPatch.weightKg === 'number') {
+      personPatch.weightKg = (personPatch.weightKg as number).toString();
+    }
+
+    await db.transaction(async (tx) => {
+      if (Object.keys(personPatch).length > 1) {
+        await tx
+          .update(schema.persons)
+          .set(personPatch)
+          .where(eq(schema.persons.id, personId));
+      }
+
+      if (mobilePhone !== undefined) {
+        await tx
+          .update(schema.users)
+          .set({ phone: personPatch.mobilePhone as string, updatedAt: new Date() })
+          .where(eq(schema.users.personId, personId));
+      }
+
+      if (emergencyContacts) {
+        await tx
+          .delete(schema.emergencyContacts)
+          .where(eq(schema.emergencyContacts.personId, personId));
+        await tx.insert(schema.emergencyContacts).values(
+          emergencyContacts.map((c, i) => ({
+            personId,
+            name: c.name,
+            relationship: c.relationship,
+            phone: c.phone,
+            order: i + 1,
+          })),
+        );
+      }
+    });
   },
 };

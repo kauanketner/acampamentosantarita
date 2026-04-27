@@ -8,15 +8,16 @@ import { SectionTitle } from '@/components/shell/SectionTitle';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardBody } from '@/components/ui/card';
+import { useSession } from '@/lib/auth';
 import {
   announcements,
   brl,
   events,
   formatDateRange,
   invoices,
-  me,
   posTransactions,
 } from '@/mock/data';
+import { mediaUrl, useFullProfile } from '@/lib/queries/profile';
 import { cn } from '@/lib/cn';
 
 export const Route = createFileRoute('/_auth/')({
@@ -24,6 +25,19 @@ export const Route = createFileRoute('/_auth/')({
 });
 
 function HomePage() {
+  const { data: session } = useSession();
+  const { data: profile } = useFullProfile();
+
+  const fullName = profile?.person.fullName ?? session?.person?.fullName ?? '';
+  const firstName = fullName.split(' ').filter(Boolean)[0] ?? '';
+  const avatarSrc = mediaUrl(
+    profile?.person.avatarUrl ?? session?.person?.avatarUrl ?? null,
+  );
+  const city = profile?.person.city ?? session?.person?.city ?? null;
+  const state = profile?.person.state ?? session?.person?.state ?? null;
+  const campCount = profile?.participations.length ?? 0;
+  const isVeteran = campCount > 0;
+
   const nextEvent = events.find((e) => e.status === 'inscricoes_abertas');
   const lastAnnouncement = announcements[0];
   const pendingInvoice = invoices.find((i) => i.status === 'pendente' || i.status === 'parcial');
@@ -43,14 +57,19 @@ function HomePage() {
             className="font-display text-[clamp(2rem,9vw,2.6rem)] leading-[1] tracking-[-0.025em]"
             style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
           >
-            {me.firstName}
+            {firstName || fullName || '—'}
           </h1>
-          <p className="mt-1.5 text-sm text-(color:--color-muted-foreground)">
-            {me.campCount} acampamentos · {me.city}/{me.state}
-          </p>
+          {(city || state) && (
+            <p className="mt-1.5 text-sm text-(color:--color-muted-foreground)">
+              {campCount > 0
+                ? `${campCount} ${campCount === 1 ? 'acampamento' : 'acampamentos'} · `
+                : ''}
+              {[city, state].filter(Boolean).join('/')}
+            </p>
+          )}
         </div>
         <Link to="/perfil">
-          <Avatar name={me.fullName} size="md" ringed={me.isVeteran} />
+          <Avatar src={avatarSrc} name={fullName} size="md" ringed={isVeteran} />
         </Link>
       </header>
 
