@@ -90,6 +90,7 @@ export type CadastroState = {
 
   // passo 1
   fullName: string;
+  email: string;
   gender: 'masculino' | 'feminino' | '';
   birthDate: string; // yyyy-MM-dd
   cpf: string; // raw digits
@@ -133,6 +134,7 @@ export type CadastroState = {
 const initialState = {
   variant: null as Variant | null,
   fullName: '',
+  email: '',
   gender: '' as CadastroState['gender'],
   birthDate: '',
   cpf: '',
@@ -222,7 +224,7 @@ export type SignupPayload = {
   }>;
 };
 
-export function buildSignupPayload(state: CadastroState, email?: string): SignupPayload {
+export function buildSignupPayload(state: CadastroState): SignupPayload {
   const trim = (s: string) => (s.trim() === '' ? undefined : s.trim());
   const num = (s: string) => {
     const n = Number(s.replace(',', '.'));
@@ -230,7 +232,7 @@ export function buildSignupPayload(state: CadastroState, email?: string): Signup
   };
 
   return {
-    email: email?.trim().toLowerCase() || undefined,
+    email: state.email.trim().toLowerCase() || undefined,
     person: {
       fullName: state.fullName.trim(),
       gender: state.gender || undefined,

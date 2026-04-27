@@ -32,6 +32,8 @@ function PassoUm() {
 
   const birthDate = s.birthDate ? parse(s.birthDate, 'yyyy-MM-dd', new Date()) : undefined;
 
+  const canContinue = s.fullName.trim().length >= 2 && s.phone.length >= 10;
+
   return (
     <CadastroFrame
       step={1}
@@ -41,6 +43,7 @@ function PassoUm() {
       title={<>Confirme quem é <span className="font-display-italic">você.</span></>}
       description="Seus dados ajudam a equipe a te encontrar e cuidar bem de você."
       ctaTo="/cadastro/veterano/passo-2"
+      ctaDisabled={!canContinue}
     >
       <div className="grid gap-6">
         <PhotoUpload
@@ -58,6 +61,22 @@ function PassoUm() {
             onChange={(e) => s.set('fullName', e.target.value)}
             autoComplete="name"
             placeholder="Como aparece no documento"
+          />
+        </Field>
+
+        <Field
+          label={<Label htmlFor="email">E-mail</Label>}
+          optional
+          hint="Para comprovantes e avisos importantes."
+        >
+          <Input
+            id="email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            value={s.email}
+            onChange={(e) => s.set('email', e.target.value)}
+            placeholder="seu@email.com"
           />
         </Field>
 

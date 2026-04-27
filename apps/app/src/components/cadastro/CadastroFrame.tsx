@@ -81,12 +81,12 @@ export function CadastroFrame({
           'bg-(color:--color-background)/85 backdrop-blur-md border-t border-(color:--color-border)',
         )}
       >
-        {ctaTo ? (
-          <Button asChild block size="lg" disabled={ctaDisabled}>
+        {ctaTo && !ctaDisabled ? (
+          <Button asChild block size="lg">
             <Link to={ctaTo}>{ctaLabel}</Link>
           </Button>
         ) : (
-          <Button block size="lg" disabled={ctaDisabled}>
+          <Button block size="lg" disabled>
             {ctaLabel}
           </Button>
         )}

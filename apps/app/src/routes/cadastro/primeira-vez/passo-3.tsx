@@ -32,6 +32,9 @@ function PassoTres() {
       { id: `c${Date.now()}`, name: '', relationship: '', phone: '' },
     ]);
 
+  const validCount = contacts.filter((c) => c.name.trim() && c.phone.length >= 10).length;
+  const canContinue = validCount >= 2;
+
   return (
     <CadastroFrame
       step={3}
@@ -41,6 +44,7 @@ function PassoTres() {
       title="A quem ligamos se algo acontecer?"
       description="No mínimo 2 contatos, no máximo 3. Pessoas próximas a você."
       ctaTo="/cadastro/primeira-vez/passo-4"
+      ctaDisabled={!canContinue}
     >
       <div className="grid gap-3">
         {contacts.map((c, i) => (

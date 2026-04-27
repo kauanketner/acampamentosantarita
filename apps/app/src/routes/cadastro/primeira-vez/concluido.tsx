@@ -1,18 +1,14 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
-import { ArchMotif } from '@/components/motif/arch';
-import { Logo } from '@/components/motif/Logo';
+import { useState } from 'react';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
-import { Field } from '@/components/form/Field';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ApiError, apiUpload } from '@/lib/api';
+import { ApiError } from '@/lib/api';
 import { useRegisterFirstTimer } from '@/lib/auth';
 import { buildSignupPayload, useCadastroStore } from '@/lib/cadastro-store';
+import { maskPhoneDisplay } from '@/lib/format';
 
 export const Route = createFileRoute('/cadastro/primeira-vez/concluido')({
   component: Concluido,
@@ -24,34 +20,21 @@ function Concluido() {
   const cadastroState = useCadastroStore();
   const reset = useCadastroStore((s) => s.reset);
 
-  const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // Pré-checagens visuais para o usuário entender o que falta
-  const issues = useMissingFieldIssues();
+  const phoneRaw = cadastroState.phone;
+  const phoneNice = maskPhoneDisplay(phoneRaw);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
-    if (issues.length > 0) {
-      setError(issues[0]!);
-      return;
-    }
-
     setSubmitting(true);
 
-    const payload = buildSignupPayload(cadastroState, email || undefined);
+    const payload = buildSignupPayload(cadastroState);
 
     try {
       const result = await register.mutateAsync(payload);
-
-      // Avatar: requer sessão. Como ainda não temos sessão (precisa código),
-      // vamos guardar o File no store e fazer upload depois do verify-code.
-      // Por enquanto pulamos o upload. (TODO: subir após verify-code).
-
-      const phoneRaw = cadastroState.phone;
       reset();
       navigate({
         to: '/codigo',
@@ -67,82 +50,58 @@ function Concluido() {
   return (
     <Page withBottomNav={false} className="flex flex-col">
       <TopBar back="/cadastro/primeira-vez/passo-5" />
-      <div className="px-5 pt-2 pb-3">
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-muted-foreground) mb-2">
-          Quase lá
+
+      <div className="flex-1 flex flex-col items-center justify-center px-6 -mt-10">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="size-16 rounded-full bg-(color:--color-primary-soft) text-(color:--color-primary) inline-flex items-center justify-center mb-6"
+        >
+          <MessageSquare className="size-7" strokeWidth={1.5} />
+        </motion.div>
+        <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-(color:--color-muted-foreground) mb-3">
+          Última etapa
         </p>
         <h1
-          className="font-display text-[clamp(1.85rem,8vw,2.4rem)] leading-[1.05] tracking-[-0.025em]"
+          className="font-display text-[clamp(1.85rem,8vw,2.4rem)] leading-[1.05] tracking-[-0.025em] text-balance text-center"
           style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
         >
-          Confirmando o seu <span className="font-display-italic">WhatsApp</span>.
+          Vamos confirmar seu <span className="font-display-italic">WhatsApp</span>.
         </h1>
-        <p className="mt-2 text-[15px] leading-relaxed text-(color:--color-muted-foreground) text-pretty">
-          Vamos enviar um código no número que você informou no passo 1. Toda vez que
-          for entrar daqui pra frente, é só pedir um código.
+        <p className="mt-4 text-[15px] leading-relaxed text-(color:--color-muted-foreground) text-center max-w-sm text-pretty">
+          Mandamos um código de 6 dígitos para
+        </p>
+        <p
+          className="font-display text-xl mt-2 tabular-nums"
+          style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}
+        >
+          {phoneNice}
+        </p>
+        <p className="mt-1 text-xs text-(color:--color-muted-foreground)">
+          Toda vez que entrar, é assim — sem senha.
         </p>
       </div>
 
-      <form onSubmit={onSubmit} className="px-5 grid gap-4 pb-32">
-        <Field
-          label={<Label htmlFor="email">E-mail</Label>}
-          optional
-          hint="Para receber comprovantes e avisos importantes (não obrigatório)."
-        >
-          <Input
-            id="email"
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="seu@email.com"
-          />
-        </Field>
+      {error && (
+        <p className="px-6 text-sm text-(color:--color-destructive) text-center mb-2">
+          {error}
+        </p>
+      )}
 
-        {issues.length > 0 && (
-          <div className="rounded-(--radius-md) border border-(color:--color-destructive)/40 bg-(color:--color-destructive)/5 p-4 text-sm text-(color:--color-destructive)">
-            <p className="font-medium mb-1">Falta preencher:</p>
-            <ul className="list-disc pl-5 space-y-0.5">
-              {issues.map((m) => (
-                <li key={m}>{m}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {error && !issues.length && (
-          <p className="text-sm text-(color:--color-destructive) text-center">{error}</p>
-        )}
-
+      <form onSubmit={onSubmit}>
         <div className="fixed inset-x-0 bottom-0 z-30 px-5 pt-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-(color:--color-background)/85 backdrop-blur-md border-t border-(color:--color-border)">
-          <Button
-            type="submit"
-            block
-            size="lg"
-            disabled={submitting || issues.length > 0}
-          >
+          <Button type="submit" block size="lg" disabled={submitting}>
             {submitting ? (
               <>
                 <Loader2 className="size-4 animate-spin" /> Enviando código…
               </>
             ) : (
-              'Enviar código no WhatsApp'
+              'Receber código no WhatsApp'
             )}
           </Button>
         </div>
       </form>
     </Page>
   );
-}
-
-function useMissingFieldIssues() {
-  const s = useCadastroStore();
-  const issues: string[] = [];
-  if (!s.fullName) issues.push('Seu nome (passo 1)');
-  if (!s.phone || s.phone.length < 10) issues.push('Seu telefone com WhatsApp (passo 1)');
-  if (s.emergencyContacts.filter((c) => c.name && c.phone).length < 2) {
-    issues.push('Pelo menos 2 contatos de emergência (passo 3)');
-  }
-  return issues;
 }

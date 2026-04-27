@@ -33,14 +33,26 @@ RadioGroupItem.displayName = 'RadioGroupItem';
 
 export const RadioCard = React.forwardRef<
   HTMLLabelElement,
-  React.LabelHTMLAttributes<HTMLLabelElement> & { value: string; checked?: boolean }
->(({ className, value, checked, children, ...props }, ref) => {
+  React.LabelHTMLAttributes<HTMLLabelElement> & {
+    value: string;
+    checked?: boolean;
+    /**
+     * "row" (default) — radio à esquerda, conteúdo à direita. Bom para
+     * descrições longas em coluna única ou duas colunas.
+     * "stacked" — radio em cima, conteúdo embaixo, centralizado. Ideal
+     * para 3+ colunas com rótulos curtos no mobile.
+     */
+    layout?: 'row' | 'stacked';
+  }
+>(({ className, value, checked, children, layout = 'row', ...props }, ref) => {
   return (
     <label
       ref={ref}
       className={cn(
-        'flex items-start gap-3 p-4 rounded-(--radius-md) border cursor-pointer',
-        'transition-colors',
+        'rounded-(--radius-md) border cursor-pointer transition-colors min-w-0',
+        layout === 'row'
+          ? 'flex items-start gap-3 p-4'
+          : 'flex flex-col items-center gap-2 px-2 py-3 text-center',
         checked
           ? 'border-(color:--color-primary) bg-(color:--color-primary-soft)'
           : 'border-(color:--color-border-strong) bg-(color:--color-surface) hover:bg-(color:--color-muted)',
@@ -48,8 +60,11 @@ export const RadioCard = React.forwardRef<
       )}
       {...props}
     >
-      <RadioGroupItem value={value} className="mt-0.5" />
-      <div className="flex-1">{children}</div>
+      <RadioGroupItem
+        value={value}
+        className={layout === 'row' ? 'mt-0.5' : 'shrink-0'}
+      />
+      <div className={cn(layout === 'row' && 'flex-1 min-w-0')}>{children}</div>
     </label>
   );
 });

@@ -106,13 +106,21 @@ function PassoSeis() {
                     }
                     className="grid grid-cols-3 gap-2"
                   >
-                    <RadioCard value="campista" checked={p.role === 'campista'}>
+                    <RadioCard
+                      value="campista"
+                      checked={p.role === 'campista'}
+                      layout="stacked"
+                    >
                       <p className="font-medium text-sm">Campista</p>
                     </RadioCard>
-                    <RadioCard value="equipista" checked={p.role === 'equipista'}>
+                    <RadioCard
+                      value="equipista"
+                      checked={p.role === 'equipista'}
+                      layout="stacked"
+                    >
                       <p className="font-medium text-sm">Equipista</p>
                     </RadioCard>
-                    <RadioCard value="lider" checked={p.role === 'lider'}>
+                    <RadioCard value="lider" checked={p.role === 'lider'} layout="stacked">
                       <p className="font-medium text-sm">Líder</p>
                     </RadioCard>
                   </RadioGroup>
