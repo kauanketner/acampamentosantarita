@@ -3,6 +3,16 @@ import { financeController } from './controller.ts';
 
 export const financeRoutes: FastifyPluginAsync = async (app) => {
   app.get('/invoices', { schema: { tags: ['finance'] } }, financeController.listInvoices);
+  app.get(
+    '/invoices/:id',
+    { schema: { tags: ['finance'] } },
+    financeController.getInvoiceById,
+  );
+  app.delete(
+    '/payments/:id',
+    { schema: { tags: ['finance'] } },
+    financeController.deletePayment,
+  );
   app.get('/payments', { schema: { tags: ['finance'] } }, financeController.listPayments);
   app.get('/refunds', { schema: { tags: ['finance'] } }, financeController.listRefunds);
 
