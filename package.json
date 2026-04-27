@@ -1,0 +1,34 @@
+{
+  "name": "acampamentosantarita",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "check": "biome check --write .",
+    "typecheck": "turbo run typecheck",
+    "db:generate": "bun --cwd packages/db run db:generate",
+    "db:migrate": "bun --cwd packages/db run db:migrate",
+    "db:studio": "bun --cwd packages/db run db:studio",
+    "db:seed": "bun --cwd packages/db run db:seed",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "turbo": "^2.5.0",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "bun@1.2.4",
+  "engines": {
+    "bun": ">=1.2.0",
+    "node": ">=20"
+  }
+}

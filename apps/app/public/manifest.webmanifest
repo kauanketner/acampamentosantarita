@@ -1,0 +1,26 @@
+{
+  "name": "Acampamento Santa Rita",
+  "short_name": "Santa Rita",
+  "description": "Comunidade Santa Rita.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f3ec",
+  "theme_color": "#5e3a1f",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

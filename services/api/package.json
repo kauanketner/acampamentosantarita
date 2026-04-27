@@ -1,0 +1,29 @@
+{
+  "name": "@santarita/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot run src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --target=bun --outdir=dist",
+    "lint": "biome check src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.1",
+    "@fastify/helmet": "^12.0.1",
+    "@fastify/rate-limit": "^10.2.1",
+    "@fastify/swagger": "^9.4.0",
+    "@fastify/swagger-ui": "^5.2.0",
+    "@santarita/db": "workspace:*",
+    "@santarita/shared": "workspace:*",
+    "fastify": "^5.2.1",
+    "fastify-type-provider-zod": "^4.0.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.14",
+    "typescript": "^5.7.2"
+  }
+}
