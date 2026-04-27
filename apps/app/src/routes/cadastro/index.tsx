@@ -1,14 +1,24 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
 import { motion } from 'motion/react';
+import { useEffect } from 'react';
 import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
+import { useCadastroStore } from '@/lib/cadastro-store';
 
 export const Route = createFileRoute('/cadastro/')({
   component: CadastroEscolha,
 });
 
 function CadastroEscolha() {
+  const reset = useCadastroStore((s) => s.reset);
+  const setVariant = useCadastroStore((s) => s.setVariant);
+
+  // Limpa qualquer rascunho anterior quando o usuário entra na escolha
+  useEffect(() => {
+    reset();
+  }, [reset]);
+
   return (
     <Page withBottomNav={false} className="flex flex-col">
       <TopBar back="/login" />
@@ -37,6 +47,7 @@ function CadastroEscolha() {
           description="Cinco passos. Cuidamos do que importa para você viver bem o evento."
           accent="primary"
           delay={0.05}
+          onSelect={() => setVariant('primeira-vez')}
         />
         <ChoiceCard
           to="/cadastro/veterano/passo-1"
@@ -45,6 +56,7 @@ function CadastroEscolha() {
           description="Seis passos. No último, você conta de quais acampamentos participou — pra preservar a memória da comunidade."
           accent="accent"
           delay={0.15}
+          onSelect={() => setVariant('veterano')}
         />
       </div>
 
@@ -65,6 +77,7 @@ function ChoiceCard({
   description,
   accent,
   delay,
+  onSelect,
 }: {
   to: '/cadastro/primeira-vez/passo-1' | '/cadastro/veterano/passo-1';
   eyebrow: string;
@@ -72,6 +85,7 @@ function ChoiceCard({
   description: string;
   accent: 'primary' | 'accent';
   delay: number;
+  onSelect?: () => void;
 }) {
   return (
     <motion.div
@@ -81,6 +95,7 @@ function ChoiceCard({
     >
       <Link
         to={to}
+        onClick={() => onSelect?.()}
         className="group relative block surface-warmth rounded-(--radius-lg) border border-(color:--color-border) px-5 py-5 active:scale-[0.99] transition-transform"
       >
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-(color:--color-muted-foreground) mb-1.5">

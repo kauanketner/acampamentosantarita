@@ -1,5 +1,5 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { Eye, EyeOff } from 'lucide-react';
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { Logo } from '@/components/motif/Logo';
@@ -8,17 +8,38 @@ import { Button } from '@/components/ui/button';
 import { Field } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ApiError } from '@/lib/api';
+import { useLogin } from '@/lib/auth';
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
 });
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const login = useLogin();
   const [showPwd, setShowPwd] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      await login.mutateAsync({ email, password });
+      navigate({ to: '/' });
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError('Não foi possível entrar. Tente de novo.');
+      }
+    }
+  };
 
   return (
     <Page withBottomNav={false} className="flex flex-col scene-vignette">
-      {/* Logo + identidade */}
       <div className="relative flex-1 min-h-[36vh] flex flex-col items-center justify-end pb-3 px-6 pt-16">
         <motion.div
           initial={{ opacity: 0, y: 16, scale: 0.95 }}
@@ -38,14 +59,13 @@ function LoginPage() {
         Entrar na comunidade
       </motion.p>
 
-      {/* Form */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.55, duration: 0.6 }}
         className="px-6 pb-10"
       >
-        <form className="space-y-4 max-w-sm mx-auto" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-4 max-w-sm mx-auto" onSubmit={onSubmit}>
           <Field label={<Label htmlFor="email">E-mail</Label>}>
             <Input
               id="email"
@@ -53,6 +73,9 @@ function LoginPage() {
               autoComplete="email"
               placeholder="seu@email.com"
               inputMode="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </Field>
           <Field
@@ -77,6 +100,9 @@ function LoginPage() {
                 autoComplete="current-password"
                 placeholder="••••••••"
                 className="pr-12"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <button
                 type="button"
@@ -93,8 +119,18 @@ function LoginPage() {
             </div>
           </Field>
 
-          <Button asChild block size="lg" className="mt-2">
-            <Link to="/">Entrar</Link>
+          {error && (
+            <p className="text-sm text-(color:--color-destructive) text-center">{error}</p>
+          )}
+
+          <Button type="submit" block size="lg" disabled={login.isPending} className="mt-2">
+            {login.isPending ? (
+              <>
+                <Loader2 className="size-4 animate-spin" /> Entrando…
+              </>
+            ) : (
+              'Entrar'
+            )}
           </Button>
 
           <div className="flex items-center gap-3 py-3">

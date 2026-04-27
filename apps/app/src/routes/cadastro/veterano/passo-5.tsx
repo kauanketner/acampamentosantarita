@@ -1,28 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field } from '@/components/form/Field';
 import { HealthQuestion } from '@/components/form/HealthQuestion';
 import { Textarea } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { useCadastroStore } from '@/lib/cadastro-store';
 
 export const Route = createFileRoute('/cadastro/veterano/passo-5')({
   component: PassoCinco,
 });
 
 function PassoCinco() {
-  const [hasChronic, setHasChronic] = useState(false);
-  const [chronicDetail, setChronicDetail] = useState('');
-  const [hasAllergy, setHasAllergy] = useState(false);
-  const [allergyDetail, setAllergyDetail] = useState('');
-  const [hasDietary, setHasDietary] = useState(false);
-  const [dietaryDetail, setDietaryDetail] = useState('');
-  const [hasAsthma, setHasAsthma] = useState(false);
-  const [hasDiabetes, setHasDiabetes] = useState(false);
-  const [hasHypertension, setHasHypertension] = useState(false);
-  const [meds, setMeds] = useState('');
-  const [obs, setObs] = useState('');
+  const h = useCadastroStore((s) => s.health);
+  const setHealth = useCadastroStore((s) => s.setHealth);
 
   return (
     <CadastroFrame
@@ -37,33 +28,41 @@ function PassoCinco() {
       <div className="grid gap-2.5">
         <HealthQuestion
           label="Tem alguma doença crônica?"
-          value={hasChronic}
-          onValueChange={setHasChronic}
-          detail={chronicDetail}
-          onDetailChange={setChronicDetail}
+          value={h.hasChronicDisease}
+          onValueChange={(v) => setHealth({ hasChronicDisease: v })}
+          detail={h.chronicDiseaseDetail}
+          onDetailChange={(v) => setHealth({ chronicDiseaseDetail: v })}
         />
         <HealthQuestion
           label="Tem alguma alergia?"
-          value={hasAllergy}
-          onValueChange={setHasAllergy}
-          detail={allergyDetail}
-          onDetailChange={setAllergyDetail}
+          value={h.hasAllergy}
+          onValueChange={(v) => setHealth({ hasAllergy: v })}
+          detail={h.allergyDetail}
+          onDetailChange={(v) => setHealth({ allergyDetail: v })}
         />
         <HealthQuestion
           label="Restrição alimentar?"
-          value={hasDietary}
-          onValueChange={setHasDietary}
-          detail={dietaryDetail}
-          onDetailChange={setDietaryDetail}
+          value={h.hasDietaryRestriction}
+          onValueChange={(v) => setHealth({ hasDietaryRestriction: v })}
+          detail={h.dietaryRestrictionDetail}
+          onDetailChange={(v) => setHealth({ dietaryRestrictionDetail: v })}
         />
 
         <div className="rounded-(--radius-md) border border-(color:--color-border) bg-(color:--color-surface) divide-y divide-(color:--color-border)">
-          <SimpleToggle label="Asma" value={hasAsthma} onChange={setHasAsthma} />
-          <SimpleToggle label="Diabetes" value={hasDiabetes} onChange={setHasDiabetes} />
+          <SimpleToggle
+            label="Asma"
+            value={h.hasAsthma}
+            onChange={(v) => setHealth({ hasAsthma: v })}
+          />
+          <SimpleToggle
+            label="Diabetes"
+            value={h.hasDiabetes}
+            onChange={(v) => setHealth({ hasDiabetes: v })}
+          />
           <SimpleToggle
             label="Hipertensão"
-            value={hasHypertension}
-            onChange={setHasHypertension}
+            value={h.hasHypertension}
+            onChange={(v) => setHealth({ hasHypertension: v })}
           />
         </div>
 
@@ -73,8 +72,8 @@ function PassoCinco() {
         >
           <Textarea
             id="meds"
-            value={meds}
-            onChange={(e) => setMeds(e.target.value)}
+            value={h.continuousMedications}
+            onChange={(e) => setHealth({ continuousMedications: e.target.value })}
             placeholder="Ex.: Levotiroxina 50mcg, jejum"
           />
         </Field>
@@ -82,8 +81,8 @@ function PassoCinco() {
         <Field label={<Label htmlFor="obs">Observações</Label>} optional>
           <Textarea
             id="obs"
-            value={obs}
-            onChange={(e) => setObs(e.target.value)}
+            value={h.generalObservations}
+            onChange={(e) => setHealth({ generalObservations: e.target.value })}
             placeholder="Qualquer coisa que a equipe deva saber"
           />
         </Field>

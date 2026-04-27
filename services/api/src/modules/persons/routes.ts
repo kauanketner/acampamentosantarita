@@ -7,6 +7,16 @@ export const personsRoutes: FastifyPluginAsync = async (app) => {
   app.get('/:id', { schema: { tags: ['persons'] } }, personsController.getById);
   app.patch('/:id', { schema: { tags: ['persons'] } }, personsController.update);
   app.delete('/:id', { schema: { tags: ['persons'] } }, personsController.softDelete);
-  app.get('/:id/full-profile', { schema: { tags: ['persons'] } }, personsController.fullProfile);
-  app.patch('/:id/avatar', { schema: { tags: ['persons'] } }, personsController.updateAvatar);
+  // GET /v1/persons/:id/full-profile  (use 'me' como id para pegar o próprio)
+  app.get(
+    '/:id/full-profile',
+    { schema: { tags: ['persons'] } },
+    personsController.fullProfile,
+  );
+  // POST /v1/persons/:id/avatar  (multipart, use 'me' como id)
+  app.post(
+    '/:id/avatar',
+    { schema: { tags: ['persons'] } },
+    personsController.updateAvatar,
+  );
 };

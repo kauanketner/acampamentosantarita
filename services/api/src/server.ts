@@ -1,9 +1,12 @@
+import multipart from '@fastify/multipart';
+import staticPlugin from '@fastify/static';
 import Fastify from 'fastify';
 import {
   type ZodTypeProvider,
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod';
+import { ensureUploadDir, UPLOADS_PATH } from './lib/storage.ts';
 import { authPlugin } from './plugins/auth.ts';
 import { corsPlugin } from './plugins/cors.ts';
 import { dbPlugin } from './plugins/db.ts';
@@ -50,6 +53,17 @@ export async function buildServer() {
   await app.register(dbPlugin);
   await app.register(authPlugin);
   await app.register(swaggerPlugin);
+  await app.register(multipart, {
+    limits: { fileSize: 8 * 1024 * 1024, files: 1 },
+  });
+
+  // Estáticos para uploads (avatares + capas)
+  await ensureUploadDir();
+  await app.register(staticPlugin, {
+    root: UPLOADS_PATH,
+    prefix: '/uploads/',
+    decorateReply: false,
+  });
 
   // Healthcheck
   app.get('/health', async () => ({

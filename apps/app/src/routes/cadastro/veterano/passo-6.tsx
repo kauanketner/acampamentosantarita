@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Plus, Trash2 } from 'lucide-react';
-import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
@@ -14,36 +13,36 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  type CampParticipationDraft,
+  useCadastroStore,
+} from '@/lib/cadastro-store';
 
 export const Route = createFileRoute('/cadastro/veterano/passo-6')({
   component: PassoSeis,
 });
 
-type Participation = {
-  id: string;
-  edition: string;
-  role: 'campista' | 'equipista' | 'lider' | '';
-  tribeName: string;
-  serviceTeam: string;
-  functionRole: string;
-};
-
-const blank = (): Participation => ({
+const blank = (): CampParticipationDraft => ({
   id: Math.random().toString(36).slice(2),
-  edition: '',
+  campEdition: '',
   role: '',
-  tribeName: '',
+  tribeNameLegacy: '',
   serviceTeam: '',
   functionRole: '',
 });
 
 function PassoSeis() {
-  const [list, setList] = useState<Participation[]>([blank()]);
+  const list = useCadastroStore((s) => s.campParticipations);
+  const set = useCadastroStore((s) => s.set);
 
-  const setItem = (id: string, patch: Partial<Participation>) =>
-    setList((prev) => prev.map((p) => (p.id === id ? { ...p, ...patch } : p)));
-  const remove = (id: string) => setList((prev) => prev.filter((p) => p.id !== id));
-  const add = () => setList((prev) => [...prev, blank()]);
+  const setItem = (id: string, patch: Partial<CampParticipationDraft>) =>
+    set(
+      'campParticipations',
+      list.map((p) => (p.id === id ? { ...p, ...patch } : p)),
+    );
+  const remove = (id: string) =>
+    set('campParticipations', list.filter((p) => p.id !== id));
+  const add = () => set('campParticipations', [...list, blank()]);
 
   return (
     <CadastroFrame
@@ -60,7 +59,7 @@ function PassoSeis() {
       }
       description="Conte a quantas edições você foi — em alguma como campista, em outra servindo, em outra liderando. Isso preserva a memória da comunidade."
       ctaTo="/cadastro/veterano/concluido"
-      ctaLabel="Concluir cadastro"
+      ctaLabel="Continuar"
     >
       <div className="grid gap-3">
         {list.map((p, i) => (
@@ -83,8 +82,8 @@ function PassoSeis() {
               <div className="grid gap-4">
                 <Field label={<Label>Edição</Label>}>
                   <Select
-                    value={p.edition}
-                    onValueChange={(v) => setItem(p.id, { edition: v })}
+                    value={p.campEdition}
+                    onValueChange={(v) => setItem(p.id, { campEdition: v })}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Escolha entre o 1º e o 13º" />
@@ -103,7 +102,7 @@ function PassoSeis() {
                   <RadioGroup
                     value={p.role}
                     onValueChange={(v) =>
-                      setItem(p.id, { role: v as Participation['role'] })
+                      setItem(p.id, { role: v as CampParticipationDraft['role'] })
                     }
                     className="grid grid-cols-3 gap-2"
                   >
@@ -125,8 +124,10 @@ function PassoSeis() {
                     hint="Pode escrever em texto livre se ainda não estiver cadastrada."
                   >
                     <Input
-                      value={p.tribeName}
-                      onChange={(e) => setItem(p.id, { tribeName: e.target.value })}
+                      value={p.tribeNameLegacy}
+                      onChange={(e) =>
+                        setItem(p.id, { tribeNameLegacy: e.target.value })
+                      }
                       placeholder="Ex.: Tribo do Cedro"
                     />
                   </Field>

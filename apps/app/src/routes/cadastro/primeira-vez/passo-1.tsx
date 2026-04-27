@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
+import { format, parse } from 'date-fns';
+import { useEffect } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { ShirtSizePicker } from '@/components/form/ShirtSizePicker';
@@ -16,21 +17,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useCadastroStore } from '@/lib/cadastro-store';
 
 export const Route = createFileRoute('/cadastro/primeira-vez/passo-1')({
   component: PassoUm,
 });
 
-type Size = 'PP' | 'P' | 'M' | 'G' | 'GG' | 'XGG' | '';
-
 function PassoUm() {
-  const [gender, setGender] = useState<string>('');
-  const [cpf, setCpf] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [birth, setBirth] = useState<Date | undefined>();
-  const [avatar, setAvatar] = useState<File | null>(null);
-  const [shirt, setShirt] = useState<Size>('');
+  const s = useCadastroStore();
+
+  // Garante que a variant esteja marcada — caso o usuário entre direto pela URL
+  useEffect(() => {
+    if (s.variant !== 'primeira-vez') s.setVariant('primeira-vez');
+  }, [s.variant, s.setVariant]);
+
+  const birthDate = s.birthDate
+    ? parse(s.birthDate, 'yyyy-MM-dd', new Date())
+    : undefined;
 
   return (
     <CadastroFrame
@@ -43,42 +46,54 @@ function PassoUm() {
       ctaTo="/cadastro/primeira-vez/passo-2"
     >
       <div className="grid gap-6">
-        {/* Avatar — primeiro elemento, gestura de identidade */}
         <PhotoUpload
           variant="avatar"
           size="lg"
-          name={name}
-          onChange={setAvatar}
+          name={s.fullName}
+          onChange={(f) => s.set('avatarFile', f)}
           hint="Use uma foto sua. Ajuda a equipe te reconhecer."
         />
 
         <Field label={<Label htmlFor="fullName">Nome completo</Label>}>
           <Input
             id="fullName"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={s.fullName}
+            onChange={(e) => s.set('fullName', e.target.value)}
             autoComplete="name"
             placeholder="Como aparece no documento"
           />
         </Field>
 
         <Field label="Sexo">
-          <RadioGroup value={gender} onValueChange={setGender} className="grid-cols-2 grid">
-            <RadioCard value="masculino" checked={gender === 'masculino'}>
+          <RadioGroup
+            value={s.gender}
+            onValueChange={(v) => s.set('gender', v as typeof s.gender)}
+            className="grid-cols-2 grid"
+          >
+            <RadioCard value="masculino" checked={s.gender === 'masculino'}>
               <p className="font-medium">Masculino</p>
             </RadioCard>
-            <RadioCard value="feminino" checked={gender === 'feminino'}>
+            <RadioCard value="feminino" checked={s.gender === 'feminino'}>
               <p className="font-medium">Feminino</p>
             </RadioCard>
           </RadioGroup>
         </Field>
 
         <Field label={<Label htmlFor="birth">Data de nascimento</Label>}>
-          <DatePicker id="birth" value={birth} onChange={setBirth} />
+          <DatePicker
+            id="birth"
+            value={birthDate}
+            onChange={(d) => s.set('birthDate', d ? format(d, 'yyyy-MM-dd') : '')}
+          />
         </Field>
 
         <Field label={<Label htmlFor="cpf">CPF</Label>}>
-          <MaskedInput id="cpf" mask="cpf" value={cpf} onValueChange={(v) => setCpf(v)} />
+          <MaskedInput
+            id="cpf"
+            mask="cpf"
+            value={s.cpf}
+            onValueChange={(_formatted, raw) => s.set('cpf', raw)}
+          />
         </Field>
 
         <Field
@@ -88,13 +103,16 @@ function PassoUm() {
           <MaskedInput
             id="phone"
             mask="phone"
-            value={phone}
-            onValueChange={(v) => setPhone(v)}
+            value={s.phone}
+            onValueChange={(_formatted, raw) => s.set('phone', raw)}
           />
         </Field>
 
         <Field label="Estado civil">
-          <Select>
+          <Select
+            value={s.maritalStatus}
+            onValueChange={(v) => s.set('maritalStatus', v as typeof s.maritalStatus)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Selecione" />
             </SelectTrigger>
@@ -110,19 +128,29 @@ function PassoUm() {
 
         <FieldRow>
           <Field label={<Label htmlFor="height">Altura (cm)</Label>}>
-            <Input id="height" inputMode="numeric" placeholder="170" />
+            <Input
+              id="height"
+              inputMode="numeric"
+              placeholder="170"
+              value={s.heightCm}
+              onChange={(e) => s.set('heightCm', e.target.value.replace(/\D/g, ''))}
+            />
           </Field>
           <Field label={<Label htmlFor="weight">Peso (kg)</Label>}>
-            <Input id="weight" inputMode="decimal" placeholder="65,5" />
+            <Input
+              id="weight"
+              inputMode="decimal"
+              placeholder="65,5"
+              value={s.weightKg}
+              onChange={(e) => s.set('weightKg', e.target.value.replace(/[^\d,.]/g, ''))}
+            />
           </Field>
         </FieldRow>
 
         <Field label="Tamanho de camiseta">
-          <ShirtSizePicker value={shirt} onChange={(s) => setShirt(s)} />
+          <ShirtSizePicker value={s.shirtSize} onChange={(v) => s.set('shirtSize', v)} />
         </Field>
       </div>
-      {/* Suprime warning de avatar não usado quando ainda não há upload final */}
-      {avatar && null}
     </CadastroFrame>
   );
 }

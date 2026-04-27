@@ -1,24 +1,36 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Plus, Trash2 } from 'lucide-react';
-import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardBody } from '@/components/ui/card';
 import { MaskedInput } from '@/components/ui/masked-input';
-
-type Contact = { id: string; name: string; relationship: string; phone: string };
+import { useCadastroStore } from '@/lib/cadastro-store';
 
 export const Route = createFileRoute('/cadastro/primeira-vez/passo-3')({
   component: PassoTres,
 });
 
 function PassoTres() {
-  const [contacts, setContacts] = useState<Contact[]>([
-    { id: 'c1', name: '', relationship: '', phone: '' },
-    { id: 'c2', name: '', relationship: '', phone: '' },
-  ]);
+  const contacts = useCadastroStore((s) => s.emergencyContacts);
+  const set = useCadastroStore((s) => s.set);
+
+  const updateContact = (id: string, patch: Partial<(typeof contacts)[number]>) => {
+    set(
+      'emergencyContacts',
+      contacts.map((c) => (c.id === id ? { ...c, ...patch } : c)),
+    );
+  };
+
+  const remove = (id: string) =>
+    set('emergencyContacts', contacts.filter((c) => c.id !== id));
+
+  const add = () =>
+    set('emergencyContacts', [
+      ...contacts,
+      { id: `c${Date.now()}`, name: '', relationship: '', phone: '' },
+    ]);
 
   return (
     <CadastroFrame
@@ -41,7 +53,7 @@ function PassoTres() {
                 {contacts.length > 2 && (
                   <button
                     type="button"
-                    onClick={() => setContacts(contacts.filter((x) => x.id !== c.id))}
+                    onClick={() => remove(c.id)}
                     className="size-7 inline-flex items-center justify-center rounded-full text-(color:--color-muted-foreground) hover:bg-(color:--color-muted) hover:text-(color:--color-destructive) transition"
                     aria-label="Remover contato"
                   >
@@ -53,11 +65,7 @@ function PassoTres() {
                 <Field label={<Label>Nome</Label>}>
                   <Input
                     value={c.name}
-                    onChange={(e) =>
-                      setContacts((prev) =>
-                        prev.map((x) => (x.id === c.id ? { ...x, name: e.target.value } : x)),
-                      )
-                    }
+                    onChange={(e) => updateContact(c.id, { name: e.target.value })}
                     placeholder="Maria das Dores"
                   />
                 </Field>
@@ -66,11 +74,7 @@ function PassoTres() {
                     <Input
                       value={c.relationship}
                       onChange={(e) =>
-                        setContacts((prev) =>
-                          prev.map((x) =>
-                            x.id === c.id ? { ...x, relationship: e.target.value } : x,
-                          ),
-                        )
+                        updateContact(c.id, { relationship: e.target.value })
                       }
                       placeholder="mãe"
                     />
@@ -79,11 +83,7 @@ function PassoTres() {
                     <MaskedInput
                       mask="phone"
                       value={c.phone}
-                      onValueChange={(v) =>
-                        setContacts((prev) =>
-                          prev.map((x) => (x.id === c.id ? { ...x, phone: v } : x)),
-                        )
-                      }
+                      onValueChange={(_f, raw) => updateContact(c.id, { phone: raw })}
                     />
                   </Field>
                 </FieldRow>
@@ -95,12 +95,7 @@ function PassoTres() {
         {contacts.length < 3 && (
           <button
             type="button"
-            onClick={() =>
-              setContacts([
-                ...contacts,
-                { id: `c${contacts.length + 1}`, name: '', relationship: '', phone: '' },
-              ])
-            }
+            onClick={add}
             className="rounded-(--radius-md) border-2 border-dashed border-(color:--color-border-strong) py-4 flex items-center justify-center gap-2 text-sm text-(color:--color-muted-foreground) hover:bg-(color:--color-muted) hover:text-(color:--color-foreground) transition"
           >
             <Plus className="size-4" strokeWidth={1.5} />

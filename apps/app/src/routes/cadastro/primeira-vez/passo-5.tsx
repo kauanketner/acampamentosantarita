@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field } from '@/components/form/Field';
 import { HealthQuestion } from '@/components/form/HealthQuestion';
@@ -7,60 +6,15 @@ import { Textarea, Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
+import { useCadastroStore } from '@/lib/cadastro-store';
 
 export const Route = createFileRoute('/cadastro/primeira-vez/passo-5')({
   component: PassoCinco,
 });
 
-type Health = {
-  hasChronic: boolean;
-  chronicDetail: string;
-  hadSurgery: boolean;
-  surgeryDetail: string;
-  hasAllergy: boolean;
-  allergyDetail: string;
-  hasAsthma: boolean;
-  usesInhaler: boolean;
-  hasDiabetes: boolean;
-  insulinDependent: boolean;
-  hasHypertension: boolean;
-  hasAddiction: boolean;
-  addictionDetail: string;
-  hasDietary: boolean;
-  dietaryDetail: string;
-  hasInsurance: boolean;
-  insuranceName: string;
-  insuranceHolder: string;
-  continuousMedications: string;
-  observations: string;
-};
-
-const initial: Health = {
-  hasChronic: false,
-  chronicDetail: '',
-  hadSurgery: false,
-  surgeryDetail: '',
-  hasAllergy: false,
-  allergyDetail: '',
-  hasAsthma: false,
-  usesInhaler: false,
-  hasDiabetes: false,
-  insulinDependent: false,
-  hasHypertension: false,
-  hasAddiction: false,
-  addictionDetail: '',
-  hasDietary: false,
-  dietaryDetail: '',
-  hasInsurance: false,
-  insuranceName: '',
-  insuranceHolder: '',
-  continuousMedications: '',
-  observations: '',
-};
-
 function PassoCinco() {
-  const [h, setH] = useState<Health>(initial);
-  const set = <K extends keyof Health>(k: K, v: Health[K]) => setH((p) => ({ ...p, [k]: v }));
+  const h = useCadastroStore((s) => s.health);
+  const setHealth = useCadastroStore((s) => s.setHealth);
 
   return (
     <CadastroFrame
@@ -71,43 +25,47 @@ function PassoCinco() {
       title="Saúde."
       description="As respostas ficam confidenciais com a equipe de bem-estar e cozinha. Nada é compartilhado com outros participantes."
       ctaTo="/cadastro/primeira-vez/concluido"
-      ctaLabel="Concluir cadastro"
+      ctaLabel="Continuar"
     >
       <div className="grid gap-2.5">
         <HealthQuestion
           label="Você tem alguma doença crônica?"
           hint="Hipotireoidismo, fibromialgia, etc."
-          value={h.hasChronic}
-          onValueChange={(v) => set('hasChronic', v)}
-          detail={h.chronicDetail}
-          onDetailChange={(v) => set('chronicDetail', v)}
+          value={h.hasChronicDisease}
+          onValueChange={(v) => setHealth({ hasChronicDisease: v })}
+          detail={h.chronicDiseaseDetail}
+          onDetailChange={(v) => setHealth({ chronicDiseaseDetail: v })}
           detailPlaceholder="Conte qual e como tem cuidado."
         />
         <HealthQuestion
           label="Já passou por alguma cirurgia?"
           value={h.hadSurgery}
-          onValueChange={(v) => set('hadSurgery', v)}
+          onValueChange={(v) => setHealth({ hadSurgery: v })}
           detail={h.surgeryDetail}
-          onDetailChange={(v) => set('surgeryDetail', v)}
+          onDetailChange={(v) => setHealth({ surgeryDetail: v })}
           detailPlaceholder="Qual e quando."
         />
         <HealthQuestion
           label="Tem alguma alergia?"
           hint="Alimentar, medicamentosa, ambiental."
           value={h.hasAllergy}
-          onValueChange={(v) => set('hasAllergy', v)}
+          onValueChange={(v) => setHealth({ hasAllergy: v })}
           detail={h.allergyDetail}
-          onDetailChange={(v) => set('allergyDetail', v)}
+          onDetailChange={(v) => setHealth({ allergyDetail: v })}
           detailPlaceholder="A que e qual a reação?"
         />
 
         <SubGroup label="Asma">
-          <Toggle label="Tem asma" value={h.hasAsthma} onChange={(v) => set('hasAsthma', v)} />
+          <Toggle
+            label="Tem asma"
+            value={h.hasAsthma}
+            onChange={(v) => setHealth({ hasAsthma: v })}
+          />
           {h.hasAsthma && (
             <Toggle
               label="Usa bombinha"
               value={h.usesInhaler}
-              onChange={(v) => set('usesInhaler', v)}
+              onChange={(v) => setHealth({ usesInhaler: v })}
             />
           )}
         </SubGroup>
@@ -116,13 +74,13 @@ function PassoCinco() {
           <Toggle
             label="Tem diabetes"
             value={h.hasDiabetes}
-            onChange={(v) => set('hasDiabetes', v)}
+            onChange={(v) => setHealth({ hasDiabetes: v })}
           />
           {h.hasDiabetes && (
             <Toggle
               label="É insulinodependente"
               value={h.insulinDependent}
-              onChange={(v) => set('insulinDependent', v)}
+              onChange={(v) => setHealth({ insulinDependent: v })}
             />
           )}
         </SubGroup>
@@ -130,24 +88,24 @@ function PassoCinco() {
         <Toggle
           label="Tem hipertensão"
           value={h.hasHypertension}
-          onChange={(v) => set('hasHypertension', v)}
+          onChange={(v) => setHealth({ hasHypertension: v })}
         />
 
         <HealthQuestion
           label="Já passou por algum tipo de dependência?"
           hint="Sentimos cuidar disso com você. Não fica registrado em lugar nenhum acessível ao público."
           value={h.hasAddiction}
-          onValueChange={(v) => set('hasAddiction', v)}
+          onValueChange={(v) => setHealth({ hasAddiction: v })}
           detail={h.addictionDetail}
-          onDetailChange={(v) => set('addictionDetail', v)}
+          onDetailChange={(v) => setHealth({ addictionDetail: v })}
         />
         <HealthQuestion
           label="Tem alguma restrição alimentar?"
           hint="Vegetariano, lactose, glúten, intolerâncias."
-          value={h.hasDietary}
-          onValueChange={(v) => set('hasDietary', v)}
-          detail={h.dietaryDetail}
-          onDetailChange={(v) => set('dietaryDetail', v)}
+          value={h.hasDietaryRestriction}
+          onValueChange={(v) => setHealth({ hasDietaryRestriction: v })}
+          detail={h.dietaryRestrictionDetail}
+          onDetailChange={(v) => setHealth({ dietaryRestrictionDetail: v })}
           detailPlaceholder="Conte direito pra cozinha conseguir cuidar."
         />
 
@@ -156,22 +114,22 @@ function PassoCinco() {
         <SubGroup label="Plano de saúde">
           <Toggle
             label="Tem plano"
-            value={h.hasInsurance}
-            onChange={(v) => set('hasInsurance', v)}
+            value={h.hasHealthInsurance}
+            onChange={(v) => setHealth({ hasHealthInsurance: v })}
           />
-          {h.hasInsurance && (
+          {h.hasHealthInsurance && (
             <div className="grid gap-3 px-4 pb-4">
               <Field label={<Label>Operadora</Label>}>
                 <Input
-                  value={h.insuranceName}
-                  onChange={(e) => set('insuranceName', e.target.value)}
+                  value={h.healthInsuranceName}
+                  onChange={(e) => setHealth({ healthInsuranceName: e.target.value })}
                   placeholder="Unimed, Amil, etc."
                 />
               </Field>
               <Field label={<Label>Titular</Label>}>
                 <Input
-                  value={h.insuranceHolder}
-                  onChange={(e) => set('insuranceHolder', e.target.value)}
+                  value={h.healthInsuranceHolder}
+                  onChange={(e) => setHealth({ healthInsuranceHolder: e.target.value })}
                   placeholder="Em nome de quem"
                 />
               </Field>
@@ -186,7 +144,7 @@ function PassoCinco() {
           <Textarea
             id="meds"
             value={h.continuousMedications}
-            onChange={(e) => set('continuousMedications', e.target.value)}
+            onChange={(e) => setHealth({ continuousMedications: e.target.value })}
             placeholder="Ex.: Levotiroxina 50mcg, jejum"
           />
         </Field>
@@ -194,8 +152,8 @@ function PassoCinco() {
         <Field label={<Label htmlFor="obs">Observações gerais</Label>} optional>
           <Textarea
             id="obs"
-            value={h.observations}
-            onChange={(e) => set('observations', e.target.value)}
+            value={h.generalObservations}
+            onChange={(e) => setHealth({ generalObservations: e.target.value })}
             placeholder="Algo que a equipe deva saber"
           />
         </Field>

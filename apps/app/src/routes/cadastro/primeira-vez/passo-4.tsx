@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field } from '@/components/form/Field';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useCadastroStore } from '@/lib/cadastro-store';
 import { cn } from '@/lib/cn';
 
 const SACRAMENTS = [
@@ -22,7 +22,9 @@ export const Route = createFileRoute('/cadastro/primeira-vez/passo-4')({
 });
 
 function PassoQuatro() {
-  const [selected, setSelected] = useState<string[]>([]);
+  const s = useCadastroStore();
+  const toggle = (id: string, checked: boolean) =>
+    s.set('sacraments', checked ? [...s.sacraments, id] : s.sacraments.filter((x) => x !== id));
 
   return (
     <CadastroFrame
@@ -36,11 +38,21 @@ function PassoQuatro() {
     >
       <div className="grid gap-5">
         <Field label={<Label htmlFor="religion">Religião</Label>}>
-          <Input id="religion" placeholder="Católica romana" />
+          <Input
+            id="religion"
+            value={s.religion}
+            onChange={(e) => s.set('religion', e.target.value)}
+            placeholder="Católica romana"
+          />
         </Field>
 
         <Field label={<Label htmlFor="parish">Paróquia</Label>} optional>
-          <Input id="parish" placeholder="Paróquia Santa Rita de Cássia" />
+          <Input
+            id="parish"
+            value={s.parish}
+            onChange={(e) => s.set('parish', e.target.value)}
+            placeholder="Paróquia Santa Rita de Cássia"
+          />
         </Field>
 
         <Field
@@ -48,17 +60,22 @@ function PassoQuatro() {
           optional
           hint="Se você participa de algum grupo, conta pra gente."
         >
-          <Input id="group" placeholder="Pastoral da juventude" />
+          <Input
+            id="group"
+            value={s.groupName}
+            onChange={(e) => s.set('groupName', e.target.value)}
+            placeholder="Pastoral da juventude"
+          />
         </Field>
 
         <div>
           <p className="text-sm font-medium tracking-tight mb-2">Sacramentos recebidos</p>
           <div className="grid gap-1.5">
-            {SACRAMENTS.map((s) => {
-              const checked = selected.includes(s.id);
+            {SACRAMENTS.map((sac) => {
+              const checked = s.sacraments.includes(sac.id);
               return (
                 <label
-                  key={s.id}
+                  key={sac.id}
                   className={cn(
                     'flex items-center gap-3 px-4 py-3 rounded-(--radius-md) border cursor-pointer transition-colors',
                     checked
@@ -68,11 +85,9 @@ function PassoQuatro() {
                 >
                   <Checkbox
                     checked={checked}
-                    onCheckedChange={(v) =>
-                      setSelected(v ? [...selected, s.id] : selected.filter((x) => x !== s.id))
-                    }
+                    onCheckedChange={(v) => toggle(sac.id, !!v)}
                   />
-                  <span className="text-[15px] font-medium">{s.label}</span>
+                  <span className="text-[15px] font-medium">{sac.label}</span>
                 </label>
               );
             })}
