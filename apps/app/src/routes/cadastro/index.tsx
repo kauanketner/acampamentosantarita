@@ -1,23 +1,33 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
 import { motion } from 'motion/react';
 import { useEffect } from 'react';
+import { z } from 'zod';
 import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { useCadastroStore } from '@/lib/cadastro-store';
 
+const searchSchema = z.object({
+  phone: z.string().optional(),
+});
+
 export const Route = createFileRoute('/cadastro/')({
+  validateSearch: (search) => searchSchema.parse(search),
   component: CadastroEscolha,
 });
 
 function CadastroEscolha() {
+  const { phone } = Route.useSearch();
   const reset = useCadastroStore((s) => s.reset);
+  const setField = useCadastroStore((s) => s.set);
   const setVariant = useCadastroStore((s) => s.setVariant);
 
-  // Limpa qualquer rascunho anterior quando o usuário entra na escolha
+  // Limpa rascunho anterior. Se o usuário chegou com um telefone (vindo do
+  // /login porque a conta não existia), pré-preenche para acelerar o passo 1.
   useEffect(() => {
     reset();
-  }, [reset]);
+    if (phone) setField('phone', phone);
+  }, [reset, setField, phone]);
 
   return (
     <Page withBottomNav={false} className="flex flex-col">

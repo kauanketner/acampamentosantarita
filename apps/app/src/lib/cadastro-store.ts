@@ -191,8 +191,7 @@ export const useCadastroStore = create<CadastroState>()(
 );
 
 export type SignupPayload = {
-  email: string;
-  password: string;
+  email?: string;
   person: {
     fullName: string;
     gender?: 'masculino' | 'feminino';
@@ -223,11 +222,7 @@ export type SignupPayload = {
   }>;
 };
 
-export function buildSignupPayload(
-  state: CadastroState,
-  email: string,
-  password: string,
-): SignupPayload {
+export function buildSignupPayload(state: CadastroState, email?: string): SignupPayload {
   const trim = (s: string) => (s.trim() === '' ? undefined : s.trim());
   const num = (s: string) => {
     const n = Number(s.replace(',', '.'));
@@ -235,8 +230,7 @@ export function buildSignupPayload(
   };
 
   return {
-    email: email.trim().toLowerCase(),
-    password,
+    email: email?.trim().toLowerCase() || undefined,
     person: {
       fullName: state.fullName.trim(),
       gender: state.gender || undefined,

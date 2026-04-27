@@ -1,12 +1,20 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
 import { eq } from 'drizzle-orm';
-import { hashPassword, verifyPassword } from '../../lib/password.ts';
+import { consumeAuthCode, issueAuthCode } from '../../lib/auth-codes.ts';
+import { toE164 } from '../../lib/whatsapp.ts';
 import type { FirstTimerSignup, HealthPayload, VeteranSignup } from './schemas.ts';
 
-export class SignupError extends Error {
+export class AuthError extends Error {
   constructor(
-    public code: 'EMAIL_TAKEN' | 'CPF_TAKEN' | 'INVALID_CREDENTIALS',
+    public code:
+      | 'PHONE_TAKEN'
+      | 'CPF_TAKEN'
+      | 'EMAIL_TAKEN'
+      | 'USER_NOT_FOUND'
+      | 'INVALID_CODE'
+      | 'EXPIRED_CODE'
+      | 'TOO_MANY_ATTEMPTS',
     message: string,
   ) {
     super(message);
@@ -22,21 +30,57 @@ export const authService = {
     return registerCommon(db, payload, payload.campParticipations);
   },
 
-  async login(db: Database, email: string, password: string) {
+  /** Solicita um código OTP. Sempre retorna sucesso (não revela existência). */
+  async requestCode(db: Database, phoneRaw: string) {
+    const phoneE164 = toE164(phoneRaw);
+
+    const [user] = await db
+      .select({ id: schema.users.id })
+      .from(schema.users)
+      .where(eq(schema.users.phone, phoneE164))
+      .limit(1);
+
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    if (!user) {
+      // Privacidade: não revela se a conta existe.
+      return { phoneE164, expiresAt, exists: false };
+    }
+
+    const sent = await issueAuthCode(db, phoneE164, 'login');
+    return { phoneE164, expiresAt: sent.expiresAt, exists: true };
+  },
+
+  async verifyCode(db: Database, phoneRaw: string, code: string) {
+    const phoneE164 = toE164(phoneRaw);
+    const result = await consumeAuthCode(db, phoneE164, code);
+    if (!result.ok) {
+      const reasonMap = {
+        EXPIRED: 'EXPIRED_CODE',
+        INVALID: 'INVALID_CODE',
+        TOO_MANY_ATTEMPTS: 'TOO_MANY_ATTEMPTS',
+      } as const;
+      throw new AuthError(
+        reasonMap[result.reason ?? 'INVALID'],
+        result.reason === 'EXPIRED'
+          ? 'Código expirado. Peça um novo.'
+          : result.reason === 'TOO_MANY_ATTEMPTS'
+            ? 'Muitas tentativas. Peça um novo código.'
+            : 'Código inválido.',
+      );
+    }
+
     const [user] = await db
       .select()
       .from(schema.users)
-      .where(eq(schema.users.email, email.toLowerCase()))
+      .where(eq(schema.users.phone, phoneE164))
       .limit(1);
-    if (!user || !user.passwordHash) {
-      throw new SignupError('INVALID_CREDENTIALS', 'E-mail ou senha incorretos.');
-    }
-    const ok = await verifyPassword(password, user.passwordHash);
-    if (!ok) throw new SignupError('INVALID_CREDENTIALS', 'E-mail ou senha incorretos.');
+    if (!user) throw new AuthError('USER_NOT_FOUND', 'Conta não encontrada.');
+
     await db
       .update(schema.users)
       .set({ lastLoginAt: new Date() })
       .where(eq(schema.users.id, user.id));
+
     return user;
   },
 
@@ -62,15 +106,25 @@ async function registerCommon(
     functionRole?: string;
   }>,
 ) {
-  const email = payload.email.toLowerCase().trim();
+  const phoneE164 = toE164(payload.person.mobilePhone);
+  const email = payload.email?.toLowerCase().trim();
 
-  const [existingUser] = await db
+  // Pré-checagens
+  const [existingPhone] = await db
     .select({ id: schema.users.id })
     .from(schema.users)
-    .where(eq(schema.users.email, email))
+    .where(eq(schema.users.phone, phoneE164))
     .limit(1);
-  if (existingUser) {
-    throw new SignupError('EMAIL_TAKEN', 'Já existe uma conta com este e-mail.');
+  if (existingPhone) {
+    throw new AuthError('PHONE_TAKEN', 'Já existe uma conta com este telefone.');
+  }
+  if (email) {
+    const [existingEmail] = await db
+      .select({ id: schema.users.id })
+      .from(schema.users)
+      .where(eq(schema.users.email, email))
+      .limit(1);
+    if (existingEmail) throw new AuthError('EMAIL_TAKEN', 'Este e-mail já está em uso.');
   }
   if (payload.person.cpf) {
     const [existingCpf] = await db
@@ -78,14 +132,10 @@ async function registerCommon(
       .from(schema.persons)
       .where(eq(schema.persons.cpf, payload.person.cpf))
       .limit(1);
-    if (existingCpf) {
-      throw new SignupError('CPF_TAKEN', 'Já existe um cadastro com este CPF.');
-    }
+    if (existingCpf) throw new AuthError('CPF_TAKEN', 'Já existe um cadastro com este CPF.');
   }
 
-  const passwordHash = await hashPassword(payload.password);
-
-  return db.transaction(async (tx) => {
+  const created = await db.transaction(async (tx) => {
     const [insertedPerson] = await tx
       .insert(schema.persons)
       .values({
@@ -97,7 +147,7 @@ async function registerCommon(
         heightCm: payload.person.heightCm,
         weightKg: payload.person.weightKg?.toString(),
         shirtSize: payload.person.shirtSize,
-        mobilePhone: payload.person.mobilePhone,
+        mobilePhone: phoneE164,
         zipCode: payload.person.zipCode,
         street: payload.person.street,
         neighborhood: payload.person.neighborhood,
@@ -113,8 +163,8 @@ async function registerCommon(
     const [insertedUser] = await tx
       .insert(schema.users)
       .values({
-        email,
-        passwordHash,
+        email: email ?? null,
+        phone: phoneE164,
         role: 'participante',
         personId: insertedPerson!.id,
       })
@@ -199,6 +249,10 @@ async function registerCommon(
       );
     }
 
-    return { user: insertedUser!, person: insertedPerson! };
+    return { user: insertedUser!, person: insertedPerson!, phoneE164 };
   });
+
+  // Após cadastro, dispara código para confirmar telefone
+  const code = await issueAuthCode(db, created.phoneE164, 'register');
+  return { ...created, codeExpiresAt: code.expiresAt };
 }

@@ -1,16 +1,13 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Eye, EyeOff, Loader2 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import { ArchMotif } from '@/components/motif/arch';
-import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
 import { Field } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ApiError, apiUpload } from '@/lib/api';
+import { ApiError } from '@/lib/api';
 import { useRegisterVeteran } from '@/lib/auth';
 import { buildSignupPayload, useCadastroStore } from '@/lib/cadastro-store';
 
@@ -19,57 +16,42 @@ export const Route = createFileRoute('/cadastro/veterano/concluido')({
 });
 
 function Concluido() {
+  const navigate = useNavigate();
   const register = useRegisterVeteran();
   const cadastroState = useCadastroStore();
   const reset = useCadastroStore((s) => s.reset);
 
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPwd, setShowPwd] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const issues = useMissingFieldIssues();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
-    if (!cadastroState.fullName) {
-      setError('O nome é obrigatório. Volte ao passo 1.');
-      return;
-    }
-    if (cadastroState.emergencyContacts.filter((c) => c.name && c.phone).length < 2) {
-      setError('Inclua pelo menos 2 contatos de emergência (passo 3).');
+    if (issues.length > 0) {
+      setError(issues[0]!);
       return;
     }
 
-    const payload = buildSignupPayload(cadastroState, email, password);
+    setSubmitting(true);
+    const payload = buildSignupPayload(cadastroState, email || undefined);
 
     try {
-      await register.mutateAsync(payload);
-
-      if (cadastroState.avatarFile) {
-        try {
-          await apiUpload<{ avatarUrl: string }>(
-            '/v1/persons/me/avatar',
-            cadastroState.avatarFile,
-          );
-        } catch {
-          // não bloqueia
-        }
-      }
-
+      const result = await register.mutateAsync(payload);
+      const phoneRaw = cadastroState.phone;
       reset();
-      setDone(true);
+      navigate({
+        to: '/codigo',
+        search: { phone: phoneRaw, masked: result.phoneMasked, from: 'cadastro' },
+      });
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message);
-      } else {
-        setError('Não foi possível concluir o cadastro. Tente de novo.');
-      }
+      setSubmitting(false);
+      if (err instanceof ApiError) setError(err.message);
+      else setError('Não foi possível concluir o cadastro. Tente de novo.');
     }
   };
-
-  if (done) return <Welcome />;
 
   return (
     <Page withBottomNav={false} className="flex flex-col">
@@ -82,15 +64,19 @@ function Concluido() {
           className="font-display text-[clamp(1.85rem,8vw,2.4rem)] leading-[1.05] tracking-[-0.025em]"
           style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
         >
-          Crie seu <span className="font-display-italic">acesso</span>.
+          Confirmando o seu <span className="font-display-italic">WhatsApp</span>.
         </h1>
-        <p className="mt-2 text-[15px] leading-relaxed text-(color:--color-muted-foreground)">
-          E-mail e senha para entrar a partir de agora.
+        <p className="mt-2 text-[15px] leading-relaxed text-(color:--color-muted-foreground) text-pretty">
+          Vamos enviar um código no número que você informou no passo 1.
         </p>
       </div>
 
       <form onSubmit={onSubmit} className="px-5 grid gap-4 pb-32">
-        <Field label={<Label htmlFor="email">E-mail</Label>}>
+        <Field
+          label={<Label htmlFor="email">E-mail</Label>}
+          optional
+          hint="Para receber comprovantes e avisos importantes (não obrigatório)."
+        >
           <Input
             id="email"
             type="email"
@@ -99,50 +85,32 @@ function Concluido() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="seu@email.com"
-            required
           />
         </Field>
-        <Field label={<Label htmlFor="password">Senha</Label>} hint="Mínimo de 6 caracteres.">
-          <div className="relative">
-            <Input
-              id="password"
-              type={showPwd ? 'text' : 'password'}
-              autoComplete="new-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              minLength={6}
-              required
-              className="pr-12"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPwd((v) => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 size-9 inline-flex items-center justify-center rounded-full text-(color:--color-muted-foreground) hover:text-(color:--color-foreground) hover:bg-(color:--color-muted) transition"
-              aria-label={showPwd ? 'Esconder senha' : 'Mostrar senha'}
-            >
-              {showPwd ? (
-                <EyeOff className="size-4" strokeWidth={1.5} />
-              ) : (
-                <Eye className="size-4" strokeWidth={1.5} />
-              )}
-            </button>
-          </div>
-        </Field>
 
-        {error && (
+        {issues.length > 0 && (
+          <div className="rounded-(--radius-md) border border-(color:--color-destructive)/40 bg-(color:--color-destructive)/5 p-4 text-sm text-(color:--color-destructive)">
+            <p className="font-medium mb-1">Falta preencher:</p>
+            <ul className="list-disc pl-5 space-y-0.5">
+              {issues.map((m) => (
+                <li key={m}>{m}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {error && !issues.length && (
           <p className="text-sm text-(color:--color-destructive) text-center">{error}</p>
         )}
 
-        <div
-          className="fixed inset-x-0 bottom-0 z-30 px-5 pt-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-(color:--color-background)/85 backdrop-blur-md border-t border-(color:--color-border)"
-        >
-          <Button type="submit" block size="lg" disabled={register.isPending}>
-            {register.isPending ? (
+        <div className="fixed inset-x-0 bottom-0 z-30 px-5 pt-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-(color:--color-background)/85 backdrop-blur-md border-t border-(color:--color-border)">
+          <Button type="submit" block size="lg" disabled={submitting || issues.length > 0}>
+            {submitting ? (
               <>
-                <Loader2 className="size-4 animate-spin" /> Concluindo…
+                <Loader2 className="size-4 animate-spin" /> Enviando código…
               </>
             ) : (
-              'Concluir cadastro'
+              'Enviar código no WhatsApp'
             )}
           </Button>
         </div>
@@ -151,77 +119,13 @@ function Concluido() {
   );
 }
 
-function Welcome() {
-  const navigate = useNavigate();
-  return (
-    <Page withBottomNav={false} className="flex flex-col scene-vignette">
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1.1, ease: [0.2, 0.8, 0.2, 1] }}
-          className="relative"
-        >
-          <ArchMotif className="w-44 h-60 text-(color:--color-mystery)/30" withInner />
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 1.6 }}
-            className="absolute inset-0"
-          >
-            <ArchMotif className="w-44 h-60 text-(color:--color-accent)/80" withInner={false} />
-          </motion.div>
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.7 }}
-          className="font-mono text-[10px] uppercase tracking-[0.32em] text-(color:--color-muted-foreground) mt-10 mb-4"
-        >
-          Sua história está conosco
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-          className="font-display text-[clamp(2.3rem,11vw,3rem)] leading-[1] tracking-[-0.025em] text-balance text-center"
-          style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
-        >
-          Bom <span className="font-display-italic text-(color:--color-primary)">te ter de volta.</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
-          className="mt-6 max-w-xs text-center text-[15px] leading-relaxed text-(color:--color-muted-foreground)"
-        >
-          A comunidade lembra de cada passo. Os próximos eventos te esperam quando o
-          tempo chamar.
-        </motion.p>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
-        className="flex justify-center mt-6"
-      >
-        <Logo size="sm" />
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.6, duration: 0.6 }}
-        className="px-6 pb-12 pt-6"
-      >
-        <Button block size="lg" onClick={() => navigate({ to: '/' })}>
-          Continuar
-        </Button>
-      </motion.div>
-    </Page>
-  );
+function useMissingFieldIssues() {
+  const s = useCadastroStore();
+  const issues: string[] = [];
+  if (!s.fullName) issues.push('Seu nome (passo 1)');
+  if (!s.phone || s.phone.length < 10) issues.push('Seu telefone com WhatsApp (passo 1)');
+  if (s.emergencyContacts.filter((c) => c.name && c.phone).length < 2) {
+    issues.push('Pelo menos 2 contatos de emergência (passo 3)');
+  }
+  return issues;
 }

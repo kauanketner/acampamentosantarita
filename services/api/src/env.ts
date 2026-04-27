@@ -13,6 +13,11 @@ const envSchema = z.object({
   ASAAS_WEBHOOK_TOKEN: z.string().optional(),
   ASAAS_ENV: z.enum(['sandbox', 'production']).default('sandbox'),
 
+  // WhatsApp via WTS Chat (api.wts.chat) — usado para enviar códigos OTP
+  WTS_API_TOKEN: z.string().optional(),
+  WTS_OTP_TEMPLATE_ID: z.string().default('codigo_de_verificao'),
+  WTS_FROM_NUMBER: z.string().optional(),
+
   R2_ACCOUNT_ID: z.string().optional(),
   R2_ACCESS_KEY_ID: z.string().optional(),
   R2_SECRET_ACCESS_KEY: z.string().optional(),

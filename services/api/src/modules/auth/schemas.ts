@@ -3,7 +3,7 @@ import { z } from 'zod';
 const phoneRaw = z
   .string()
   .transform((v) => v.replace(/\D/g, ''))
-  .pipe(z.string().min(10).max(11));
+  .pipe(z.string().min(10).max(13));
 
 const cpfRaw = z
   .string()
@@ -30,7 +30,7 @@ export const personPayloadSchema = z.object({
   heightCm: z.number().int().min(50).max(250).optional(),
   weightKg: z.number().positive().max(400).optional(),
   shirtSize: z.enum(['PP', 'P', 'M', 'G', 'GG', 'XGG']).optional(),
-  mobilePhone: phoneRaw.optional(),
+  mobilePhone: phoneRaw,
   zipCode: cepRaw,
   street: z.string().optional(),
   neighborhood: z.string().optional(),
@@ -109,9 +109,9 @@ export const campParticipationSchema = z.object({
   functionRole: z.string().optional(),
 });
 
+// Cadastro sem senha. mobilePhone vira o identificador.
 export const baseSignupSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z.string().email().optional(),
   person: personPayloadSchema,
   emergencyContacts: z.array(emergencyContactSchema).min(2).max(3),
   faith: faithPayloadSchema.optional(),
@@ -124,12 +124,20 @@ export const veteranSignupSchema = baseSignupSchema.extend({
   campParticipations: z.array(campParticipationSchema).default([]),
 });
 
-export const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
+export const requestCodeSchema = z.object({
+  phone: phoneRaw,
+});
+
+export const verifyCodeSchema = z.object({
+  phone: phoneRaw,
+  code: z
+    .string()
+    .transform((v) => v.replace(/\D/g, ''))
+    .pipe(z.string().length(6)),
 });
 
 export type FirstTimerSignup = z.infer<typeof firstTimerSignupSchema>;
 export type VeteranSignup = z.infer<typeof veteranSignupSchema>;
-export type LoginPayload = z.infer<typeof loginSchema>;
+export type RequestCode = z.infer<typeof requestCodeSchema>;
+export type VerifyCode = z.infer<typeof verifyCodeSchema>;
 export type HealthPayload = z.infer<typeof healthPayloadSchema>;

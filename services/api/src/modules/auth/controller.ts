@@ -6,12 +6,14 @@ import {
   destroySession,
   sessionCookieOptions,
 } from '../../lib/session.ts';
+import { maskPhone } from '../../lib/whatsapp.ts';
 import {
   firstTimerSignupSchema,
-  loginSchema,
+  requestCodeSchema,
   veteranSignupSchema,
+  verifyCodeSchema,
 } from './schemas.ts';
-import { SignupError, authService } from './service.ts';
+import { AuthError, authService } from './service.ts';
 
 const SECURE = env.NODE_ENV === 'production';
 
@@ -19,15 +21,14 @@ export const authController = {
   async registerFirstTimer(req: FastifyRequest, reply: FastifyReply) {
     const parsed = firstTimerSignupSchema.parse(req.body);
     try {
-      const { user } = await authService.registerFirstTimer(req.server.db, parsed);
-      const session = await createSession(req.server.db, user.id, {
-        ipAddress: req.ip,
-        userAgent: req.headers['user-agent'],
-      });
-      reply.setCookie(SESSION_COOKIE, session.id, sessionCookieOptions(SECURE));
-      return { user: { id: user.id, email: user.email, role: user.role } };
+      const result = await authService.registerFirstTimer(req.server.db, parsed);
+      return {
+        userId: result.user.id,
+        phoneMasked: maskPhone(result.phoneE164),
+        codeExpiresAt: result.codeExpiresAt,
+      };
     } catch (e) {
-      if (e instanceof SignupError) {
+      if (e instanceof AuthError) {
         reply.code(409).send({ error: e.code, message: e.message });
         return;
       }
@@ -38,15 +39,14 @@ export const authController = {
   async registerVeteran(req: FastifyRequest, reply: FastifyReply) {
     const parsed = veteranSignupSchema.parse(req.body);
     try {
-      const { user } = await authService.registerVeteran(req.server.db, parsed);
-      const session = await createSession(req.server.db, user.id, {
-        ipAddress: req.ip,
-        userAgent: req.headers['user-agent'],
-      });
-      reply.setCookie(SESSION_COOKIE, session.id, sessionCookieOptions(SECURE));
-      return { user: { id: user.id, email: user.email, role: user.role } };
+      const result = await authService.registerVeteran(req.server.db, parsed);
+      return {
+        userId: result.user.id,
+        phoneMasked: maskPhone(result.phoneE164),
+        codeExpiresAt: result.codeExpiresAt,
+      };
     } catch (e) {
-      if (e instanceof SignupError) {
+      if (e instanceof AuthError) {
         reply.code(409).send({ error: e.code, message: e.message });
         return;
       }
@@ -54,18 +54,37 @@ export const authController = {
     }
   },
 
-  async login(req: FastifyRequest, reply: FastifyReply) {
-    const parsed = loginSchema.parse(req.body);
+  async requestCode(req: FastifyRequest, reply: FastifyReply) {
+    const parsed = requestCodeSchema.parse(req.body);
+    const result = await authService.requestCode(req.server.db, parsed.phone);
+    void reply;
+    return {
+      phoneMasked: maskPhone(result.phoneE164),
+      // exists=false sinaliza ao app que precisa fazer cadastro primeiro
+      exists: result.exists,
+      expiresAt: result.expiresAt,
+    };
+  },
+
+  async verifyCode(req: FastifyRequest, reply: FastifyReply) {
+    const parsed = verifyCodeSchema.parse(req.body);
     try {
-      const user = await authService.login(req.server.db, parsed.email, parsed.password);
+      const user = await authService.verifyCode(req.server.db, parsed.phone, parsed.code);
       const session = await createSession(req.server.db, user.id, {
         ipAddress: req.ip,
         userAgent: req.headers['user-agent'],
       });
       reply.setCookie(SESSION_COOKIE, session.id, sessionCookieOptions(SECURE));
-      return { user: { id: user.id, email: user.email, role: user.role } };
+      return {
+        user: {
+          id: user.id,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+        },
+      };
     } catch (e) {
-      if (e instanceof SignupError) {
+      if (e instanceof AuthError) {
         reply.code(401).send({ error: e.code, message: e.message });
         return;
       }
@@ -96,6 +115,7 @@ export const authController = {
       user: {
         id: data.user.id,
         email: data.user.email,
+        phone: data.user.phone,
         role: data.user.role,
       },
       person: data.person && {
@@ -108,13 +128,5 @@ export const authController = {
         mobilePhone: data.person.mobilePhone,
       },
     };
-  },
-
-  forgotPassword: async (_req: FastifyRequest, reply: FastifyReply) => {
-    reply.code(501).send({ error: 'NOT_IMPLEMENTED' });
-  },
-
-  resetPassword: async (_req: FastifyRequest, reply: FastifyReply) => {
-    reply.code(501).send({ error: 'NOT_IMPLEMENTED' });
   },
 };

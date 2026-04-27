@@ -3,7 +3,8 @@ import { api } from './api';
 
 export type AuthUser = {
   id: string;
-  email: string;
+  email: string | null;
+  phone: string | null;
   role: string;
 };
 
@@ -30,11 +31,7 @@ export function useSession() {
     queryFn: async () => {
       try {
         return await api<SessionPayload>('/v1/auth/me');
-      } catch (err) {
-        // 401 = não autenticado, retorna null sem propagar erro
-        if (err instanceof Error && (err as { status?: number }).status === 401) {
-          return null;
-        }
+      } catch {
         return null;
       }
     },
@@ -43,11 +40,30 @@ export function useSession() {
   });
 }
 
-export function useLogin() {
+export type RequestCodeResult = {
+  phoneMasked: string;
+  exists: boolean;
+  expiresAt: string;
+};
+
+export function useRequestCode() {
+  return useMutation({
+    mutationFn: (input: { phone: string }) =>
+      api<RequestCodeResult>('/v1/auth/request-code', {
+        method: 'POST',
+        json: input,
+      }),
+  });
+}
+
+export function useVerifyCode() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: { email: string; password: string }) =>
-      api<{ user: AuthUser }>('/v1/auth/login', { method: 'POST', json: input }),
+    mutationFn: (input: { phone: string; code: string }) =>
+      api<{ user: AuthUser }>('/v1/auth/verify-code', {
+        method: 'POST',
+        json: input,
+      }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ME_KEY });
     },
@@ -65,31 +81,29 @@ export function useLogout() {
   });
 }
 
+export type RegisterResult = {
+  userId: string;
+  phoneMasked: string;
+  codeExpiresAt: string;
+};
+
 export function useRegisterFirstTimer() {
-  const qc = useQueryClient();
   return useMutation({
     mutationFn: (payload: unknown) =>
-      api<{ user: AuthUser }>('/v1/auth/register-first-timer', {
+      api<RegisterResult>('/v1/auth/register-first-timer', {
         method: 'POST',
         json: payload,
       }),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ME_KEY });
-    },
   });
 }
 
 export function useRegisterVeteran() {
-  const qc = useQueryClient();
   return useMutation({
     mutationFn: (payload: unknown) =>
-      api<{ user: AuthUser }>('/v1/auth/register-veteran', {
+      api<RegisterResult>('/v1/auth/register-veteran', {
         method: 'POST',
         json: payload,
       }),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ME_KEY });
-    },
   });
 }
 

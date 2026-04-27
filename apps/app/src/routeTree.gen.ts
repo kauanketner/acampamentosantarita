@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as CodigoRouteImport } from './routes/codigo'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as CadastroIndexRouteImport } from './routes/cadastro/index'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
@@ -51,6 +52,11 @@ import { Route as AuthEventosSlugInscricaoConfirmadoRouteImport } from './routes
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CodigoRoute = CodigoRouteImport.update({
+  id: '/codigo',
+  path: '/codigo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -252,6 +258,7 @@ const AuthEventosSlugInscricaoConfirmadoRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthIndexRoute
+  '/codigo': typeof CodigoRoute
   '/login': typeof LoginRoute
   '/cadastro/': typeof CadastroIndexRoute
   '/eventos/$slug': typeof AuthEventosSlugRouteWithChildren
@@ -290,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/eventos/$slug/inscricao/': typeof AuthEventosSlugInscricaoIndexRoute
 }
 export interface FileRoutesByTo {
+  '/codigo': typeof CodigoRoute
   '/login': typeof LoginRoute
   '/': typeof AuthIndexRoute
   '/cadastro': typeof CadastroIndexRoute
@@ -331,6 +339,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
+  '/codigo': typeof CodigoRoute
   '/login': typeof LoginRoute
   '/_auth/': typeof AuthIndexRoute
   '/cadastro/': typeof CadastroIndexRoute
@@ -373,6 +382,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/codigo'
     | '/login'
     | '/cadastro/'
     | '/eventos/$slug'
@@ -411,6 +421,7 @@ export interface FileRouteTypes {
     | '/eventos/$slug/inscricao/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/codigo'
     | '/login'
     | '/'
     | '/cadastro'
@@ -451,6 +462,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_auth'
+    | '/codigo'
     | '/login'
     | '/_auth/'
     | '/cadastro/'
@@ -492,6 +504,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
+  CodigoRoute: typeof CodigoRoute
   LoginRoute: typeof LoginRoute
   CadastroIndexRoute: typeof CadastroIndexRoute
   CadastroPrimeiraVezConcluidoRoute: typeof CadastroPrimeiraVezConcluidoRoute
@@ -516,6 +529,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/codigo': {
+      id: '/codigo'
+      path: '/codigo'
+      fullPath: '/codigo'
+      preLoaderRoute: typeof CodigoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -846,6 +866,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
+  CodigoRoute: CodigoRoute,
   LoginRoute: LoginRoute,
   CadastroIndexRoute: CadastroIndexRoute,
   CadastroPrimeiraVezConcluidoRoute: CadastroPrimeiraVezConcluidoRoute,
