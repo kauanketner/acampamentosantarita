@@ -48,14 +48,12 @@ function EventosIndex() {
             Acampamentos, retiros, encontros e formações.
           </p>
         </div>
-        <button
-          type="button"
-          disabled
-          title="Em breve — fase A2"
-          className="rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium opacity-50 cursor-not-allowed"
+        <Link
+          to="/eventos/novo"
+          className="rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90"
         >
           Novo evento
-        </button>
+        </Link>
       </header>
 
       {isLoading && <p className="text-sm text-muted-foreground">Carregando…</p>}
@@ -73,6 +71,12 @@ function EventosIndex() {
             Quando você criar o primeiro evento, ele aparece aqui — e vira disponível
             no app dos campistas.
           </p>
+          <Link
+            to="/eventos/novo"
+            className="inline-block mt-4 rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium"
+          >
+            Criar primeiro evento
+          </Link>
         </div>
       )}
 
