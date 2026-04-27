@@ -7,6 +7,11 @@ export const communicationRoutes: FastifyPluginAsync = async (app) => {
     { schema: { tags: ['communication'] } },
     communicationController.listAnnouncements,
   );
+  app.get(
+    '/announcements/admin',
+    { schema: { tags: ['communication'] } },
+    communicationController.listAllForAdmin,
+  );
   app.post(
     '/announcements',
     { schema: { tags: ['communication'] } },
@@ -16,6 +21,11 @@ export const communicationRoutes: FastifyPluginAsync = async (app) => {
     '/announcements/:id',
     { schema: { tags: ['communication'] } },
     communicationController.updateAnnouncement,
+  );
+  app.delete(
+    '/announcements/:id',
+    { schema: { tags: ['communication'] } },
+    communicationController.deleteAnnouncement,
   );
 
   app.post(
