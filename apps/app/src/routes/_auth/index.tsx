@@ -9,14 +9,9 @@ import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardBody } from '@/components/ui/card';
 import { useSession } from '@/lib/auth';
-import {
-  announcements,
-  brl,
-  events,
-  formatDateRange,
-  invoices,
-  posTransactions,
-} from '@/mock/data';
+import { announcements, invoices, posTransactions } from '@/mock/data';
+import { brl, eventGradient, formatDateRange } from '@/lib/format';
+import { useUpcomingEvents } from '@/lib/queries/events';
 import { mediaUrl, useFullProfile } from '@/lib/queries/profile';
 import { cn } from '@/lib/cn';
 
@@ -38,7 +33,8 @@ function HomePage() {
   const campCount = profile?.participations.length ?? 0;
   const isVeteran = campCount > 0;
 
-  const nextEvent = events.find((e) => e.status === 'inscricoes_abertas');
+  const { data: upcomingEvents } = useUpcomingEvents();
+  const nextEvent = upcomingEvents?.find((e) => e.status === 'inscricoes_abertas');
   const lastAnnouncement = announcements[0];
   const pendingInvoice = invoices.find((i) => i.status === 'pendente' || i.status === 'parcial');
   const posTotal = posTransactions.reduce((acc, t) => acc + t.total, 0);
@@ -82,17 +78,17 @@ function HomePage() {
           className="px-5 pt-3"
         >
           <Link to="/eventos/$slug" params={{ slug: nextEvent.slug }} className="block group">
-            <EventCover gradient={nextEvent.coverGradient} height="lg" className="mb-0">
+            <EventCover
+              gradient={eventGradient(nextEvent.id)}
+              imageUrl={mediaUrl(nextEvent.coverImageUrl)}
+              height="lg"
+              className="mb-0"
+            >
               <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
                 <div className="flex items-center gap-2 mb-2">
                   <Badge tone="accent" className="bg-white/20 text-white backdrop-blur-sm">
                     Próximo
                   </Badge>
-                  {nextEvent.spotsLeft && nextEvent.spotsLeft < 20 && (
-                    <Badge tone="warning" className="bg-white/15 text-white backdrop-blur-sm">
-                      últimas {nextEvent.spotsLeft} vagas
-                    </Badge>
-                  )}
                 </div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-80 mb-1">
                   {formatDateRange(nextEvent.startDate, nextEvent.endDate)}
@@ -103,7 +99,9 @@ function HomePage() {
                 >
                   {nextEvent.name}
                 </h2>
-                <p className="mt-1 text-sm opacity-90 italic">{nextEvent.shortDescription}</p>
+                {nextEvent.location && (
+                  <p className="mt-1 text-sm opacity-90 italic">{nextEvent.location}</p>
+                )}
                 <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium opacity-95 group-hover:translate-x-0.5 transition">
                   Ver detalhes <ArrowUpRight className="size-4" strokeWidth={2} />
                 </div>

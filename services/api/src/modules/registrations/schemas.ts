@@ -1,6 +1,26 @@
-// TODO: createRegistrationSchema com:
-// - eventId, roleIntent (campista/equipista), serviceTeamId? (se equipista),
-// - healthReview (objeto com confirmação dos campos do health_profile),
-// - customAnswers (array de { customQuestionId, answer }).
+import { z } from 'zod';
 
-export {};
+export const createRegistrationSchema = z
+  .object({
+    eventId: z.string().uuid(),
+    roleIntent: z.enum(['campista', 'equipista']),
+    serviceTeamId: z.string().uuid().optional(),
+    customAnswers: z
+      .array(
+        z.object({
+          customQuestionId: z.string().uuid(),
+          answer: z.unknown(),
+        }),
+      )
+      .default([]),
+  })
+  .strict();
+
+export const cancelRegistrationSchema = z
+  .object({
+    reason: z.string().min(1).max(500).optional(),
+  })
+  .strict();
+
+export type CreateRegistration = z.infer<typeof createRegistrationSchema>;
+export type CancelRegistration = z.infer<typeof cancelRegistrationSchema>;

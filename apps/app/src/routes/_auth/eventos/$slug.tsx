@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Calendar, Clock, Loader2, MapPin } from 'lucide-react';
 import { motion } from 'motion/react';
 import { EventCover } from '@/components/EventCover';
 import { ArchGlyph } from '@/components/motif/arch';
@@ -8,7 +8,9 @@ import { TopBar } from '@/components/shell/TopBar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { brl, events, formatDateRange } from '@/mock/data';
+import { brl, eventGradient, formatDateRange } from '@/lib/format';
+import { useEventBySlug } from '@/lib/queries/events';
+import { mediaUrl } from '@/lib/queries/profile';
 import { cn } from '@/lib/cn';
 
 export const Route = createFileRoute('/_auth/eventos/$slug')({
@@ -20,17 +22,29 @@ const typeLabel: Record<string, string> = {
   retiro: 'Retiro',
   encontro: 'Encontro',
   formacao: 'Formação',
+  outro: 'Evento',
 };
 
 function EventoDetalhe() {
   const { slug } = Route.useParams();
-  const event = events.find((e) => e.slug === slug);
+  const { data: event, isLoading, isError } = useEventBySlug(slug);
 
-  if (!event) {
+  if (isLoading) {
     return (
       <Page withBottomNav={false}>
         <TopBar back="/eventos" />
-        <div className="px-6 py-12 text-center">
+        <div className="flex-1 flex items-center justify-center py-24 text-(color:--color-muted-foreground)">
+          <Loader2 className="size-5 animate-spin" />
+        </div>
+      </Page>
+    );
+  }
+
+  if (isError || !event) {
+    return (
+      <Page withBottomNav={false}>
+        <TopBar back="/eventos" />
+        <div className="px-6 py-16 text-center">
           <p className="font-display text-2xl">Não encontrado.</p>
           <p className="text-sm text-(color:--color-muted-foreground) mt-2">
             Talvez o evento tenha sido removido.
@@ -40,18 +54,29 @@ function EventoDetalhe() {
     );
   }
 
-  const open = event.status === 'inscricoes_abertas';
+  const open = event.status === 'inscricoes_abertas' && event.allowRegistrationViaApp;
+  const grad = eventGradient(event.id);
+  const cover = mediaUrl(event.coverImageUrl);
+
+  // primeiro parágrafo da descrição vira lead/short, o resto vira corpo
+  const desc = (event.description ?? '').trim();
+  const [lead, ...rest] = desc.split(/\n{2,}/);
+  const body = rest.join('\n\n');
 
   return (
     <Page>
       {/* full-bleed cover + sticky overlay top bar */}
       <div className="relative">
-        <EventCover gradient={event.coverGradient} height="xl" withMotif className="rounded-none" />
-        {/* overlay top bar, transparent over cover */}
+        <EventCover
+          gradient={grad}
+          imageUrl={cover}
+          height="xl"
+          withMotif
+          className="rounded-none"
+        />
         <div className="absolute inset-x-0 top-0 z-10">
           <TopBar back="/eventos" className="bg-transparent text-white [&_svg]:text-white" />
         </div>
-        {/* hero copy */}
         <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-white">
           <div className="flex items-center gap-2 mb-3">
             <Badge tone="neutral" className="bg-white/20 text-white backdrop-blur-sm">
@@ -59,7 +84,10 @@ function EventoDetalhe() {
               {event.editionNumber ? ` · ${event.editionNumber}º` : ''}
             </Badge>
             {open && (
-              <Badge tone="accent" className="bg-(color:--color-accent) text-(color:--color-accent-foreground)">
+              <Badge
+                tone="accent"
+                className="bg-(color:--color-accent) text-(color:--color-accent-foreground)"
+              >
                 inscrições abertas
               </Badge>
             )}
@@ -73,18 +101,19 @@ function EventoDetalhe() {
           >
             {event.name}
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="font-display-italic text-lg mt-2 opacity-90"
-          >
-            {event.shortDescription}
-          </motion.p>
+          {lead && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="font-display-italic text-lg mt-2 opacity-90 max-w-[28ch]"
+            >
+              {lead}
+            </motion.p>
+          )}
         </div>
       </div>
 
-      {/* content */}
       <div className="px-5 -mt-3 relative">
         <div className="surface-warmth rounded-(--radius-lg) border border-(color:--color-border) p-5 grid gap-4 mb-6">
           <Meta
@@ -92,11 +121,13 @@ function EventoDetalhe() {
             label="Quando"
             value={formatDateRange(event.startDate, event.endDate)}
           />
-          <Meta
-            icon={<MapPin className="size-4" strokeWidth={1.5} />}
-            label="Onde"
-            value={event.location}
-          />
+          {event.location && (
+            <Meta
+              icon={<MapPin className="size-4" strokeWidth={1.5} />}
+              label="Onde"
+              value={event.location}
+            />
+          )}
           {event.registrationDeadline && (
             <Meta
               icon={<Clock className="size-4" strokeWidth={1.5} />}
@@ -109,28 +140,36 @@ function EventoDetalhe() {
           )}
         </div>
 
-        {/* description */}
-        <div className="prose-like">
-          <p className="drop-cap font-sans text-[16px] leading-relaxed text-(color:--color-foreground) text-pretty">
-            {event.longDescription}
-          </p>
-        </div>
+        {body && (
+          <div className="prose-like">
+            {body.split(/\n{2,}/).map((paragraph, i) => (
+              <p
+                key={i}
+                className={cn(
+                  'font-sans text-[16px] leading-relaxed text-(color:--color-foreground) text-pretty',
+                  i === 0 && 'drop-cap',
+                  i > 0 && 'mt-4',
+                )}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        )}
 
-        <Separator variant="ornament" className="my-8" />
+        {(body || lead) && <Separator variant="ornament" className="my-8" />}
 
-        {/* values */}
         {(event.priceCampista || event.priceEquipista) && (
           <div className="grid grid-cols-2 gap-3 mb-6">
-            {event.priceCampista !== undefined && (
-              <PriceBlock label="Campista" value={event.priceCampista} />
+            {event.priceCampista !== null && (
+              <PriceBlock label="Campista" value={Number(event.priceCampista)} />
             )}
-            {event.priceEquipista !== undefined && (
-              <PriceBlock label="Equipista" value={event.priceEquipista} />
+            {event.priceEquipista !== null && (
+              <PriceBlock label="Equipista" value={Number(event.priceEquipista)} />
             )}
           </div>
         )}
 
-        {/* note about first timer */}
         {event.allowFirstTimer && (
           <div className="rounded-(--radius-md) border border-(color:--color-accent)/30 bg-(color:--color-accent-soft) p-4 mb-6 flex gap-3">
             <ArchGlyph className="size-5 text-(color:--color-accent) shrink-0 mt-0.5" />
@@ -145,9 +184,10 @@ function EventoDetalhe() {
             </div>
           </div>
         )}
+
+        <div className="pb-32" />
       </div>
 
-      {/* sticky CTA */}
       {open && (
         <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+72px)] z-20 px-5 pt-3 pb-2 bg-gradient-to-t from-(color:--color-background) via-(color:--color-background)/90 to-transparent">
           <Button asChild block size="lg">
@@ -179,7 +219,9 @@ function Meta({
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-(color:--color-muted-foreground)">
           {label}
         </p>
-        <p className="text-[15px] text-(color:--color-foreground) mt-0.5 leading-snug">{value}</p>
+        <p className="text-[15px] text-(color:--color-foreground) mt-0.5 leading-snug">
+          {value}
+        </p>
       </div>
     </div>
   );
@@ -187,11 +229,7 @@ function Meta({
 
 function PriceBlock({ label, value }: { label: string; value: number }) {
   return (
-    <div
-      className={cn(
-        'rounded-(--radius-md) border border-(color:--color-border) bg-(color:--color-surface) p-4',
-      )}
-    >
+    <div className="rounded-(--radius-md) border border-(color:--color-border) bg-(color:--color-surface) p-4">
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-(color:--color-muted-foreground)">
         {label}
       </p>

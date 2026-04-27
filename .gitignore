@@ -13,6 +13,9 @@ out/
 .cache/
 *.tsbuildinfo
 
+# Local-only uploads (avatares, capas) — em prod vão pra R2
+services/api/uploads/
+
 # Bun
 bun.lockb
 

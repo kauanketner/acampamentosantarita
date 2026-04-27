@@ -3,7 +3,7 @@ import { cn } from '@/lib/cn';
 
 type Props = {
   eyebrow?: string;
-  title: string;
+  title: React.ReactNode;
   description?: string;
   italic?: boolean;
   align?: 'left' | 'center';
