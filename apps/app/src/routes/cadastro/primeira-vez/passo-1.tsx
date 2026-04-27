@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
+import { ShirtSizePicker } from '@/components/form/ShirtSizePicker';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,6 +21,8 @@ export const Route = createFileRoute('/cadastro/primeira-vez/passo-1')({
   component: PassoUm,
 });
 
+type Size = 'PP' | 'P' | 'M' | 'G' | 'GG' | 'XGG' | '';
+
 function PassoUm() {
   const [gender, setGender] = useState<string>('');
   const [cpf, setCpf] = useState<string>('');
@@ -27,6 +30,7 @@ function PassoUm() {
   const [name, setName] = useState<string>('');
   const [birth, setBirth] = useState<Date | undefined>();
   const [avatar, setAvatar] = useState<File | null>(null);
+  const [shirt, setShirt] = useState<Size>('');
 
   return (
     <CadastroFrame
@@ -114,17 +118,7 @@ function PassoUm() {
         </FieldRow>
 
         <Field label="Tamanho de camiseta">
-          <div className="grid grid-cols-7 gap-2">
-            {(['PP', 'P', 'M', 'G', 'GG', 'XG', 'XXG'] as const).map((s) => (
-              <label
-                key={s}
-                className="relative flex items-center justify-center h-11 rounded-(--radius-sm) border border-(color:--color-border-strong) bg-(color:--color-surface) text-sm font-medium cursor-pointer hover:bg-(color:--color-muted) has-checked:border-(color:--color-primary) has-checked:bg-(color:--color-primary-soft) has-checked:text-(color:--color-primary) transition"
-              >
-                <input type="radio" name="shirt" value={s} className="sr-only peer" />
-                {s}
-              </label>
-            ))}
-          </div>
+          <ShirtSizePicker value={shirt} onChange={(s) => setShirt(s)} />
         </Field>
       </div>
       {/* Suprime warning de avatar não usado quando ainda não há upload final */}

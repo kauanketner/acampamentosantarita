@@ -20,7 +20,7 @@ export const maritalStatusEnum = pgEnum('marital_status', [
   'uniao_estavel',
 ]);
 
-export const shirtSizeEnum = pgEnum('shirt_size', ['PP', 'P', 'M', 'G', 'GG', 'XG', 'XXG']);
+export const shirtSizeEnum = pgEnum('shirt_size', ['PP', 'P', 'M', 'G', 'GG', 'XGG']);
 
 export const persons = pgTable('persons', {
   id: uuid('id').primaryKey().defaultRandom(),
