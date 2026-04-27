@@ -71,21 +71,33 @@ function EventoVisaoGeral() {
             </p>
           </div>
           {adminRow && (
-            <Link
-              to="/eventos/$id/inscricoes"
-              params={{ id }}
-              className="text-right rounded-md border bg-card p-3 hover:bg-secondary/50 transition"
-            >
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                Inscrições
-              </p>
-              <p className="font-mono text-2xl">{adminRow.registrationCount}</p>
-              {adminRow.pendingCount > 0 && (
-                <p className="text-xs text-amber-700 dark:text-amber-400">
-                  {adminRow.pendingCount} pendentes →
+            <div className="flex items-stretch gap-2">
+              <Link
+                to="/eventos/$id/inscricoes"
+                params={{ id }}
+                className="text-right rounded-md border bg-card p-3 hover:bg-secondary/50 transition"
+              >
+                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Inscrições
                 </p>
-              )}
-            </Link>
+                <p className="font-mono text-2xl">{adminRow.registrationCount}</p>
+                {adminRow.pendingCount > 0 && (
+                  <p className="text-xs text-amber-700 dark:text-amber-400">
+                    {adminRow.pendingCount} pendentes →
+                  </p>
+                )}
+              </Link>
+              <Link
+                to="/eventos/$id/tribos"
+                params={{ id }}
+                className="rounded-md border bg-card p-3 hover:bg-secondary/50 transition flex flex-col justify-between min-w-[100px]"
+              >
+                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Tribos
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">Gerenciar →</p>
+              </Link>
+            </div>
           )}
         </div>
       </header>

@@ -1,4 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { registrationsService } from '../registrations/service.ts';
+import { tribesService } from '../tribes/service.ts';
 import {
   createCustomQuestionSchema,
   createEventSchema,
@@ -90,8 +92,20 @@ export const eventsController = {
 
   duplicate: notImplemented,
 
-  listRegistrations: notImplemented,
-  listTribes: notImplemented,
+  async listRegistrations(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { id } = req.params as { id: string };
+    const items = await registrationsService.listByEvent(req.server.db, id);
+    return { items };
+  },
+
+  async listTribes(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { id } = req.params as { id: string };
+    const items = await tribesService.listByEvent(req.server.db, id);
+    return { items };
+  },
+
   listServiceTeams: notImplemented,
 
   async listCustomQuestions(req: FastifyRequest, reply: FastifyReply) {
