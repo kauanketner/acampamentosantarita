@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldRow } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { MaskedInput } from '@/components/ui/masked-input';
 import { me } from '@/mock/data';
 
 export const Route = createFileRoute('/_auth/perfil/editar')({
@@ -41,7 +42,7 @@ function PerfilEditar() {
         </Field>
         <FieldRow>
           <Field label={<Label>CPF</Label>}>
-            <Input defaultValue="036.872.140-12" />
+            <MaskedInput mask="cpf" defaultValue="03687214012" />
           </Field>
           <Field label={<Label>Camiseta</Label>}>
             <Input defaultValue={me.shirtSize} maxLength={3} />
@@ -59,7 +60,7 @@ function PerfilEditar() {
             <Input defaultValue={me.state} maxLength={2} className="uppercase" />
           </Field>
           <Field label={<Label>Celular</Label>}>
-            <Input defaultValue="(31) 99999-0000" inputMode="tel" />
+            <MaskedInput mask="phone" defaultValue="31999990000" />
           </Field>
         </FieldRow>
       </div>
@@ -83,7 +84,10 @@ function PerfilEditar() {
                   <Input defaultValue={n === 1 ? 'pai' : 'irmã'} />
                 </Field>
                 <Field label={<Label>Telefone</Label>}>
-                  <Input defaultValue={n === 1 ? '(31) 98888-1111' : '(31) 97777-2222'} />
+                  <MaskedInput
+                    mask="phone"
+                    defaultValue={n === 1 ? '31988881111' : '31977772222'}
+                  />
                 </Field>
               </FieldRow>
             </div>

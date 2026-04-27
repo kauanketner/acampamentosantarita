@@ -3,6 +3,8 @@ import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { MaskedInput } from '@/components/ui/masked-input';
+import { DatePicker } from '@/components/ui/date-picker';
 import { RadioCard, RadioGroup } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useState } from 'react';
@@ -13,6 +15,8 @@ export const Route = createFileRoute('/cadastro/primeira-vez/passo-1')({
 
 function PassoUm() {
   const [gender, setGender] = useState<string>('');
+  const [cpf, setCpf] = useState<string>('');
+  const [birth, setBirth] = useState<Date | undefined>();
   return (
     <CadastroFrame
       step={1}
@@ -39,14 +43,17 @@ function PassoUm() {
           </RadioGroup>
         </Field>
 
-        <FieldRow>
-          <Field label={<Label htmlFor="birth">Nascimento</Label>}>
-            <Input id="birth" type="date" />
-          </Field>
-          <Field label={<Label htmlFor="cpf">CPF</Label>}>
-            <Input id="cpf" inputMode="numeric" placeholder="000.000.000-00" />
-          </Field>
-        </FieldRow>
+        <Field label={<Label htmlFor="birth">Data de nascimento</Label>}>
+          <DatePicker id="birth" value={birth} onChange={setBirth} />
+        </Field>
+        <Field label={<Label htmlFor="cpf">CPF</Label>}>
+          <MaskedInput
+            id="cpf"
+            mask="cpf"
+            value={cpf}
+            onValueChange={(v) => setCpf(v)}
+          />
+        </Field>
 
         <Field label="Estado civil">
           <Select>

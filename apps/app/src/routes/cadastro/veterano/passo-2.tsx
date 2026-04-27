@@ -1,14 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { MaskedInput } from '@/components/ui/masked-input';
 
 export const Route = createFileRoute('/cadastro/veterano/passo-2')({
   component: PassoDois,
 });
 
 function PassoDois() {
+  const [cep, setCep] = useState('');
+  const [phone, setPhone] = useState('');
   return (
     <CadastroFrame
       step={2}
@@ -20,7 +24,7 @@ function PassoDois() {
     >
       <div className="grid gap-5">
         <Field label={<Label htmlFor="zip">CEP</Label>}>
-          <Input id="zip" inputMode="numeric" placeholder="00000-000" />
+          <MaskedInput id="zip" mask="cep" value={cep} onValueChange={(v) => setCep(v)} />
         </Field>
         <Field label={<Label htmlFor="street">Rua</Label>}>
           <Input id="street" placeholder="Av. das Acácias" />
@@ -48,7 +52,7 @@ function PassoDois() {
           label={<Label htmlFor="phone">Celular</Label>}
           hint="WhatsApp preferencialmente."
         >
-          <Input id="phone" inputMode="tel" placeholder="(31) 99999-0000" />
+          <MaskedInput id="phone" mask="phone" value={phone} onValueChange={(v) => setPhone(v)} />
         </Field>
       </div>
     </CadastroFrame>

@@ -48,12 +48,10 @@ function CadastroEscolha() {
         />
       </div>
 
-      <div className="px-6 pb-10 mt-auto">
-        <div className="flex justify-center mb-4">
-          <Logo size="sm" />
-        </div>
-        <p className="text-center font-display-italic text-sm text-(color:--color-muted-foreground)">
-          Viva seu momento.
+      <div className="px-6 pb-10 mt-auto flex flex-col items-center gap-3">
+        <Logo size="sm" />
+        <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-(color:--color-subtle)">
+          Caieiras · SP
         </p>
       </div>
     </Page>

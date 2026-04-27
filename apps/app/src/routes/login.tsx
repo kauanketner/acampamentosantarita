@@ -18,8 +18,8 @@ function LoginPage() {
 
   return (
     <Page withBottomNav={false} className="flex flex-col scene-vignette">
-      {/* Logo + título — momento de identidade */}
-      <div className="relative flex-1 min-h-[42vh] flex flex-col items-center justify-end pb-3 px-6 pt-16">
+      {/* Logo + identidade */}
+      <div className="relative flex-1 min-h-[36vh] flex flex-col items-center justify-end pb-3 px-6 pt-16">
         <motion.div
           initial={{ opacity: 0, y: 16, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -29,21 +29,14 @@ function LoginPage() {
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="text-center px-6 pb-8"
+        className="font-mono text-[10px] uppercase tracking-[0.32em] text-(color:--color-muted-foreground) text-center pb-10"
       >
-        <h1
-          className="font-display text-[clamp(2rem,9vw,2.6rem)] leading-[0.98] tracking-[-0.025em] text-balance"
-          style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
-        >
-          Volte
-          <br />
-          <span className="font-display-italic text-(color:--color-primary)">ao silêncio.</span>
-        </h1>
-      </motion.div>
+        Entrar na comunidade
+      </motion.p>
 
       {/* Form */}
       <motion.div

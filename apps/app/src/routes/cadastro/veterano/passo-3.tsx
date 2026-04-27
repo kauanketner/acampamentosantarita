@@ -6,6 +6,7 @@ import { Field, FieldRow } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardBody } from '@/components/ui/card';
+import { MaskedInput } from '@/components/ui/masked-input';
 
 type Contact = { id: string; name: string; relationship: string; phone: string };
 
@@ -50,14 +51,40 @@ function PassoTres() {
               </div>
               <div className="grid gap-3">
                 <Field label={<Label>Nome</Label>}>
-                  <Input value={c.name} placeholder="Maria das Dores" />
+                  <Input
+                    value={c.name}
+                    onChange={(e) =>
+                      setContacts((prev) =>
+                        prev.map((x) => (x.id === c.id ? { ...x, name: e.target.value } : x)),
+                      )
+                    }
+                    placeholder="Maria das Dores"
+                  />
                 </Field>
                 <FieldRow>
                   <Field label={<Label>Parentesco</Label>}>
-                    <Input value={c.relationship} placeholder="mãe" />
+                    <Input
+                      value={c.relationship}
+                      onChange={(e) =>
+                        setContacts((prev) =>
+                          prev.map((x) =>
+                            x.id === c.id ? { ...x, relationship: e.target.value } : x,
+                          ),
+                        )
+                      }
+                      placeholder="mãe"
+                    />
                   </Field>
                   <Field label={<Label>Telefone</Label>}>
-                    <Input value={c.phone} inputMode="tel" placeholder="(31) 99999-0000" />
+                    <MaskedInput
+                      mask="phone"
+                      value={c.phone}
+                      onValueChange={(v) =>
+                        setContacts((prev) =>
+                          prev.map((x) => (x.id === c.id ? { ...x, phone: v } : x)),
+                        )
+                      }
+                    />
                   </Field>
                 </FieldRow>
               </div>

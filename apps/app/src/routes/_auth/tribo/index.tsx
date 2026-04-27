@@ -58,16 +58,6 @@ function PreReveal() {
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
-        className="px-6 pb-10 text-center"
-      >
-        <p className="font-display-italic text-sm text-(color:--color-subtle)">
-          Viva seu momento.
-        </p>
-      </motion.div>
     </Page>
   );
 }

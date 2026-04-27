@@ -194,10 +194,9 @@ function HomePage() {
         </>
       )}
 
-      {/* Pequeno respiro contemplativo no rodapé do feed */}
-      <div className="px-5 pb-4 flex flex-col items-center text-center text-(color:--color-muted-foreground)">
-        <ArchGlyph className="size-7 opacity-40 mb-2" />
-        <p className="font-display-italic text-sm">Viva seu momento.</p>
+      {/* Respiro discreto no rodapé do feed */}
+      <div className="px-5 pb-4 flex justify-center text-(color:--color-muted-foreground)">
+        <ArchGlyph className="size-6 opacity-30" />
       </div>
     </Page>
   );
