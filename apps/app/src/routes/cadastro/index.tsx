@@ -1,4 +1,8 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
+import { motion } from 'motion/react';
+import { ArchMotif } from '@/components/motif/arch';
+import { Page } from '@/components/shell/Page';
+import { TopBar } from '@/components/shell/TopBar';
 
 export const Route = createFileRoute('/cadastro/')({
   component: CadastroEscolha,
@@ -6,35 +10,105 @@ export const Route = createFileRoute('/cadastro/')({
 
 function CadastroEscolha() {
   return (
-    <div className="min-h-screen flex flex-col px-6 py-10">
-      <div className="text-center mb-10">
-        <p className="font-serif text-2xl">Bem-vindo</p>
-        <p className="text-sm text-muted-foreground mt-1 italic">Antes de começar…</p>
+    <Page withBottomNav={false} className="flex flex-col">
+      <TopBar back="/login" />
+
+      <div className="px-6 pt-6 pb-2">
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-muted-foreground) mb-3">
+          Antes de começar
+        </p>
+        <h1
+          className="font-display text-[clamp(2.2rem,9vw,2.8rem)] leading-[1] tracking-[-0.025em] text-balance"
+          style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
+        >
+          É a sua primeira <span className="font-display-italic">vez</span> aqui?
+        </h1>
+        <p className="mt-4 text-[15px] leading-relaxed text-(color:--color-muted-foreground) text-pretty">
+          A resposta muda como te recebemos. Quem volta tem mais um passo —
+          contar de quais acampamentos já participou.
+        </p>
       </div>
 
-      <p className="text-base mb-8 text-center">
-        É a sua primeira vez no Santa Rita?
-      </p>
-
-      <div className="flex flex-col gap-3 max-w-sm mx-auto w-full">
-        <Link
+      <div className="px-6 pt-8 pb-10 grid gap-3">
+        <ChoiceCard
           to="/cadastro/primeira-vez/passo-1"
-          className="rounded-xl border bg-primary text-primary-foreground px-5 py-4 text-center font-medium"
-        >
-          Sim, primeira vez
-        </Link>
-        <Link
+          eyebrow="Primeira vez"
+          title="Estou chegando"
+          description="Cinco passos. Cuidamos do que importa para você viver bem o evento."
+          accent="primary"
+          delay={0.05}
+        />
+        <ChoiceCard
           to="/cadastro/veterano/passo-1"
-          className="rounded-xl border bg-secondary px-5 py-4 text-center font-medium"
-        >
-          Já participei antes
-        </Link>
+          eyebrow="Veterano"
+          title="Já estive aqui"
+          description="Seis passos. No último, você conta de quais acampamentos participou — pra preservar a memória da comunidade."
+          accent="accent"
+          delay={0.15}
+        />
       </div>
 
-      <p className="text-xs text-muted-foreground text-center mt-8 max-w-sm mx-auto">
-        {/* TODO: copy curta explicando que veteranos vão declarar histórico legado
-            (acampamentos passados, tribo, função). */}
-      </p>
-    </div>
+      <div className="px-6 pb-10 mt-auto">
+        <div className="flex justify-center mb-4 text-(color:--color-primary)/15">
+          <ArchMotif className="w-14 h-20" />
+        </div>
+        <p className="text-center font-display-italic text-sm text-(color:--color-muted-foreground)">
+          Viva seu momento.
+        </p>
+      </div>
+    </Page>
+  );
+}
+
+function ChoiceCard({
+  to,
+  eyebrow,
+  title,
+  description,
+  accent,
+  delay,
+}: {
+  to: '/cadastro/primeira-vez/passo-1' | '/cadastro/veterano/passo-1';
+  eyebrow: string;
+  title: string;
+  description: string;
+  accent: 'primary' | 'accent';
+  delay: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.5 }}
+    >
+      <Link
+        to={to}
+        className="group relative block surface-warmth rounded-(--radius-lg) border border-(color:--color-border) px-5 py-5 active:scale-[0.99] transition-transform"
+      >
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-(color:--color-muted-foreground) mb-1.5">
+          {eyebrow}
+        </p>
+        <h2
+          className={
+            accent === 'primary'
+              ? 'font-display text-2xl tracking-tight text-(color:--color-primary)'
+              : 'font-display text-2xl tracking-tight text-(color:--color-foreground)'
+          }
+          style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
+        >
+          {title}
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-(color:--color-muted-foreground) text-pretty pr-2">
+          {description}
+        </p>
+        {/* trailing arrow indicator */}
+        <span
+          aria-hidden
+          className="absolute right-5 top-5 size-7 rounded-full inline-flex items-center justify-center text-(color:--color-muted-foreground) group-hover:text-(color:--color-primary) group-hover:translate-x-0.5 transition"
+        >
+          →
+        </span>
+      </Link>
+    </motion.div>
   );
 }

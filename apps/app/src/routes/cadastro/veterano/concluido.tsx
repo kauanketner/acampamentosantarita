@@ -1,4 +1,8 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
+import { motion } from 'motion/react';
+import { ArchMotif } from '@/components/motif/arch';
+import { Page } from '@/components/shell/Page';
+import { Button } from '@/components/ui/button';
 
 export const Route = createFileRoute('/cadastro/veterano/concluido')({
   component: Concluido,
@@ -6,17 +10,65 @@ export const Route = createFileRoute('/cadastro/veterano/concluido')({
 
 function Concluido() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center text-center px-6">
-      <p className="font-serif text-3xl">Que bom te ter de volta.</p>
-      <p className="italic text-muted-foreground mt-2">
-        {/* TODO: tom acolhedor, evocando memória sem revelar dinâmicas. */}
-      </p>
-      <Link
-        to="/"
-        className="mt-10 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm"
+    <Page withBottomNav={false} className="flex flex-col scene-vignette">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1.1, ease: [0.2, 0.8, 0.2, 1] }}
+          className="relative"
+        >
+          <ArchMotif className="w-44 h-60 text-(color:--color-mystery)/30" withInner />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1.6 }}
+            className="absolute inset-0"
+          >
+            <ArchMotif className="w-44 h-60 text-(color:--color-accent)/80" withInner={false} />
+          </motion.div>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.7 }}
+          className="font-mono text-[10px] uppercase tracking-[0.32em] text-(color:--color-muted-foreground) mt-10 mb-4"
+        >
+          Sua história está conosco
+        </motion.p>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.8 }}
+          className="font-display text-[clamp(2.3rem,11vw,3rem)] leading-[1] tracking-[-0.025em] text-balance text-center"
+          style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
+        >
+          Bom <span className="font-display-italic text-(color:--color-primary)">te ter de volta.</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="mt-6 max-w-xs text-center text-[15px] leading-relaxed text-(color:--color-muted-foreground)"
+        >
+          A comunidade lembra de cada passo. Os próximos eventos te esperam quando o
+          tempo chamar.
+        </motion.p>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.4, duration: 0.6 }}
+        className="px-6 pb-12 pt-4"
       >
-        Continuar
-      </Link>
-    </div>
+        <Button asChild block size="lg">
+          <Link to="/">Continuar</Link>
+        </Button>
+      </motion.div>
+    </Page>
   );
 }
