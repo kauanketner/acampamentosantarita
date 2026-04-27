@@ -1,13 +1,13 @@
 {
   "name": "Acampamento Santa Rita",
   "short_name": "Santa Rita",
-  "description": "Comunidade Santa Rita.",
+  "description": "Comunidade Santa Rita — Caieiras, SP.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f7f3ec",
-  "theme_color": "#5e3a1f",
+  "background_color": "#fdfdfb",
+  "theme_color": "#2F6E3A",
   "lang": "pt-BR",
   "icons": [
     {

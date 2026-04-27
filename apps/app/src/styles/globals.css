@@ -6,32 +6,35 @@
 @import '@fontsource/dm-mono/500.css';
 
 @theme {
-  --color-background: oklch(0.95 0.018 78);
-  --color-foreground: oklch(0.21 0.025 50);
-  --color-surface: oklch(0.97 0.014 80);
-  --color-surface-elevated: oklch(0.99 0.01 82);
-  --color-border: oklch(0.86 0.02 75);
-  --color-border-strong: oklch(0.78 0.025 70);
+  --color-background: oklch(0.99 0.004 130);
+  --color-foreground: oklch(0.20 0.025 145);
+  --color-surface: oklch(1 0 0);
+  --color-surface-elevated: oklch(0.985 0.003 130);
+  --color-border: oklch(0.93 0.011 130);
+  --color-border-strong: oklch(0.85 0.018 130);
 
-  --color-primary: oklch(0.42 0.09 45);
-  --color-primary-foreground: oklch(0.97 0.014 80);
-  --color-primary-soft: oklch(0.88 0.04 60);
+  --color-primary: oklch(0.42 0.105 145);
+  --color-primary-foreground: oklch(0.985 0.005 130);
+  --color-primary-soft: oklch(0.93 0.04 140);
 
-  --color-accent: oklch(0.74 0.085 75);
-  --color-accent-foreground: oklch(0.22 0.04 60);
-  --color-accent-soft: oklch(0.92 0.04 80);
+  --color-accent: oklch(0.76 0.115 75);
+  --color-accent-foreground: oklch(0.22 0.045 75);
+  --color-accent-soft: oklch(0.95 0.045 80);
 
-  --color-mystery: oklch(0.32 0.075 25);
-  --color-mystery-foreground: oklch(0.92 0.04 75);
+  --color-mystery: oklch(0.42 0.155 25);
+  --color-mystery-foreground: oklch(0.95 0.04 25);
 
-  --color-muted: oklch(0.92 0.012 80);
-  --color-muted-foreground: oklch(0.45 0.02 60);
-  --color-subtle: oklch(0.55 0.022 65);
+  --color-wood: oklch(0.38 0.06 50);
+  --color-wood-soft: oklch(0.92 0.025 65);
+
+  --color-muted: oklch(0.96 0.006 130);
+  --color-muted-foreground: oklch(0.46 0.022 140);
+  --color-subtle: oklch(0.6 0.02 140);
 
   --color-destructive: oklch(0.5 0.16 25);
   --color-destructive-foreground: oklch(0.97 0.014 80);
 
-  --color-ring: oklch(0.42 0.09 45 / 0.4);
+  --color-ring: oklch(0.42 0.105 145 / 0.45);
 
   --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
   --font-sans: 'DM Sans Variable', ui-sans-serif, system-ui, sans-serif;
@@ -51,34 +54,36 @@
 @layer base {
   :root {
     color-scheme: light;
-    --grain-opacity: 0.035;
-    --paper-tint: oklch(0.94 0.022 78);
+    --grain-opacity: 0.018;
+    --paper-tint: oklch(0.96 0.012 130);
   }
 
   .dark {
     color-scheme: dark;
-    --color-background: oklch(0.16 0.018 50);
-    --color-foreground: oklch(0.94 0.022 78);
-    --color-surface: oklch(0.2 0.022 52);
-    --color-surface-elevated: oklch(0.24 0.024 55);
-    --color-border: oklch(0.32 0.025 55);
-    --color-border-strong: oklch(0.4 0.03 60);
-    --color-primary: oklch(0.78 0.075 70);
-    --color-primary-foreground: oklch(0.18 0.022 50);
-    --color-primary-soft: oklch(0.32 0.06 50);
-    --color-accent: oklch(0.76 0.09 80);
-    --color-accent-foreground: oklch(0.16 0.022 50);
-    --color-accent-soft: oklch(0.28 0.04 70);
-    --color-mystery: oklch(0.42 0.085 28);
-    --color-mystery-foreground: oklch(0.94 0.04 78);
-    --color-muted: oklch(0.24 0.018 50);
-    --color-muted-foreground: oklch(0.65 0.022 70);
-    --color-subtle: oklch(0.55 0.022 60);
+    --color-background: oklch(0.18 0.022 145);
+    --color-foreground: oklch(0.96 0.012 130);
+    --color-surface: oklch(0.22 0.025 145);
+    --color-surface-elevated: oklch(0.26 0.028 145);
+    --color-border: oklch(0.32 0.025 140);
+    --color-border-strong: oklch(0.4 0.03 140);
+    --color-primary: oklch(0.78 0.105 140);
+    --color-primary-foreground: oklch(0.16 0.022 145);
+    --color-primary-soft: oklch(0.30 0.06 140);
+    --color-accent: oklch(0.78 0.12 80);
+    --color-accent-foreground: oklch(0.16 0.022 145);
+    --color-accent-soft: oklch(0.30 0.05 80);
+    --color-mystery: oklch(0.5 0.14 25);
+    --color-mystery-foreground: oklch(0.96 0.04 25);
+    --color-wood: oklch(0.62 0.06 55);
+    --color-wood-soft: oklch(0.30 0.04 55);
+    --color-muted: oklch(0.24 0.018 140);
+    --color-muted-foreground: oklch(0.68 0.025 130);
+    --color-subtle: oklch(0.56 0.022 130);
     --color-destructive: oklch(0.6 0.18 25);
     --color-destructive-foreground: oklch(0.97 0.014 80);
-    --color-ring: oklch(0.78 0.075 70 / 0.45);
-    --grain-opacity: 0.06;
-    --paper-tint: oklch(0.18 0.02 50);
+    --color-ring: oklch(0.78 0.105 140 / 0.45);
+    --grain-opacity: 0.05;
+    --paper-tint: oklch(0.18 0.022 145);
   }
 
   *,
@@ -105,7 +110,7 @@
     position: relative;
   }
 
-  /* Paper grain texture — applied to entire viewport */
+  /* Subtle grain texture — applied to entire viewport (very low opacity) */
   body::before {
     content: '';
     position: fixed;
@@ -113,7 +118,7 @@
     pointer-events: none;
     z-index: 1;
     background-image:
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.12 0 0 0 0 0.09 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)'/%3E%3C/svg%3E");
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.18 0 0 0 0 0.10 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)'/%3E%3C/svg%3E");
     opacity: var(--grain-opacity);
     mix-blend-mode: multiply;
   }
@@ -167,13 +172,13 @@
     );
   }
 
-  /* Soft inner shadow on cards — gives a warm parchment feel */
+  /* Soft inner shadow on cards — clean elevation, hint of green */
   .surface-warmth {
     background: var(--color-surface);
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.4),
-      0 1px 2px oklch(0.2 0.02 50 / 0.04),
-      0 8px 20px -8px oklch(0.2 0.02 50 / 0.08);
+      inset 0 1px 0 oklch(1 0 0 / 0.6),
+      0 1px 2px oklch(0.2 0.025 145 / 0.04),
+      0 8px 20px -10px oklch(0.2 0.025 145 / 0.08);
   }
 
   .dark .surface-warmth {
@@ -184,15 +189,15 @@
       0 8px 20px -8px oklch(0 0 0 / 0.5);
   }
 
-  /* Gold leaf border — for revelation moments */
+  /* Gold leaf gradient — for revelation moments */
   .gold-leaf {
     background-image: linear-gradient(
       135deg,
-      oklch(0.78 0.085 80) 0%,
-      oklch(0.85 0.105 75) 25%,
-      oklch(0.65 0.075 65) 50%,
-      oklch(0.85 0.105 75) 75%,
-      oklch(0.78 0.085 80) 100%
+      oklch(0.78 0.115 80) 0%,
+      oklch(0.86 0.13 75) 25%,
+      oklch(0.66 0.105 65) 50%,
+      oklch(0.86 0.13 75) 75%,
+      oklch(0.78 0.115 80) 100%
     );
   }
 
@@ -202,7 +207,7 @@
       ellipse at center,
       transparent 0%,
       transparent 60%,
-      oklch(0.2 0.02 50 / 0.08) 100%
+      oklch(0.2 0.025 145 / 0.06) 100%
     );
   }
 }

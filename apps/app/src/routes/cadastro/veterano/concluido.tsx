@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
 import { motion } from 'motion/react';
 import { ArchMotif } from '@/components/motif/arch';
+import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { Button } from '@/components/ui/button';
 
@@ -60,10 +61,19 @@ function Concluido() {
       </div>
 
       <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
+        className="flex justify-center mt-6"
+      >
+        <Logo size="sm" />
+      </motion.div>
+
+      <motion.div
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.4, duration: 0.6 }}
-        className="px-6 pb-12 pt-4"
+        transition={{ delay: 1.6, duration: 0.6 }}
+        className="px-6 pb-12 pt-6"
       >
         <Button asChild block size="lg">
           <Link to="/">Continuar</Link>

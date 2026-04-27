@@ -2,7 +2,7 @@ import { Link, createFileRoute } from '@tanstack/react-router';
 import { Eye, EyeOff } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
-import { ArchMotif } from '@/components/motif/arch';
+import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { Button } from '@/components/ui/button';
 import { Field } from '@/components/form/Field';
@@ -18,38 +18,25 @@ function LoginPage() {
 
   return (
     <Page withBottomNav={false} className="flex flex-col scene-vignette">
-      {/* Top — arco contemplativo */}
-      <div className="relative flex-1 min-h-[42vh] flex items-end justify-center pb-2 px-6 pt-16">
+      {/* Logo + título — momento de identidade */}
+      <div className="relative flex-1 min-h-[42vh] flex flex-col items-center justify-end pb-3 px-6 pt-16">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 16, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, ease: [0.32, 0.72, 0.32, 1] }}
-          className="relative"
         >
-          <ArchMotif
-            className="w-32 h-44 text-(color:--color-primary)/30"
-            withInner
-          />
-          {/* tiny title positioned above arch keystone */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1.2 }}
-            className="absolute -top-2 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.32em] text-(color:--color-muted-foreground) whitespace-nowrap"
-          >
-            comunidade Santa Rita
-          </motion.p>
+          <Logo size="xl" />
         </motion.div>
       </div>
 
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25, duration: 0.6 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
         className="text-center px-6 pb-8"
       >
         <h1
-          className="font-display text-[clamp(2.4rem,11vw,3.4rem)] leading-[0.95] tracking-[-0.025em]"
+          className="font-display text-[clamp(2rem,9vw,2.6rem)] leading-[0.98] tracking-[-0.025em] text-balance"
           style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
         >
           Volte
@@ -62,7 +49,7 @@ function LoginPage() {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.45, duration: 0.6 }}
+        transition={{ delay: 0.55, duration: 0.6 }}
         className="px-6 pb-10"
       >
         <form className="space-y-4 max-w-sm mx-auto" onSubmit={(e) => e.preventDefault()}>
@@ -77,13 +64,13 @@ function LoginPage() {
           </Field>
           <Field
             label={
-              <div className="flex items-center justify-between">
+              <div className="flex items-baseline justify-between">
                 <Label htmlFor="password" className="mb-0">
                   Senha
                 </Label>
                 <Link
                   to="/login"
-                  className="text-xs text-(color:--color-muted-foreground) hover:text-(color:--color-primary) transition"
+                  className="text-xs font-normal text-(color:--color-muted-foreground) hover:text-(color:--color-primary) transition"
                 >
                   Esqueci
                 </Link>
@@ -129,6 +116,9 @@ function LoginPage() {
             <Link to="/cadastro">Primeiro acesso</Link>
           </Button>
         </form>
+        <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-(color:--color-subtle) text-center mt-8">
+          Caieiras · São Paulo
+        </p>
       </motion.div>
     </Page>
   );

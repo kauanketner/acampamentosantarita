@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
 import { motion } from 'motion/react';
-import { ArchMotif } from '@/components/motif/arch';
+import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 
@@ -49,8 +49,8 @@ function CadastroEscolha() {
       </div>
 
       <div className="px-6 pb-10 mt-auto">
-        <div className="flex justify-center mb-4 text-(color:--color-primary)/15">
-          <ArchMotif className="w-14 h-20" />
+        <div className="flex justify-center mb-4">
+          <Logo size="sm" />
         </div>
         <p className="text-center font-display-italic text-sm text-(color:--color-muted-foreground)">
           Viva seu momento.
