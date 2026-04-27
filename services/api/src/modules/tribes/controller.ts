@@ -1,23 +1,30 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { tribesService } from './service.ts';
 
 const notImplemented = (_req: FastifyRequest, reply: FastifyReply) =>
   reply.code(501).send({ error: 'NOT_IMPLEMENTED' });
 
 export const tribesController = {
-  // POST /v1/tribes — admin cria uma tribo num evento
   create: notImplemented,
-  // GET /v1/tribes/:id
   getById: notImplemented,
-  // PATCH /v1/tribes/:id
   update: notImplemented,
-  // DELETE /v1/tribes/:id
   delete: notImplemented,
-  // POST /v1/tribes/:id/members — adiciona pessoa (líder/vice/campista)
   addMember: notImplemented,
-  // DELETE /v1/tribes/:id/members/:personId
   removeMember: notImplemented,
-  // POST /v1/tribes/event/:eventId/reveal-tribes — libera visualização (is_revealed_to_member=true)
   revealForEvent: notImplemented,
-  // GET /v1/tribes/me/current — PWA: só retorna se evento finalizado E revelado
-  getMyCurrent: notImplemented,
+
+  // GET /v1/tribes/me/current — PWA: estado da tribo do usuário no evento mais
+  // recente em que ele é membro. Quando admin ainda não liberou, devolve só
+  // o evento de espera (revealed=false).
+  async getMyCurrent(req: FastifyRequest, reply: FastifyReply) {
+    if (!req.user?.personId) {
+      reply.code(401).send({ error: 'UNAUTHORIZED' });
+      return;
+    }
+    const result = await tribesService.getCurrentForPerson(
+      req.server.db,
+      req.user.personId,
+    );
+    return result; // pode ser null
+  },
 };
