@@ -24,6 +24,11 @@ export const financeRoutes: FastifyPluginAsync = async (app) => {
 
   // PWA — extrato pessoal
   app.get('/me/invoices', { schema: { tags: ['finance'] } }, financeController.listMyInvoices);
+  app.get(
+    '/me/invoices/:id',
+    { schema: { tags: ['finance'] } },
+    financeController.getMyInvoiceById,
+  );
 
   // Relatórios
   app.get(

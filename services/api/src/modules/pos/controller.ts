@@ -1,14 +1,13 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { posService } from './service.ts';
 
 const notImplemented = (_req: FastifyRequest, reply: FastifyReply) =>
   reply.code(501).send({ error: 'NOT_IMPLEMENTED' });
 
 export const posController = {
-  // ?eventId= — admin filtra por evento atual
   listAccounts: notImplemented,
   openAccount: notImplemented,
   getAccount: notImplemented,
-  // fecha conta e gera invoice em finance.invoices com saldo restante
   closeAccount: notImplemented,
   addTransaction: notImplemented,
   deleteTransaction: notImplemented,
@@ -18,6 +17,16 @@ export const posController = {
   updateItem: notImplemented,
   deleteItem: notImplemented,
 
-  // PWA: minha conta no evento atual (?eventId=)
-  getMyAccount: notImplemented,
+  // GET /v1/pos/me/account — minha conta PDV mais recente, com transações.
+  async getMyAccount(req: FastifyRequest, reply: FastifyReply) {
+    if (!req.user?.personId) {
+      reply.code(401).send({ error: 'UNAUTHORIZED' });
+      return;
+    }
+    const data = await posService.getMyCurrentAccount(
+      req.server.db,
+      req.user.personId,
+    );
+    return data; // pode ser null
+  },
 };

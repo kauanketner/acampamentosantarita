@@ -9,9 +9,11 @@ import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardBody } from '@/components/ui/card';
 import { useSession } from '@/lib/auth';
-import { announcements, invoices, posTransactions } from '@/mock/data';
+import { announcements } from '@/mock/data';
 import { brl, eventGradient, formatDateRange } from '@/lib/format';
 import { useUpcomingEvents } from '@/lib/queries/events';
+import { useMyInvoices } from '@/lib/queries/finance';
+import { useMyPosAccount } from '@/lib/queries/pos';
 import { mediaUrl, useFullProfile } from '@/lib/queries/profile';
 import { cn } from '@/lib/cn';
 
@@ -34,10 +36,19 @@ function HomePage() {
   const isVeteran = campCount > 0;
 
   const { data: upcomingEvents } = useUpcomingEvents();
+  const { data: myInvoices } = useMyInvoices();
+  const { data: posAccount } = useMyPosAccount();
   const nextEvent = upcomingEvents?.find((e) => e.status === 'inscricoes_abertas');
   const lastAnnouncement = announcements[0];
-  const pendingInvoice = invoices.find((i) => i.status === 'pendente' || i.status === 'parcial');
-  const posTotal = posTransactions.reduce((acc, t) => acc + t.total, 0);
+  const pendingInvoice = myInvoices?.find(
+    (i) => i.status === 'pendente' || i.status === 'parcial' || i.status === 'vencido',
+  );
+  const pendingInvoiceRemaining = pendingInvoice
+    ? Number(pendingInvoice.amount) - Number(pendingInvoice.paidAmount)
+    : 0;
+  const posTotal =
+    posAccount && posAccount.status === 'aberta' ? Number(posAccount.totalAmount) : 0;
+  const posCount = posAccount?.transactions.length ?? 0;
 
   const greeting = getGreeting();
 
@@ -130,7 +141,11 @@ function HomePage() {
           to="/financeiro"
           icon={<Wallet className="size-5" strokeWidth={1.5} />}
           label="Financeiro"
-          subtitle={pendingInvoice ? `${brl(pendingInvoice.amount - pendingInvoice.paid)} aberto` : 'Em dia'}
+          subtitle={
+            pendingInvoice
+              ? `${brl(pendingInvoiceRemaining)} aberto`
+              : 'Em dia'
+          }
           highlight={!!pendingInvoice}
         />
         <ShortcutCard
@@ -142,8 +157,8 @@ function HomePage() {
         />
       </div>
 
-      {/* PDV — só se há conta com saldo */}
-      {posTotal > 0 && (
+      {/* PDV — só se há conta aberta com saldo */}
+      {posTotal > 0 && posAccount && (
         <>
           <SectionTitle>Conta no evento</SectionTitle>
           <div className="px-5">
@@ -153,7 +168,7 @@ function HomePage() {
             >
               <div className="flex items-baseline justify-between mb-1">
                 <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-muted-foreground)">
-                  14º Acampamento · cantina
+                  {posAccount.event.name} · cantina
                 </p>
                 <ArrowUpRight className="size-4 text-(color:--color-muted-foreground)" />
               </div>
@@ -164,7 +179,7 @@ function HomePage() {
                 {brl(posTotal)}
               </p>
               <p className="text-sm text-(color:--color-muted-foreground) mt-1">
-                {posTransactions.length} lançamentos. Pague quando quiser.
+                {posCount} {posCount === 1 ? 'lançamento' : 'lançamentos'}.
               </p>
             </Link>
           </div>

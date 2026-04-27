@@ -1,21 +1,27 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { ArrowUpRight, ShoppingBag } from 'lucide-react';
+import { ArrowUpRight, Loader2, ShoppingBag, Wallet } from 'lucide-react';
 import { ArchGlyph } from '@/components/motif/arch';
 import { Page } from '@/components/shell/Page';
 import { PageHeader } from '@/components/shell/PageHeader';
 import { SectionTitle } from '@/components/shell/SectionTitle';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Progress } from '@/components/ui/progress';
-import { brl, invoices, posTransactions } from '@/mock/data';
+import { brl } from '@/lib/format';
+import {
+  type Invoice,
+  type InvoiceStatus,
+  useMyInvoices,
+} from '@/lib/queries/finance';
+import { useMyPosAccount } from '@/lib/queries/pos';
 
 export const Route = createFileRoute('/_auth/financeiro/')({
   component: FinanceiroIndex,
 });
 
 const statusInfo: Record<
-  string,
+  InvoiceStatus,
   { label: string; tone: 'primary' | 'neutral' | 'warning' | 'success' | 'danger' }
 > = {
   pago: { label: 'pago', tone: 'success' },
@@ -27,10 +33,10 @@ const statusInfo: Record<
 };
 
 function FinanceiroIndex() {
-  const open = invoices.filter((i) => i.status === 'pendente' || i.status === 'parcial');
-  const paid = invoices.filter((i) => i.status === 'pago');
-  const totalOpen = open.reduce((acc, i) => acc + (i.amount - i.paid), 0);
-  const posTotal = posTransactions.reduce((acc, t) => acc + t.total, 0);
+  const { data: invoices, isLoading: loadingInvoices } = useMyInvoices();
+  const { data: posAccount, isLoading: loadingPos } = useMyPosAccount();
+
+  const isLoading = loadingInvoices || loadingPos;
 
   return (
     <Page>
@@ -45,7 +51,58 @@ function FinanceiroIndex() {
         className="pt-12 pb-2"
       />
 
-      {/* Saldo aberto — bloco litúrgico de destaque */}
+      {isLoading && (
+        <div className="flex justify-center py-16 text-(color:--color-muted-foreground)">
+          <Loader2 className="size-5 animate-spin" />
+        </div>
+      )}
+
+      {!isLoading && invoices && (
+        <Content invoices={invoices} posAccount={posAccount ?? null} />
+      )}
+
+      <div className="px-5 pb-4 flex flex-col items-center text-(color:--color-muted-foreground)">
+        <ArchGlyph className="size-6 opacity-30" />
+      </div>
+    </Page>
+  );
+}
+
+function Content({
+  invoices,
+  posAccount,
+}: {
+  invoices: Invoice[];
+  posAccount: ReturnType<typeof useMyPosAccount>['data'];
+}) {
+  const open = invoices.filter(
+    (i) =>
+      i.status === 'pendente' || i.status === 'parcial' || i.status === 'vencido',
+  );
+  const paid = invoices.filter((i) => i.status === 'pago');
+  const totalOpen = open.reduce(
+    (acc, i) => acc + (Number(i.amount) - Number(i.paidAmount)),
+    0,
+  );
+  const posTotal = posAccount ? Number(posAccount.totalAmount) : 0;
+  const posOpen = posAccount && posAccount.status === 'aberta' && posTotal > 0;
+
+  if (
+    invoices.length === 0 &&
+    (!posAccount || posAccount.status !== 'aberta' || posTotal === 0)
+  ) {
+    return (
+      <EmptyState
+        className="py-16"
+        icon={<Wallet className="size-10" strokeWidth={1.2} />}
+        title="Nada em aberto"
+        description="Quando uma fatura ou conta de cantina existir pra você, ela aparece aqui."
+      />
+    );
+  }
+
+  return (
+    <>
       <div className="px-5 pb-2">
         <div className="surface-warmth rounded-(--radius-lg) border border-(color:--color-border-strong) p-6">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-muted-foreground) mb-2">
@@ -58,13 +115,14 @@ function FinanceiroIndex() {
             {brl(totalOpen)}
           </p>
           <p className="text-sm text-(color:--color-muted-foreground) mt-2">
-            Em {open.length} fatura{open.length !== 1 && 's'}.
+            {open.length === 0
+              ? 'Sem faturas abertas.'
+              : `Em ${open.length} fatura${open.length !== 1 ? 's' : ''}.`}
           </p>
         </div>
       </div>
 
-      {/* Conta PDV em destaque — se houver */}
-      {posTotal > 0 && (
+      {posOpen && posAccount && (
         <div className="px-5 pt-3">
           <Link
             to="/financeiro/pdv-evento"
@@ -79,7 +137,9 @@ function FinanceiroIndex() {
                   Conta no evento atual
                 </p>
                 <p className="font-medium text-[15px]">
-                  Cantina · {posTransactions.length} lançamentos
+                  {posAccount.event.name} ·{' '}
+                  {posAccount.transactions.length} lançamento
+                  {posAccount.transactions.length !== 1 ? 's' : ''}
                 </p>
                 <p
                   className="font-display text-2xl mt-1 tracking-tight"
@@ -98,48 +158,11 @@ function FinanceiroIndex() {
         <>
           <SectionTitle>Faturas em aberto</SectionTitle>
           <div className="px-5 grid gap-3">
-            {open.map((inv) => {
-              const pct = (inv.paid / inv.amount) * 100;
-              return (
-                <Link
-                  key={inv.id}
-                  to="/financeiro/$invoiceId"
-                  params={{ invoiceId: inv.id }}
-                  className="block surface-warmth rounded-(--radius-lg) border border-(color:--color-border) p-5 transition active:scale-[0.99]"
-                >
-                  <div className="flex items-baseline justify-between mb-1">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-muted-foreground)">
-                      {inv.reference}
-                    </p>
-                    <Badge tone={statusInfo[inv.status]?.tone}>
-                      {statusInfo[inv.status]?.label}
-                    </Badge>
-                  </div>
-                  <p className="font-medium text-[15px] leading-snug">{inv.description}</p>
-                  <div className="mt-3">
-                    <div className="flex items-baseline justify-between mb-1.5">
-                      <p className="font-mono text-xs text-(color:--color-muted-foreground)">
-                        {brl(inv.paid)} de {brl(inv.amount)}
-                      </p>
-                      <p className="font-mono text-xs">
-                        Vence {new Date(inv.dueDate).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
-                      </p>
-                    </div>
-                    <Progress value={pct} />
-                  </div>
-                </Link>
-              );
-            })}
+            {open.map((inv) => (
+              <InvoiceRow key={inv.id} inv={inv} />
+            ))}
           </div>
         </>
-      )}
-
-      {open.length > 0 && (
-        <div className="px-5 mt-5">
-          <Button block size="lg">
-            Pagar tudo · {brl(totalOpen)}
-          </Button>
-        </div>
       )}
 
       {paid.length > 0 && (
@@ -151,12 +174,12 @@ function FinanceiroIndex() {
                 <CardBody className="flex items-center gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-(color:--color-muted-foreground)">
-                      {inv.reference}
+                      {invoiceReference(inv)}
                     </p>
-                    <p className="text-[14px] mt-0.5">{inv.description}</p>
+                    <p className="text-[14px] mt-0.5">{inv.description ?? '—'}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-mono text-sm">{brl(inv.amount)}</p>
+                    <p className="font-mono text-sm">{brl(Number(inv.amount))}</p>
                     <Badge tone="success" className="mt-1">
                       pago
                     </Badge>
@@ -167,10 +190,57 @@ function FinanceiroIndex() {
           </div>
         </>
       )}
-
-      <div className="px-5 pb-4 flex flex-col items-center text-(color:--color-muted-foreground)">
-        <ArchGlyph className="size-6 opacity-30" />
-      </div>
-    </Page>
+    </>
   );
+}
+
+function InvoiceRow({ inv }: { inv: Invoice }) {
+  const total = Number(inv.amount);
+  const paid = Number(inv.paidAmount);
+  const pct = total > 0 ? (paid / total) * 100 : 0;
+  const status = statusInfo[inv.status];
+  return (
+    <Link
+      to="/financeiro/$invoiceId"
+      params={{ invoiceId: inv.id }}
+      className="block surface-warmth rounded-(--radius-lg) border border-(color:--color-border) p-5 transition active:scale-[0.99]"
+    >
+      <div className="flex items-baseline justify-between mb-1">
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-muted-foreground)">
+          {invoiceReference(inv)}
+        </p>
+        <Badge tone={status.tone}>{status.label}</Badge>
+      </div>
+      <p className="font-medium text-[15px] leading-snug">
+        {inv.description ?? 'Sem descrição'}
+      </p>
+      <div className="mt-3">
+        <div className="flex items-baseline justify-between mb-1.5">
+          <p className="font-mono text-xs text-(color:--color-muted-foreground)">
+            {brl(paid)} de {brl(total)}
+          </p>
+          {inv.dueDate && (
+            <p className="font-mono text-xs">
+              Vence{' '}
+              {new Date(inv.dueDate).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: 'short',
+              })}
+            </p>
+          )}
+        </div>
+        <Progress value={pct} />
+      </div>
+    </Link>
+  );
+}
+
+function invoiceReference(inv: Invoice): string {
+  const map: Record<Invoice['type'], string> = {
+    registration: 'Inscrição',
+    pos: 'Conta no evento',
+    shop: 'Lojinha',
+    other: 'Outro',
+  };
+  return map[inv.type] ?? 'Fatura';
 }

@@ -1,50 +1,88 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Loader2 } from 'lucide-react';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { SectionTitle } from '@/components/shell/SectionTitle';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
-import { brl, invoices } from '@/mock/data';
+import { brl } from '@/lib/format';
+import {
+  type InvoiceStatus,
+  type PaymentMethod,
+  useMyInvoice,
+} from '@/lib/queries/finance';
 
 export const Route = createFileRoute('/_auth/financeiro/$invoiceId')({
   component: FaturaDetalhe,
 });
 
+const statusInfo: Record<
+  InvoiceStatus,
+  { label: string; tone: 'primary' | 'neutral' | 'warning' | 'success' | 'danger' }
+> = {
+  pago: { label: 'pago', tone: 'success' },
+  pendente: { label: 'pendente', tone: 'warning' },
+  parcial: { label: 'parcial', tone: 'warning' },
+  vencido: { label: 'vencido', tone: 'danger' },
+  cancelado: { label: 'cancelado', tone: 'neutral' },
+  reembolsado: { label: 'reembolsado', tone: 'neutral' },
+};
+
+const methodLabel: Record<PaymentMethod, string> = {
+  pix: 'PIX',
+  cartao: 'Cartão',
+  boleto: 'Boleto',
+  dinheiro: 'Dinheiro',
+  transferencia: 'Transferência',
+};
+
 function FaturaDetalhe() {
   const { invoiceId } = Route.useParams();
-  const inv = invoices.find((i) => i.id === invoiceId);
+  const { data: inv, isLoading, isError } = useMyInvoice(invoiceId);
 
-  if (!inv) {
+  if (isLoading) {
     return (
       <Page withBottomNav={false}>
-        <TopBar back="/financeiro" title="Fatura" />
-        <div className="px-6 py-12 text-center">
+        <TopBar back="/financeiro" title="Fatura" border />
+        <div className="flex-1 flex items-center justify-center py-24 text-(color:--color-muted-foreground)">
+          <Loader2 className="size-5 animate-spin" />
+        </div>
+      </Page>
+    );
+  }
+
+  if (isError || !inv) {
+    return (
+      <Page withBottomNav={false}>
+        <TopBar back="/financeiro" title="Fatura" border />
+        <div className="px-6 py-16 text-center">
           <p className="font-display text-2xl">Fatura não encontrada.</p>
         </div>
       </Page>
     );
   }
 
-  const remaining = inv.amount - inv.paid;
-  const pct = (inv.paid / inv.amount) * 100;
+  const total = Number(inv.amount);
+  const paid = Number(inv.paidAmount);
+  const remaining = Math.max(0, total - paid);
+  const pct = total > 0 ? (paid / total) * 100 : 0;
+  const status = statusInfo[inv.status];
 
   return (
-    <Page>
+    <Page withBottomNav={false}>
       <TopBar back="/financeiro" title="Fatura" border />
 
       <div className="px-5 pt-4 pb-2">
         <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-muted-foreground) mb-2">
-          {inv.reference}
+          {invoiceTypeLabel(inv.type)}
         </p>
         <h1
           className="font-display text-[clamp(1.85rem,8vw,2.4rem)] leading-[1.05] tracking-[-0.025em] text-balance"
           style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
         >
-          {inv.description}
+          {inv.description ?? 'Fatura'}
         </h1>
       </div>
 
@@ -52,64 +90,91 @@ function FaturaDetalhe() {
         <div className="surface-warmth rounded-(--radius-lg) border border-(color:--color-border-strong) p-5">
           <div className="flex items-baseline justify-between mb-1">
             <p className="text-sm text-(color:--color-muted-foreground)">Total</p>
-            <Badge tone={inv.status === 'pago' ? 'success' : 'warning'}>{inv.status}</Badge>
+            <Badge tone={status.tone}>{status.label}</Badge>
           </div>
           <p
             className="font-display text-3xl tracking-tight"
             style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}
           >
-            {brl(inv.amount)}
+            {brl(total)}
           </p>
           <Separator className="my-4" />
           <Progress value={pct} className="mb-3" />
           <div className="flex items-baseline justify-between">
             <p className="text-sm">
-              Pago <span className="font-mono">{brl(inv.paid)}</span>
+              Pago <span className="font-mono">{brl(paid)}</span>
             </p>
             <p className="text-sm font-medium">
               Restante <span className="font-mono">{brl(remaining)}</span>
             </p>
           </div>
-          <p className="font-mono text-[11px] uppercase tracking-wider text-(color:--color-muted-foreground) mt-3">
-            Vence em{' '}
-            {new Date(inv.dueDate).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric',
-            })}
-          </p>
+          {inv.dueDate && (
+            <p className="font-mono text-[11px] uppercase tracking-wider text-(color:--color-muted-foreground) mt-3">
+              Vence em{' '}
+              {new Date(inv.dueDate).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+              })}
+            </p>
+          )}
         </div>
       </div>
 
       <SectionTitle>Pagamentos</SectionTitle>
       <div className="px-5 grid gap-2">
-        {inv.paid > 0 ? (
-          <Card variant="outline">
-            <CardBody className="flex items-center gap-3">
-              <div className="size-9 rounded-full bg-emerald-100 text-emerald-700 inline-flex items-center justify-center shrink-0 dark:bg-emerald-900/40 dark:text-emerald-200">
-                <CheckCircle2 className="size-5" strokeWidth={1.5} />
-              </div>
-              <div className="flex-1">
-                <p className="text-[14px] font-medium">PIX</p>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-(color:--color-muted-foreground)">
-                  12 abr · 14:38
-                </p>
-              </div>
-              <p className="font-mono text-sm">{brl(inv.paid)}</p>
-            </CardBody>
-          </Card>
+        {inv.payments.length === 0 ? (
+          <p className="text-sm text-(color:--color-muted-foreground)">
+            Nenhum pagamento registrado ainda.
+          </p>
         ) : (
-          <p className="text-sm text-(color:--color-muted-foreground)">Nenhum pagamento ainda.</p>
+          inv.payments.map((p) => (
+            <Card key={p.id} variant="outline">
+              <CardBody className="flex items-center gap-3">
+                <div className="size-9 rounded-full bg-emerald-100 text-emerald-700 inline-flex items-center justify-center shrink-0 dark:bg-emerald-900/40 dark:text-emerald-200">
+                  <CheckCircle2 className="size-5" strokeWidth={1.5} />
+                </div>
+                <div className="flex-1">
+                  <p className="text-[14px] font-medium">{methodLabel[p.method]}</p>
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-(color:--color-muted-foreground)">
+                    {new Date(p.paidAt).toLocaleString('pt-BR', {
+                      day: '2-digit',
+                      month: 'short',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </p>
+                </div>
+                <p className="font-mono text-sm">{brl(Number(p.amount))}</p>
+              </CardBody>
+            </Card>
+          ))
         )}
       </div>
 
       {remaining > 0 && (
-        <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+72px)] z-20 px-5 pt-3 pb-2 bg-gradient-to-t from-(color:--color-background) via-(color:--color-background)/90 to-transparent">
-          <Button block size="lg">
-            Pagar {brl(remaining)}
-          </Button>
+        <div className="px-5 py-8">
+          <Card variant="outline">
+            <CardBody>
+              <p className="text-sm text-(color:--color-muted-foreground) leading-relaxed">
+                Pagamento online vai ficar disponível quando a coordenação ligar a
+                integração com Asaas. Por enquanto, eles enviam as instruções por fora
+                do app.
+              </p>
+            </CardBody>
+          </Card>
         </div>
       )}
     </Page>
   );
+}
+
+function invoiceTypeLabel(type: string): string {
+  const map: Record<string, string> = {
+    registration: 'Inscrição',
+    pos: 'Conta no evento',
+    shop: 'Lojinha',
+    other: 'Outro',
+  };
+  return map[type] ?? 'Fatura';
 }
