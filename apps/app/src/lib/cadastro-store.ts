@@ -231,6 +231,17 @@ export function buildSignupPayload(state: CadastroState): SignupPayload {
     return Number.isFinite(n) && n > 0 ? n : undefined;
   };
 
+  // Limpa o health: enums vazios viram undefined; strings vazias caem fora
+  const sanitizedHealth: Health = { ...state.health };
+  for (const key of Object.keys(sanitizedHealth) as (keyof Health)[]) {
+    const value = sanitizedHealth[key];
+    if (typeof value === 'string' && value.trim() === '') {
+      // remove a chave para não enviar string vazia
+      // (zod enum não aceita "", precisa ser undefined)
+      delete (sanitizedHealth as Record<string, unknown>)[key];
+    }
+  }
+
   return {
     email: state.email.trim().toLowerCase() || undefined,
     person: {
@@ -260,7 +271,7 @@ export function buildSignupPayload(state: CadastroState): SignupPayload {
       groupName: trim(state.groupName),
       sacraments: state.sacraments,
     },
-    health: state.health,
+    health: sanitizedHealth,
     campParticipations: state.variant === 'veterano'
       ? state.campParticipations
           .filter((p) => p.campEdition && p.role)
