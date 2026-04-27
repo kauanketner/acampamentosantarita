@@ -11,9 +11,27 @@ export const publicController = {
   listPosts: notImplemented,
   getPost: notImplemented,
   listHomeBlocks: notImplemented,
-  listAlbums: notImplemented,
-  getAlbum: notImplemented,
-  listFaq: notImplemented,
+
+  async listAlbums(req: FastifyRequest) {
+    const albums = await publicService.listGalleryAlbums(req.server.db);
+    return { items: albums };
+  },
+
+  async getAlbum(req: FastifyRequest, reply: FastifyReply) {
+    const { slug } = req.params as { slug: string };
+    const album = await publicService.getGalleryAlbum(req.server.db, slug);
+    if (!album) {
+      reply.code(404).send({ error: 'NOT_FOUND' });
+      return;
+    }
+    return album;
+  },
+
+  async listFaq(req: FastifyRequest) {
+    const items = await publicService.listFaq(req.server.db);
+    return { items };
+  },
+
   listShopProducts: notImplemented,
 
   async listUpcomingEvents(req: FastifyRequest) {

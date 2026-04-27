@@ -9,8 +9,8 @@ import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardBody } from '@/components/ui/card';
 import { useSession } from '@/lib/auth';
-import { announcements } from '@/mock/data';
 import { brl, eventGradient, formatDateRange } from '@/lib/format';
+import { useAnnouncements } from '@/lib/queries/communication';
 import { useUpcomingEvents } from '@/lib/queries/events';
 import { useMyInvoices } from '@/lib/queries/finance';
 import { useMyPosAccount } from '@/lib/queries/pos';
@@ -38,8 +38,9 @@ function HomePage() {
   const { data: upcomingEvents } = useUpcomingEvents();
   const { data: myInvoices } = useMyInvoices();
   const { data: posAccount } = useMyPosAccount();
+  const { data: announcements } = useAnnouncements();
   const nextEvent = upcomingEvents?.find((e) => e.status === 'inscricoes_abertas');
-  const lastAnnouncement = announcements[0];
+  const lastAnnouncement = announcements?.[0];
   const pendingInvoice = myInvoices?.find(
     (i) => i.status === 'pendente' || i.status === 'parcial' || i.status === 'vencido',
   );
@@ -216,7 +217,9 @@ function HomePage() {
                       {lastAnnouncement.body}
                     </p>
                     <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-(color:--color-subtle) mt-2">
-                      {timeAgo(lastAnnouncement.publishedAt)}
+                      {lastAnnouncement.publishedAt
+                        ? timeAgo(lastAnnouncement.publishedAt)
+                        : 'recente'}
                     </p>
                   </div>
                 </div>
