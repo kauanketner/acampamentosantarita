@@ -1,40 +1,96 @@
-import Link from 'next/link';
+'use client';
 
-const navItems = [
-  { href: '/', label: 'Início' },
+import { Logomark, Wordmark } from '@/components/ui/Logo';
+import { cn } from '@/lib/cn';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { MobileMenu } from './MobileMenu';
+
+const navItems: Array<{ href: string; label: string }> = [
   { href: '/sobre', label: 'Sobre' },
   { href: '/eventos', label: 'Eventos' },
   { href: '/galeria', label: 'Galeria' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/blog', label: 'Diário' },
   { href: '/lojinha', label: 'Lojinha' },
   { href: '/faq', label: 'FAQ' },
   { href: '/contato', label: 'Contato' },
 ];
 
 export function Header() {
-  // TODO: variante mobile (hamburger → MobileMenu) e versão "transparent over hero".
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://app.acampamentosantarita.com.br';
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="border-b bg-background/80 backdrop-blur sticky top-0 z-40">
-      <div className="container max-w-6xl flex items-center justify-between py-5 px-6">
-        <Link href="/" className="font-serif text-xl">
-          Santa Rita
+    <header
+      className={cn(
+        'sticky top-0 z-40 transition-all duration-300',
+        scrolled
+          ? 'bg-(color:--color-paper)/85 backdrop-blur-md border-b border-(color:--color-rule)'
+          : 'bg-transparent',
+      )}
+    >
+      <div className="mx-auto max-w-[1320px] px-6 sm:px-8 lg:px-10 flex items-center justify-between h-16 lg:h-20">
+        <Link href="/" className="inline-flex items-center gap-2.5 group">
+          <span className="text-(color:--color-oxblood) transition-transform group-hover:rotate-2">
+            <Logomark size={28} />
+          </span>
+          <span>
+            <span className="block">
+              <Wordmark className="text-[16px] lg:text-[18px] text-(color:--color-ink)" />
+            </span>
+            <span className="block eyebrow text-[9px] mt-1 lg:mt-1.5">Comunidade · desde 2003</span>
+          </span>
         </Link>
-        <nav className="hidden md:flex gap-7 text-sm text-muted-foreground">
-          {navItems.map((i) => (
-            <Link key={i.href} href={i.href} className="hover:text-foreground transition">
-              {i.label}
-            </Link>
-          ))}
+
+        <nav className="hidden lg:flex items-center gap-7">
+          {navItems.map((item) => {
+            const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'text-[13px] tracking-wide transition-colors duration-150 underline-thin',
+                  active
+                    ? 'text-(color:--color-ink) font-medium'
+                    : 'text-(color:--color-ink-soft) hover:text-(color:--color-ink)',
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
-        <a
-          href={appUrl}
-          className="hidden md:inline-flex items-center rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90 transition"
-        >
-          Baixe o app
-        </a>
-        {/* TODO: trigger do MobileMenu */}
+
+        <div className="hidden lg:flex items-center gap-3">
+          <a
+            href={appUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-(color:--color-oxblood) text-(color:--color-paper) px-5 py-2.5 text-[12px] tracking-wide hover:bg-(color:--color-oxblood-deep) transition-colors shadow-[inset_0_-1px_0_color-mix(in_oklch,_black_18%,_transparent)]"
+          >
+            Acessar o app
+            <svg viewBox="0 0 12 12" className="size-2.5" fill="none" aria-hidden>
+              <path
+                d="M3 9L9 3M9 3H4M9 3V8"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <MobileMenu items={navItems} appUrl={appUrl} />
       </div>
     </header>
   );

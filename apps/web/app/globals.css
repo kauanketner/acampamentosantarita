@@ -1,33 +1,270 @@
 @import "tailwindcss";
 
+/*
+  Acampamento Santa Rita — site público.
+  Direção visual: editorial sacro · cream paper · oxblood · dourado litúrgico.
+  Pareado em DNA com o admin (mesma família serif Fraunces + Geist), mas
+  com paleta quente e composição de magazine contemplativo.
+*/
+
+@theme {
+  /* Fontes (carregadas via next/font no layout) */
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-mono-jetbrains);
+
+  /* Paleta — light (default) */
+  --color-paper: oklch(0.975 0.012 75); /* cream paper */
+  --color-paper-2: oklch(0.948 0.018 70); /* slightly warmer cream */
+  --color-ink: oklch(0.18 0.025 35); /* near-black warm ink */
+  --color-ink-soft: oklch(0.42 0.025 35); /* secondary text */
+  --color-ink-faint: oklch(0.62 0.018 40); /* hints */
+  --color-ink-whisper: oklch(0.78 0.012 50); /* whispers */
+
+  --color-rule: oklch(0.86 0.018 60); /* divider */
+  --color-rule-strong: oklch(0.74 0.024 55);
+
+  /* Marca: oxblood (vinho profundo) + dourado antigo */
+  --color-oxblood: oklch(0.36 0.13 22); /* primary */
+  --color-oxblood-deep: oklch(0.28 0.13 20); /* hover/dark */
+  --color-oxblood-soft: oklch(0.94 0.04 25); /* tinted background */
+
+  --color-gold: oklch(0.74 0.13 75); /* accent */
+  --color-gold-deep: oklch(0.6 0.13 70);
+  --color-gold-soft: oklch(0.93 0.05 80);
+
+  --color-moss: oklch(0.42 0.07 130); /* secondary accent */
+
+  /* Aliases semânticos pra mantermos o vocabulário do sistema */
+  --color-background: var(--color-paper);
+  --color-foreground: var(--color-ink);
+  --color-muted: var(--color-paper-2);
+  --color-muted-foreground: var(--color-ink-soft);
+  --color-subtle: var(--color-ink-faint);
+  --color-border: var(--color-rule);
+  --color-border-strong: var(--color-rule-strong);
+  --color-primary: var(--color-oxblood);
+  --color-primary-hover: var(--color-oxblood-deep);
+  --color-primary-foreground: var(--color-paper);
+  --color-primary-soft: var(--color-oxblood-soft);
+  --color-accent: var(--color-gold);
+  --color-accent-deep: var(--color-gold-deep);
+  --color-accent-soft: var(--color-gold-soft);
+
+  /* Raio */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  /* Sombras suaves (papel) */
+  --shadow-paper: 0 1px 1px color-mix(in oklch, black 6%, transparent), 0 6px 20px
+    color-mix(in oklch, black 4%, transparent);
+}
+
+/* ─── Base reset ─────────────────────────────────────────────────────── */
 @layer base {
-  :root {
-    --background: 36 20% 97%;
-    --foreground: 25 25% 15%;
-    --card: 36 20% 99%;
-    --card-foreground: 25 25% 15%;
-    --popover: 36 20% 99%;
-    --popover-foreground: 25 25% 15%;
-    --primary: 25 40% 30%;
-    --primary-foreground: 36 30% 97%;
-    --secondary: 36 25% 92%;
-    --secondary-foreground: 25 30% 20%;
-    --muted: 36 15% 90%;
-    --muted-foreground: 25 10% 40%;
-    --accent: 38 60% 55%;
-    --accent-foreground: 25 25% 15%;
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 36 30% 97%;
-    --border: 36 15% 88%;
-    --input: 36 15% 88%;
-    --ring: 25 40% 30%;
-    --radius: 0.5rem;
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss03", "ss05", "cv05";
+    background-image: radial-gradient(
+        ellipse 80% 60% at 50% -10%,
+        color-mix(in oklch, var(--color-gold) 6%, transparent),
+        transparent
+      ),
+      radial-gradient(
+        circle at 12% 110%,
+        color-mix(in oklch, var(--color-oxblood) 4%, transparent),
+        transparent 50%
+      );
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--color-oxblood) 80%, transparent);
+    color: var(--color-paper);
+  }
+
+  /* Scrollbar discreto */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklch, var(--color-ink) 18%, transparent);
+    border-radius: 999px;
+    border: 2px solid var(--color-paper);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklch, var(--color-ink) 30%, transparent);
   }
 }
 
-@layer base {
-  body {
-    background: hsl(var(--background));
-    color: hsl(var(--foreground));
+/* ─── Componentes/utilitários do "sistema editorial" ─────────────────── */
+@layer components {
+  /* Capitular (drop cap) — primeira letra do parágrafo */
+  .drop-cap::first-letter {
+    font-family: var(--font-display);
+    font-style: italic;
+    float: left;
+    font-size: 4.4em;
+    line-height: 0.85;
+    margin: 0.12em 0.12em 0 -0.04em;
+    color: var(--color-oxblood);
+    font-feature-settings: "opsz" 144, "SOFT" 100;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
   }
+
+  /* Linha-ornamento horizontal com pequena pétala/glifo no centro */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    color: var(--color-rule-strong);
+  }
+  .ornament::before,
+  .ornament::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+  }
+
+  /* Eyebrow latino: "I. Capítulo" pequeno */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+
+  /* Pull-quote serif italic gigante */
+  .pull-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.625rem, 2.4vw, 2.25rem);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    font-feature-settings: "opsz" 144, "SOFT" 100;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    text-wrap: balance;
+  }
+
+  /* Numerais romanos para "capítulos" */
+  .roman {
+    font-family: var(--font-display);
+    font-feature-settings: "opsz" 144, "SOFT" 70;
+    font-variation-settings: "opsz" 144, "SOFT" 70;
+    font-style: italic;
+    color: var(--color-oxblood);
+  }
+
+  /* Tabular nums utilitária */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Underline editorial customizada */
+  .underline-thin {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    text-decoration: none;
+    transition: background-size 200ms ease;
+  }
+  .underline-thin:hover {
+    background-size: 100% 2px;
+  }
+
+  /* Card de papel decorativo */
+  .paper-card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-rule);
+    box-shadow: var(--shadow-paper);
+  }
+
+  /* Imagem com vignette suave */
+  .vignette {
+    position: relative;
+    overflow: hidden;
+  }
+  .vignette::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 80px color-mix(in oklch, black 15%, transparent);
+    pointer-events: none;
+  }
+}
+
+/* ─── Animações ───────────────────────────────────────────────────────── */
+@keyframes drift-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes drift-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ken-burns {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.08) translate(-1%, -1%);
+  }
+}
+
+.animate-drift-up {
+  animation: drift-up 700ms ease-out both;
+}
+.animate-drift-fade {
+  animation: drift-fade 900ms ease-out both;
+}
+.animate-ken-burns {
+  animation: ken-burns 14s ease-in-out infinite alternate;
+}
+
+/* Stagger helpers */
+.stagger > *:nth-child(1) {
+  animation-delay: 60ms;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 140ms;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 220ms;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 300ms;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 380ms;
+}
+.stagger > *:nth-child(6) {
+  animation-delay: 460ms;
 }

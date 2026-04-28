@@ -34,12 +34,17 @@
         "noArrayIndexKey": "warn"
       },
       "complexity": { "noUselessFragments": "warn" },
-      "correctness": { "noUnusedImports": "warn", "noUnusedVariables": "warn" },
       "a11y": {
         "noSvgWithoutTitle": "off",
         "noAutofocus": "off",
         "useKeyWithClickEvents": "off",
-        "noLabelWithoutControl": "off"
+        "noLabelWithoutControl": "off",
+        "useSemanticElements": "off"
+      },
+      "correctness": {
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn",
+        "useExhaustiveDependencies": "warn"
       }
     }
   },

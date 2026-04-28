@@ -8,375 +8,381 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root';
-import { Route as AppRouteImport } from './routes/_app';
-import { Route as AppComunicacaoAvisosRouteImport } from './routes/_app/comunicacao/avisos';
-import { Route as AppComunicacaoPushRouteImport } from './routes/_app/comunicacao/push';
-import { Route as AppConfiguracoesAuditoriaRouteImport } from './routes/_app/configuracoes/auditoria';
-import { Route as AppConfiguracoesIntegracoesRouteImport } from './routes/_app/configuracoes/integracoes';
-import { Route as AppConfiguracoesPermissoesRouteImport } from './routes/_app/configuracoes/permissoes';
-import { Route as AppConfiguracoesUsuariosRouteImport } from './routes/_app/configuracoes/usuarios';
-import { Route as AppEquipesServicoIndexRouteImport } from './routes/_app/equipes-servico/index';
-import { Route as AppEventosIdEquipesRouteImport } from './routes/_app/eventos/$id/equipes';
-import { Route as AppEventosIdIndexRouteImport } from './routes/_app/eventos/$id/index';
-import { Route as AppEventosIdInscricoesRouteImport } from './routes/_app/eventos/$id/inscricoes';
-import { Route as AppEventosIdPdvRouteImport } from './routes/_app/eventos/$id/pdv';
-import { Route as AppEventosIdPerguntasRouteImport } from './routes/_app/eventos/$id/perguntas';
-import { Route as AppEventosIdRelatoriosRouteImport } from './routes/_app/eventos/$id/relatorios';
-import { Route as AppEventosIdTribosRouteImport } from './routes/_app/eventos/$id/tribos';
-import { Route as AppEventosIndexRouteImport } from './routes/_app/eventos/index';
-import { Route as AppEventosNovoRouteImport } from './routes/_app/eventos/novo';
-import { Route as AppFinanceiroFaturasRouteImport } from './routes/_app/financeiro/faturas';
-import { Route as AppFinanceiroFluxoCaixaRouteImport } from './routes/_app/financeiro/fluxo-caixa';
-import { Route as AppFinanceiroPagamentosRouteImport } from './routes/_app/financeiro/pagamentos';
-import { Route as AppFinanceiroReembolsosRouteImport } from './routes/_app/financeiro/reembolsos';
-import { Route as AppIndexRouteImport } from './routes/_app/index';
-import { Route as AppInscricoesIndexRouteImport } from './routes/_app/inscricoes/index';
-import { Route as AppLojinhaSiteIndexRouteImport } from './routes/_app/lojinha-site/index';
-import { Route as AppPdvContasRouteImport } from './routes/_app/pdv/contas';
-import { Route as AppPdvItensRouteImport } from './routes/_app/pdv/itens';
-import { Route as AppPessoasIdRouteImport } from './routes/_app/pessoas/$id';
-import { Route as AppPessoasIndexRouteImport } from './routes/_app/pessoas/index';
-import { Route as AppPessoasNovaRouteImport } from './routes/_app/pessoas/nova';
-import { Route as AppRelatoriosFinanceiroRouteImport } from './routes/_app/relatorios/financeiro';
-import { Route as AppRelatoriosHistoricoLegadoRouteImport } from './routes/_app/relatorios/historico-legado';
-import { Route as AppRelatoriosInscricoesRouteImport } from './routes/_app/relatorios/inscricoes';
-import { Route as AppRelatoriosParticipantesRouteImport } from './routes/_app/relatorios/participantes';
-import { Route as AppSiteFaqRouteImport } from './routes/_app/site/faq';
-import { Route as AppSiteGaleriaRouteImport } from './routes/_app/site/galeria';
-import { Route as AppSiteHomeRouteImport } from './routes/_app/site/home';
-import { Route as AppSitePaginasRouteImport } from './routes/_app/site/paginas';
-import { Route as AppSitePostsRouteImport } from './routes/_app/site/posts';
-import { Route as AppTribosIndexRouteImport } from './routes/_app/tribos/index';
-import { Route as LoginRouteImport } from './routes/login';
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppTribosIndexRouteImport } from './routes/_app/tribos/index'
+import { Route as AppPessoasIndexRouteImport } from './routes/_app/pessoas/index'
+import { Route as AppLojinhaSiteIndexRouteImport } from './routes/_app/lojinha-site/index'
+import { Route as AppInscricoesIndexRouteImport } from './routes/_app/inscricoes/index'
+import { Route as AppEventosIndexRouteImport } from './routes/_app/eventos/index'
+import { Route as AppEquipesServicoIndexRouteImport } from './routes/_app/equipes-servico/index'
+import { Route as AppSitePostsRouteImport } from './routes/_app/site/posts'
+import { Route as AppSitePaginasRouteImport } from './routes/_app/site/paginas'
+import { Route as AppSiteHomeRouteImport } from './routes/_app/site/home'
+import { Route as AppSiteGaleriaRouteImport } from './routes/_app/site/galeria'
+import { Route as AppSiteFaqRouteImport } from './routes/_app/site/faq'
+import { Route as AppRelatoriosParticipantesRouteImport } from './routes/_app/relatorios/participantes'
+import { Route as AppRelatoriosInscricoesRouteImport } from './routes/_app/relatorios/inscricoes'
+import { Route as AppRelatoriosHistoricoLegadoRouteImport } from './routes/_app/relatorios/historico-legado'
+import { Route as AppRelatoriosFinanceiroRouteImport } from './routes/_app/relatorios/financeiro'
+import { Route as AppPessoasNovaRouteImport } from './routes/_app/pessoas/nova'
+import { Route as AppPessoasIdRouteImport } from './routes/_app/pessoas/$id'
+import { Route as AppPdvItensRouteImport } from './routes/_app/pdv/itens'
+import { Route as AppPdvContasRouteImport } from './routes/_app/pdv/contas'
+import { Route as AppFinanceiroReembolsosRouteImport } from './routes/_app/financeiro/reembolsos'
+import { Route as AppFinanceiroPagamentosRouteImport } from './routes/_app/financeiro/pagamentos'
+import { Route as AppFinanceiroFluxoCaixaRouteImport } from './routes/_app/financeiro/fluxo-caixa'
+import { Route as AppFinanceiroFaturasRouteImport } from './routes/_app/financeiro/faturas'
+import { Route as AppEventosNovoRouteImport } from './routes/_app/eventos/novo'
+import { Route as AppConfiguracoesUsuariosRouteImport } from './routes/_app/configuracoes/usuarios'
+import { Route as AppConfiguracoesPermissoesRouteImport } from './routes/_app/configuracoes/permissoes'
+import { Route as AppConfiguracoesIntegracoesRouteImport } from './routes/_app/configuracoes/integracoes'
+import { Route as AppConfiguracoesAuditoriaRouteImport } from './routes/_app/configuracoes/auditoria'
+import { Route as AppComunicacaoPushRouteImport } from './routes/_app/comunicacao/push'
+import { Route as AppComunicacaoAvisosRouteImport } from './routes/_app/comunicacao/avisos'
+import { Route as AppEventosIdIndexRouteImport } from './routes/_app/eventos/$id/index'
+import { Route as AppEventosIdTribosRouteImport } from './routes/_app/eventos/$id/tribos'
+import { Route as AppEventosIdRelatoriosRouteImport } from './routes/_app/eventos/$id/relatorios'
+import { Route as AppEventosIdPerguntasRouteImport } from './routes/_app/eventos/$id/perguntas'
+import { Route as AppEventosIdPdvRouteImport } from './routes/_app/eventos/$id/pdv'
+import { Route as AppEventosIdInscricoesRouteImport } from './routes/_app/eventos/$id/inscricoes'
+import { Route as AppEventosIdEquipesRouteImport } from './routes/_app/eventos/$id/equipes'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AppRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppTribosIndexRoute = AppTribosIndexRouteImport.update({
   id: '/tribos/',
   path: '/tribos/',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppPessoasIndexRoute = AppPessoasIndexRouteImport.update({
   id: '/pessoas/',
   path: '/pessoas/',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppLojinhaSiteIndexRoute = AppLojinhaSiteIndexRouteImport.update({
   id: '/lojinha-site/',
   path: '/lojinha-site/',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppInscricoesIndexRoute = AppInscricoesIndexRouteImport.update({
   id: '/inscricoes/',
   path: '/inscricoes/',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosIndexRoute = AppEventosIndexRouteImport.update({
   id: '/eventos/',
   path: '/eventos/',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEquipesServicoIndexRoute = AppEquipesServicoIndexRouteImport.update({
   id: '/equipes-servico/',
   path: '/equipes-servico/',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppSitePostsRoute = AppSitePostsRouteImport.update({
   id: '/site/posts',
   path: '/site/posts',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppSitePaginasRoute = AppSitePaginasRouteImport.update({
   id: '/site/paginas',
   path: '/site/paginas',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppSiteHomeRoute = AppSiteHomeRouteImport.update({
   id: '/site/home',
   path: '/site/home',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppSiteGaleriaRoute = AppSiteGaleriaRouteImport.update({
   id: '/site/galeria',
   path: '/site/galeria',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppSiteFaqRoute = AppSiteFaqRouteImport.update({
   id: '/site/faq',
   path: '/site/faq',
   getParentRoute: () => AppRoute,
-} as any);
-const AppRelatoriosParticipantesRoute = AppRelatoriosParticipantesRouteImport.update({
-  id: '/relatorios/participantes',
-  path: '/relatorios/participantes',
-  getParentRoute: () => AppRoute,
-} as any);
+} as any)
+const AppRelatoriosParticipantesRoute =
+  AppRelatoriosParticipantesRouteImport.update({
+    id: '/relatorios/participantes',
+    path: '/relatorios/participantes',
+    getParentRoute: () => AppRoute,
+  } as any)
 const AppRelatoriosInscricoesRoute = AppRelatoriosInscricoesRouteImport.update({
   id: '/relatorios/inscricoes',
   path: '/relatorios/inscricoes',
   getParentRoute: () => AppRoute,
-} as any);
-const AppRelatoriosHistoricoLegadoRoute = AppRelatoriosHistoricoLegadoRouteImport.update({
-  id: '/relatorios/historico-legado',
-  path: '/relatorios/historico-legado',
-  getParentRoute: () => AppRoute,
-} as any);
+} as any)
+const AppRelatoriosHistoricoLegadoRoute =
+  AppRelatoriosHistoricoLegadoRouteImport.update({
+    id: '/relatorios/historico-legado',
+    path: '/relatorios/historico-legado',
+    getParentRoute: () => AppRoute,
+  } as any)
 const AppRelatoriosFinanceiroRoute = AppRelatoriosFinanceiroRouteImport.update({
   id: '/relatorios/financeiro',
   path: '/relatorios/financeiro',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppPessoasNovaRoute = AppPessoasNovaRouteImport.update({
   id: '/pessoas/nova',
   path: '/pessoas/nova',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppPessoasIdRoute = AppPessoasIdRouteImport.update({
   id: '/pessoas/$id',
   path: '/pessoas/$id',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppPdvItensRoute = AppPdvItensRouteImport.update({
   id: '/pdv/itens',
   path: '/pdv/itens',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppPdvContasRoute = AppPdvContasRouteImport.update({
   id: '/pdv/contas',
   path: '/pdv/contas',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppFinanceiroReembolsosRoute = AppFinanceiroReembolsosRouteImport.update({
   id: '/financeiro/reembolsos',
   path: '/financeiro/reembolsos',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppFinanceiroPagamentosRoute = AppFinanceiroPagamentosRouteImport.update({
   id: '/financeiro/pagamentos',
   path: '/financeiro/pagamentos',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppFinanceiroFluxoCaixaRoute = AppFinanceiroFluxoCaixaRouteImport.update({
   id: '/financeiro/fluxo-caixa',
   path: '/financeiro/fluxo-caixa',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppFinanceiroFaturasRoute = AppFinanceiroFaturasRouteImport.update({
   id: '/financeiro/faturas',
   path: '/financeiro/faturas',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosNovoRoute = AppEventosNovoRouteImport.update({
   id: '/eventos/novo',
   path: '/eventos/novo',
   getParentRoute: () => AppRoute,
-} as any);
-const AppConfiguracoesUsuariosRoute = AppConfiguracoesUsuariosRouteImport.update({
-  id: '/configuracoes/usuarios',
-  path: '/configuracoes/usuarios',
-  getParentRoute: () => AppRoute,
-} as any);
-const AppConfiguracoesPermissoesRoute = AppConfiguracoesPermissoesRouteImport.update({
-  id: '/configuracoes/permissoes',
-  path: '/configuracoes/permissoes',
-  getParentRoute: () => AppRoute,
-} as any);
-const AppConfiguracoesIntegracoesRoute = AppConfiguracoesIntegracoesRouteImport.update({
-  id: '/configuracoes/integracoes',
-  path: '/configuracoes/integracoes',
-  getParentRoute: () => AppRoute,
-} as any);
-const AppConfiguracoesAuditoriaRoute = AppConfiguracoesAuditoriaRouteImport.update({
-  id: '/configuracoes/auditoria',
-  path: '/configuracoes/auditoria',
-  getParentRoute: () => AppRoute,
-} as any);
+} as any)
+const AppConfiguracoesUsuariosRoute =
+  AppConfiguracoesUsuariosRouteImport.update({
+    id: '/configuracoes/usuarios',
+    path: '/configuracoes/usuarios',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppConfiguracoesPermissoesRoute =
+  AppConfiguracoesPermissoesRouteImport.update({
+    id: '/configuracoes/permissoes',
+    path: '/configuracoes/permissoes',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppConfiguracoesIntegracoesRoute =
+  AppConfiguracoesIntegracoesRouteImport.update({
+    id: '/configuracoes/integracoes',
+    path: '/configuracoes/integracoes',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppConfiguracoesAuditoriaRoute =
+  AppConfiguracoesAuditoriaRouteImport.update({
+    id: '/configuracoes/auditoria',
+    path: '/configuracoes/auditoria',
+    getParentRoute: () => AppRoute,
+  } as any)
 const AppComunicacaoPushRoute = AppComunicacaoPushRouteImport.update({
   id: '/comunicacao/push',
   path: '/comunicacao/push',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppComunicacaoAvisosRoute = AppComunicacaoAvisosRouteImport.update({
   id: '/comunicacao/avisos',
   path: '/comunicacao/avisos',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosIdIndexRoute = AppEventosIdIndexRouteImport.update({
   id: '/eventos/$id/',
   path: '/eventos/$id/',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosIdTribosRoute = AppEventosIdTribosRouteImport.update({
   id: '/eventos/$id/tribos',
   path: '/eventos/$id/tribos',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosIdRelatoriosRoute = AppEventosIdRelatoriosRouteImport.update({
   id: '/eventos/$id/relatorios',
   path: '/eventos/$id/relatorios',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosIdPerguntasRoute = AppEventosIdPerguntasRouteImport.update({
   id: '/eventos/$id/perguntas',
   path: '/eventos/$id/perguntas',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosIdPdvRoute = AppEventosIdPdvRouteImport.update({
   id: '/eventos/$id/pdv',
   path: '/eventos/$id/pdv',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosIdInscricoesRoute = AppEventosIdInscricoesRouteImport.update({
   id: '/eventos/$id/inscricoes',
   path: '/eventos/$id/inscricoes',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 const AppEventosIdEquipesRoute = AppEventosIdEquipesRouteImport.update({
   id: '/eventos/$id/equipes',
   path: '/eventos/$id/equipes',
   getParentRoute: () => AppRoute,
-} as any);
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AppIndexRoute;
-  '/login': typeof LoginRoute;
-  '/comunicacao/avisos': typeof AppComunicacaoAvisosRoute;
-  '/comunicacao/push': typeof AppComunicacaoPushRoute;
-  '/configuracoes/auditoria': typeof AppConfiguracoesAuditoriaRoute;
-  '/configuracoes/integracoes': typeof AppConfiguracoesIntegracoesRoute;
-  '/configuracoes/permissoes': typeof AppConfiguracoesPermissoesRoute;
-  '/configuracoes/usuarios': typeof AppConfiguracoesUsuariosRoute;
-  '/eventos/novo': typeof AppEventosNovoRoute;
-  '/financeiro/faturas': typeof AppFinanceiroFaturasRoute;
-  '/financeiro/fluxo-caixa': typeof AppFinanceiroFluxoCaixaRoute;
-  '/financeiro/pagamentos': typeof AppFinanceiroPagamentosRoute;
-  '/financeiro/reembolsos': typeof AppFinanceiroReembolsosRoute;
-  '/pdv/contas': typeof AppPdvContasRoute;
-  '/pdv/itens': typeof AppPdvItensRoute;
-  '/pessoas/$id': typeof AppPessoasIdRoute;
-  '/pessoas/nova': typeof AppPessoasNovaRoute;
-  '/relatorios/financeiro': typeof AppRelatoriosFinanceiroRoute;
-  '/relatorios/historico-legado': typeof AppRelatoriosHistoricoLegadoRoute;
-  '/relatorios/inscricoes': typeof AppRelatoriosInscricoesRoute;
-  '/relatorios/participantes': typeof AppRelatoriosParticipantesRoute;
-  '/site/faq': typeof AppSiteFaqRoute;
-  '/site/galeria': typeof AppSiteGaleriaRoute;
-  '/site/home': typeof AppSiteHomeRoute;
-  '/site/paginas': typeof AppSitePaginasRoute;
-  '/site/posts': typeof AppSitePostsRoute;
-  '/equipes-servico/': typeof AppEquipesServicoIndexRoute;
-  '/eventos/': typeof AppEventosIndexRoute;
-  '/inscricoes/': typeof AppInscricoesIndexRoute;
-  '/lojinha-site/': typeof AppLojinhaSiteIndexRoute;
-  '/pessoas/': typeof AppPessoasIndexRoute;
-  '/tribos/': typeof AppTribosIndexRoute;
-  '/eventos/$id/equipes': typeof AppEventosIdEquipesRoute;
-  '/eventos/$id/inscricoes': typeof AppEventosIdInscricoesRoute;
-  '/eventos/$id/pdv': typeof AppEventosIdPdvRoute;
-  '/eventos/$id/perguntas': typeof AppEventosIdPerguntasRoute;
-  '/eventos/$id/relatorios': typeof AppEventosIdRelatoriosRoute;
-  '/eventos/$id/tribos': typeof AppEventosIdTribosRoute;
-  '/eventos/$id/': typeof AppEventosIdIndexRoute;
+  '/': typeof AppIndexRoute
+  '/login': typeof LoginRoute
+  '/comunicacao/avisos': typeof AppComunicacaoAvisosRoute
+  '/comunicacao/push': typeof AppComunicacaoPushRoute
+  '/configuracoes/auditoria': typeof AppConfiguracoesAuditoriaRoute
+  '/configuracoes/integracoes': typeof AppConfiguracoesIntegracoesRoute
+  '/configuracoes/permissoes': typeof AppConfiguracoesPermissoesRoute
+  '/configuracoes/usuarios': typeof AppConfiguracoesUsuariosRoute
+  '/eventos/novo': typeof AppEventosNovoRoute
+  '/financeiro/faturas': typeof AppFinanceiroFaturasRoute
+  '/financeiro/fluxo-caixa': typeof AppFinanceiroFluxoCaixaRoute
+  '/financeiro/pagamentos': typeof AppFinanceiroPagamentosRoute
+  '/financeiro/reembolsos': typeof AppFinanceiroReembolsosRoute
+  '/pdv/contas': typeof AppPdvContasRoute
+  '/pdv/itens': typeof AppPdvItensRoute
+  '/pessoas/$id': typeof AppPessoasIdRoute
+  '/pessoas/nova': typeof AppPessoasNovaRoute
+  '/relatorios/financeiro': typeof AppRelatoriosFinanceiroRoute
+  '/relatorios/historico-legado': typeof AppRelatoriosHistoricoLegadoRoute
+  '/relatorios/inscricoes': typeof AppRelatoriosInscricoesRoute
+  '/relatorios/participantes': typeof AppRelatoriosParticipantesRoute
+  '/site/faq': typeof AppSiteFaqRoute
+  '/site/galeria': typeof AppSiteGaleriaRoute
+  '/site/home': typeof AppSiteHomeRoute
+  '/site/paginas': typeof AppSitePaginasRoute
+  '/site/posts': typeof AppSitePostsRoute
+  '/equipes-servico/': typeof AppEquipesServicoIndexRoute
+  '/eventos/': typeof AppEventosIndexRoute
+  '/inscricoes/': typeof AppInscricoesIndexRoute
+  '/lojinha-site/': typeof AppLojinhaSiteIndexRoute
+  '/pessoas/': typeof AppPessoasIndexRoute
+  '/tribos/': typeof AppTribosIndexRoute
+  '/eventos/$id/equipes': typeof AppEventosIdEquipesRoute
+  '/eventos/$id/inscricoes': typeof AppEventosIdInscricoesRoute
+  '/eventos/$id/pdv': typeof AppEventosIdPdvRoute
+  '/eventos/$id/perguntas': typeof AppEventosIdPerguntasRoute
+  '/eventos/$id/relatorios': typeof AppEventosIdRelatoriosRoute
+  '/eventos/$id/tribos': typeof AppEventosIdTribosRoute
+  '/eventos/$id/': typeof AppEventosIdIndexRoute
 }
 export interface FileRoutesByTo {
-  '/login': typeof LoginRoute;
-  '/': typeof AppIndexRoute;
-  '/comunicacao/avisos': typeof AppComunicacaoAvisosRoute;
-  '/comunicacao/push': typeof AppComunicacaoPushRoute;
-  '/configuracoes/auditoria': typeof AppConfiguracoesAuditoriaRoute;
-  '/configuracoes/integracoes': typeof AppConfiguracoesIntegracoesRoute;
-  '/configuracoes/permissoes': typeof AppConfiguracoesPermissoesRoute;
-  '/configuracoes/usuarios': typeof AppConfiguracoesUsuariosRoute;
-  '/eventos/novo': typeof AppEventosNovoRoute;
-  '/financeiro/faturas': typeof AppFinanceiroFaturasRoute;
-  '/financeiro/fluxo-caixa': typeof AppFinanceiroFluxoCaixaRoute;
-  '/financeiro/pagamentos': typeof AppFinanceiroPagamentosRoute;
-  '/financeiro/reembolsos': typeof AppFinanceiroReembolsosRoute;
-  '/pdv/contas': typeof AppPdvContasRoute;
-  '/pdv/itens': typeof AppPdvItensRoute;
-  '/pessoas/$id': typeof AppPessoasIdRoute;
-  '/pessoas/nova': typeof AppPessoasNovaRoute;
-  '/relatorios/financeiro': typeof AppRelatoriosFinanceiroRoute;
-  '/relatorios/historico-legado': typeof AppRelatoriosHistoricoLegadoRoute;
-  '/relatorios/inscricoes': typeof AppRelatoriosInscricoesRoute;
-  '/relatorios/participantes': typeof AppRelatoriosParticipantesRoute;
-  '/site/faq': typeof AppSiteFaqRoute;
-  '/site/galeria': typeof AppSiteGaleriaRoute;
-  '/site/home': typeof AppSiteHomeRoute;
-  '/site/paginas': typeof AppSitePaginasRoute;
-  '/site/posts': typeof AppSitePostsRoute;
-  '/equipes-servico': typeof AppEquipesServicoIndexRoute;
-  '/eventos': typeof AppEventosIndexRoute;
-  '/inscricoes': typeof AppInscricoesIndexRoute;
-  '/lojinha-site': typeof AppLojinhaSiteIndexRoute;
-  '/pessoas': typeof AppPessoasIndexRoute;
-  '/tribos': typeof AppTribosIndexRoute;
-  '/eventos/$id/equipes': typeof AppEventosIdEquipesRoute;
-  '/eventos/$id/inscricoes': typeof AppEventosIdInscricoesRoute;
-  '/eventos/$id/pdv': typeof AppEventosIdPdvRoute;
-  '/eventos/$id/perguntas': typeof AppEventosIdPerguntasRoute;
-  '/eventos/$id/relatorios': typeof AppEventosIdRelatoriosRoute;
-  '/eventos/$id/tribos': typeof AppEventosIdTribosRoute;
-  '/eventos/$id': typeof AppEventosIdIndexRoute;
+  '/login': typeof LoginRoute
+  '/': typeof AppIndexRoute
+  '/comunicacao/avisos': typeof AppComunicacaoAvisosRoute
+  '/comunicacao/push': typeof AppComunicacaoPushRoute
+  '/configuracoes/auditoria': typeof AppConfiguracoesAuditoriaRoute
+  '/configuracoes/integracoes': typeof AppConfiguracoesIntegracoesRoute
+  '/configuracoes/permissoes': typeof AppConfiguracoesPermissoesRoute
+  '/configuracoes/usuarios': typeof AppConfiguracoesUsuariosRoute
+  '/eventos/novo': typeof AppEventosNovoRoute
+  '/financeiro/faturas': typeof AppFinanceiroFaturasRoute
+  '/financeiro/fluxo-caixa': typeof AppFinanceiroFluxoCaixaRoute
+  '/financeiro/pagamentos': typeof AppFinanceiroPagamentosRoute
+  '/financeiro/reembolsos': typeof AppFinanceiroReembolsosRoute
+  '/pdv/contas': typeof AppPdvContasRoute
+  '/pdv/itens': typeof AppPdvItensRoute
+  '/pessoas/$id': typeof AppPessoasIdRoute
+  '/pessoas/nova': typeof AppPessoasNovaRoute
+  '/relatorios/financeiro': typeof AppRelatoriosFinanceiroRoute
+  '/relatorios/historico-legado': typeof AppRelatoriosHistoricoLegadoRoute
+  '/relatorios/inscricoes': typeof AppRelatoriosInscricoesRoute
+  '/relatorios/participantes': typeof AppRelatoriosParticipantesRoute
+  '/site/faq': typeof AppSiteFaqRoute
+  '/site/galeria': typeof AppSiteGaleriaRoute
+  '/site/home': typeof AppSiteHomeRoute
+  '/site/paginas': typeof AppSitePaginasRoute
+  '/site/posts': typeof AppSitePostsRoute
+  '/equipes-servico': typeof AppEquipesServicoIndexRoute
+  '/eventos': typeof AppEventosIndexRoute
+  '/inscricoes': typeof AppInscricoesIndexRoute
+  '/lojinha-site': typeof AppLojinhaSiteIndexRoute
+  '/pessoas': typeof AppPessoasIndexRoute
+  '/tribos': typeof AppTribosIndexRoute
+  '/eventos/$id/equipes': typeof AppEventosIdEquipesRoute
+  '/eventos/$id/inscricoes': typeof AppEventosIdInscricoesRoute
+  '/eventos/$id/pdv': typeof AppEventosIdPdvRoute
+  '/eventos/$id/perguntas': typeof AppEventosIdPerguntasRoute
+  '/eventos/$id/relatorios': typeof AppEventosIdRelatoriosRoute
+  '/eventos/$id/tribos': typeof AppEventosIdTribosRoute
+  '/eventos/$id': typeof AppEventosIdIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  '/_app': typeof AppRouteWithChildren;
-  '/login': typeof LoginRoute;
-  '/_app/': typeof AppIndexRoute;
-  '/_app/comunicacao/avisos': typeof AppComunicacaoAvisosRoute;
-  '/_app/comunicacao/push': typeof AppComunicacaoPushRoute;
-  '/_app/configuracoes/auditoria': typeof AppConfiguracoesAuditoriaRoute;
-  '/_app/configuracoes/integracoes': typeof AppConfiguracoesIntegracoesRoute;
-  '/_app/configuracoes/permissoes': typeof AppConfiguracoesPermissoesRoute;
-  '/_app/configuracoes/usuarios': typeof AppConfiguracoesUsuariosRoute;
-  '/_app/eventos/novo': typeof AppEventosNovoRoute;
-  '/_app/financeiro/faturas': typeof AppFinanceiroFaturasRoute;
-  '/_app/financeiro/fluxo-caixa': typeof AppFinanceiroFluxoCaixaRoute;
-  '/_app/financeiro/pagamentos': typeof AppFinanceiroPagamentosRoute;
-  '/_app/financeiro/reembolsos': typeof AppFinanceiroReembolsosRoute;
-  '/_app/pdv/contas': typeof AppPdvContasRoute;
-  '/_app/pdv/itens': typeof AppPdvItensRoute;
-  '/_app/pessoas/$id': typeof AppPessoasIdRoute;
-  '/_app/pessoas/nova': typeof AppPessoasNovaRoute;
-  '/_app/relatorios/financeiro': typeof AppRelatoriosFinanceiroRoute;
-  '/_app/relatorios/historico-legado': typeof AppRelatoriosHistoricoLegadoRoute;
-  '/_app/relatorios/inscricoes': typeof AppRelatoriosInscricoesRoute;
-  '/_app/relatorios/participantes': typeof AppRelatoriosParticipantesRoute;
-  '/_app/site/faq': typeof AppSiteFaqRoute;
-  '/_app/site/galeria': typeof AppSiteGaleriaRoute;
-  '/_app/site/home': typeof AppSiteHomeRoute;
-  '/_app/site/paginas': typeof AppSitePaginasRoute;
-  '/_app/site/posts': typeof AppSitePostsRoute;
-  '/_app/equipes-servico/': typeof AppEquipesServicoIndexRoute;
-  '/_app/eventos/': typeof AppEventosIndexRoute;
-  '/_app/inscricoes/': typeof AppInscricoesIndexRoute;
-  '/_app/lojinha-site/': typeof AppLojinhaSiteIndexRoute;
-  '/_app/pessoas/': typeof AppPessoasIndexRoute;
-  '/_app/tribos/': typeof AppTribosIndexRoute;
-  '/_app/eventos/$id/equipes': typeof AppEventosIdEquipesRoute;
-  '/_app/eventos/$id/inscricoes': typeof AppEventosIdInscricoesRoute;
-  '/_app/eventos/$id/pdv': typeof AppEventosIdPdvRoute;
-  '/_app/eventos/$id/perguntas': typeof AppEventosIdPerguntasRoute;
-  '/_app/eventos/$id/relatorios': typeof AppEventosIdRelatoriosRoute;
-  '/_app/eventos/$id/tribos': typeof AppEventosIdTribosRoute;
-  '/_app/eventos/$id/': typeof AppEventosIdIndexRoute;
+  __root__: typeof rootRouteImport
+  '/_app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_app/': typeof AppIndexRoute
+  '/_app/comunicacao/avisos': typeof AppComunicacaoAvisosRoute
+  '/_app/comunicacao/push': typeof AppComunicacaoPushRoute
+  '/_app/configuracoes/auditoria': typeof AppConfiguracoesAuditoriaRoute
+  '/_app/configuracoes/integracoes': typeof AppConfiguracoesIntegracoesRoute
+  '/_app/configuracoes/permissoes': typeof AppConfiguracoesPermissoesRoute
+  '/_app/configuracoes/usuarios': typeof AppConfiguracoesUsuariosRoute
+  '/_app/eventos/novo': typeof AppEventosNovoRoute
+  '/_app/financeiro/faturas': typeof AppFinanceiroFaturasRoute
+  '/_app/financeiro/fluxo-caixa': typeof AppFinanceiroFluxoCaixaRoute
+  '/_app/financeiro/pagamentos': typeof AppFinanceiroPagamentosRoute
+  '/_app/financeiro/reembolsos': typeof AppFinanceiroReembolsosRoute
+  '/_app/pdv/contas': typeof AppPdvContasRoute
+  '/_app/pdv/itens': typeof AppPdvItensRoute
+  '/_app/pessoas/$id': typeof AppPessoasIdRoute
+  '/_app/pessoas/nova': typeof AppPessoasNovaRoute
+  '/_app/relatorios/financeiro': typeof AppRelatoriosFinanceiroRoute
+  '/_app/relatorios/historico-legado': typeof AppRelatoriosHistoricoLegadoRoute
+  '/_app/relatorios/inscricoes': typeof AppRelatoriosInscricoesRoute
+  '/_app/relatorios/participantes': typeof AppRelatoriosParticipantesRoute
+  '/_app/site/faq': typeof AppSiteFaqRoute
+  '/_app/site/galeria': typeof AppSiteGaleriaRoute
+  '/_app/site/home': typeof AppSiteHomeRoute
+  '/_app/site/paginas': typeof AppSitePaginasRoute
+  '/_app/site/posts': typeof AppSitePostsRoute
+  '/_app/equipes-servico/': typeof AppEquipesServicoIndexRoute
+  '/_app/eventos/': typeof AppEventosIndexRoute
+  '/_app/inscricoes/': typeof AppInscricoesIndexRoute
+  '/_app/lojinha-site/': typeof AppLojinhaSiteIndexRoute
+  '/_app/pessoas/': typeof AppPessoasIndexRoute
+  '/_app/tribos/': typeof AppTribosIndexRoute
+  '/_app/eventos/$id/equipes': typeof AppEventosIdEquipesRoute
+  '/_app/eventos/$id/inscricoes': typeof AppEventosIdInscricoesRoute
+  '/_app/eventos/$id/pdv': typeof AppEventosIdPdvRoute
+  '/_app/eventos/$id/perguntas': typeof AppEventosIdPerguntasRoute
+  '/_app/eventos/$id/relatorios': typeof AppEventosIdRelatoriosRoute
+  '/_app/eventos/$id/tribos': typeof AppEventosIdTribosRoute
+  '/_app/eventos/$id/': typeof AppEventosIdIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/login'
@@ -416,8 +422,8 @@ export interface FileRouteTypes {
     | '/eventos/$id/perguntas'
     | '/eventos/$id/relatorios'
     | '/eventos/$id/tribos'
-    | '/eventos/$id/';
-  fileRoutesByTo: FileRoutesByTo;
+    | '/eventos/$id/'
+  fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/'
@@ -457,7 +463,7 @@ export interface FileRouteTypes {
     | '/eventos/$id/perguntas'
     | '/eventos/$id/relatorios'
     | '/eventos/$id/tribos'
-    | '/eventos/$id';
+    | '/eventos/$id'
   id:
     | '__root__'
     | '/_app'
@@ -499,338 +505,338 @@ export interface FileRouteTypes {
     | '/_app/eventos/$id/perguntas'
     | '/_app/eventos/$id/relatorios'
     | '/_app/eventos/$id/tribos'
-    | '/_app/eventos/$id/';
-  fileRoutesById: FileRoutesById;
+    | '/_app/eventos/$id/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AppRoute: typeof AppRouteWithChildren;
-  LoginRoute: typeof LoginRoute;
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/login': {
-      id: '/login';
-      path: '/login';
-      fullPath: '/login';
-      preLoaderRoute: typeof LoginRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app': {
-      id: '/_app';
-      path: '';
-      fullPath: '/';
-      preLoaderRoute: typeof AppRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app/': {
-      id: '/_app/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof AppIndexRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/tribos/': {
-      id: '/_app/tribos/';
-      path: '/tribos';
-      fullPath: '/tribos/';
-      preLoaderRoute: typeof AppTribosIndexRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/tribos/'
+      path: '/tribos'
+      fullPath: '/tribos/'
+      preLoaderRoute: typeof AppTribosIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/pessoas/': {
-      id: '/_app/pessoas/';
-      path: '/pessoas';
-      fullPath: '/pessoas/';
-      preLoaderRoute: typeof AppPessoasIndexRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/pessoas/'
+      path: '/pessoas'
+      fullPath: '/pessoas/'
+      preLoaderRoute: typeof AppPessoasIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/lojinha-site/': {
-      id: '/_app/lojinha-site/';
-      path: '/lojinha-site';
-      fullPath: '/lojinha-site/';
-      preLoaderRoute: typeof AppLojinhaSiteIndexRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/lojinha-site/'
+      path: '/lojinha-site'
+      fullPath: '/lojinha-site/'
+      preLoaderRoute: typeof AppLojinhaSiteIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/inscricoes/': {
-      id: '/_app/inscricoes/';
-      path: '/inscricoes';
-      fullPath: '/inscricoes/';
-      preLoaderRoute: typeof AppInscricoesIndexRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/inscricoes/'
+      path: '/inscricoes'
+      fullPath: '/inscricoes/'
+      preLoaderRoute: typeof AppInscricoesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/': {
-      id: '/_app/eventos/';
-      path: '/eventos';
-      fullPath: '/eventos/';
-      preLoaderRoute: typeof AppEventosIndexRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/'
+      path: '/eventos'
+      fullPath: '/eventos/'
+      preLoaderRoute: typeof AppEventosIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/equipes-servico/': {
-      id: '/_app/equipes-servico/';
-      path: '/equipes-servico';
-      fullPath: '/equipes-servico/';
-      preLoaderRoute: typeof AppEquipesServicoIndexRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/equipes-servico/'
+      path: '/equipes-servico'
+      fullPath: '/equipes-servico/'
+      preLoaderRoute: typeof AppEquipesServicoIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/site/posts': {
-      id: '/_app/site/posts';
-      path: '/site/posts';
-      fullPath: '/site/posts';
-      preLoaderRoute: typeof AppSitePostsRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/site/posts'
+      path: '/site/posts'
+      fullPath: '/site/posts'
+      preLoaderRoute: typeof AppSitePostsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/site/paginas': {
-      id: '/_app/site/paginas';
-      path: '/site/paginas';
-      fullPath: '/site/paginas';
-      preLoaderRoute: typeof AppSitePaginasRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/site/paginas'
+      path: '/site/paginas'
+      fullPath: '/site/paginas'
+      preLoaderRoute: typeof AppSitePaginasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/site/home': {
-      id: '/_app/site/home';
-      path: '/site/home';
-      fullPath: '/site/home';
-      preLoaderRoute: typeof AppSiteHomeRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/site/home'
+      path: '/site/home'
+      fullPath: '/site/home'
+      preLoaderRoute: typeof AppSiteHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/site/galeria': {
-      id: '/_app/site/galeria';
-      path: '/site/galeria';
-      fullPath: '/site/galeria';
-      preLoaderRoute: typeof AppSiteGaleriaRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/site/galeria'
+      path: '/site/galeria'
+      fullPath: '/site/galeria'
+      preLoaderRoute: typeof AppSiteGaleriaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/site/faq': {
-      id: '/_app/site/faq';
-      path: '/site/faq';
-      fullPath: '/site/faq';
-      preLoaderRoute: typeof AppSiteFaqRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/site/faq'
+      path: '/site/faq'
+      fullPath: '/site/faq'
+      preLoaderRoute: typeof AppSiteFaqRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/relatorios/participantes': {
-      id: '/_app/relatorios/participantes';
-      path: '/relatorios/participantes';
-      fullPath: '/relatorios/participantes';
-      preLoaderRoute: typeof AppRelatoriosParticipantesRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/relatorios/participantes'
+      path: '/relatorios/participantes'
+      fullPath: '/relatorios/participantes'
+      preLoaderRoute: typeof AppRelatoriosParticipantesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/relatorios/inscricoes': {
-      id: '/_app/relatorios/inscricoes';
-      path: '/relatorios/inscricoes';
-      fullPath: '/relatorios/inscricoes';
-      preLoaderRoute: typeof AppRelatoriosInscricoesRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/relatorios/inscricoes'
+      path: '/relatorios/inscricoes'
+      fullPath: '/relatorios/inscricoes'
+      preLoaderRoute: typeof AppRelatoriosInscricoesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/relatorios/historico-legado': {
-      id: '/_app/relatorios/historico-legado';
-      path: '/relatorios/historico-legado';
-      fullPath: '/relatorios/historico-legado';
-      preLoaderRoute: typeof AppRelatoriosHistoricoLegadoRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/relatorios/historico-legado'
+      path: '/relatorios/historico-legado'
+      fullPath: '/relatorios/historico-legado'
+      preLoaderRoute: typeof AppRelatoriosHistoricoLegadoRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/relatorios/financeiro': {
-      id: '/_app/relatorios/financeiro';
-      path: '/relatorios/financeiro';
-      fullPath: '/relatorios/financeiro';
-      preLoaderRoute: typeof AppRelatoriosFinanceiroRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/relatorios/financeiro'
+      path: '/relatorios/financeiro'
+      fullPath: '/relatorios/financeiro'
+      preLoaderRoute: typeof AppRelatoriosFinanceiroRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/pessoas/nova': {
-      id: '/_app/pessoas/nova';
-      path: '/pessoas/nova';
-      fullPath: '/pessoas/nova';
-      preLoaderRoute: typeof AppPessoasNovaRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/pessoas/nova'
+      path: '/pessoas/nova'
+      fullPath: '/pessoas/nova'
+      preLoaderRoute: typeof AppPessoasNovaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/pessoas/$id': {
-      id: '/_app/pessoas/$id';
-      path: '/pessoas/$id';
-      fullPath: '/pessoas/$id';
-      preLoaderRoute: typeof AppPessoasIdRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/pessoas/$id'
+      path: '/pessoas/$id'
+      fullPath: '/pessoas/$id'
+      preLoaderRoute: typeof AppPessoasIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/pdv/itens': {
-      id: '/_app/pdv/itens';
-      path: '/pdv/itens';
-      fullPath: '/pdv/itens';
-      preLoaderRoute: typeof AppPdvItensRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/pdv/itens'
+      path: '/pdv/itens'
+      fullPath: '/pdv/itens'
+      preLoaderRoute: typeof AppPdvItensRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/pdv/contas': {
-      id: '/_app/pdv/contas';
-      path: '/pdv/contas';
-      fullPath: '/pdv/contas';
-      preLoaderRoute: typeof AppPdvContasRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/pdv/contas'
+      path: '/pdv/contas'
+      fullPath: '/pdv/contas'
+      preLoaderRoute: typeof AppPdvContasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/financeiro/reembolsos': {
-      id: '/_app/financeiro/reembolsos';
-      path: '/financeiro/reembolsos';
-      fullPath: '/financeiro/reembolsos';
-      preLoaderRoute: typeof AppFinanceiroReembolsosRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/financeiro/reembolsos'
+      path: '/financeiro/reembolsos'
+      fullPath: '/financeiro/reembolsos'
+      preLoaderRoute: typeof AppFinanceiroReembolsosRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/financeiro/pagamentos': {
-      id: '/_app/financeiro/pagamentos';
-      path: '/financeiro/pagamentos';
-      fullPath: '/financeiro/pagamentos';
-      preLoaderRoute: typeof AppFinanceiroPagamentosRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/financeiro/pagamentos'
+      path: '/financeiro/pagamentos'
+      fullPath: '/financeiro/pagamentos'
+      preLoaderRoute: typeof AppFinanceiroPagamentosRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/financeiro/fluxo-caixa': {
-      id: '/_app/financeiro/fluxo-caixa';
-      path: '/financeiro/fluxo-caixa';
-      fullPath: '/financeiro/fluxo-caixa';
-      preLoaderRoute: typeof AppFinanceiroFluxoCaixaRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/financeiro/fluxo-caixa'
+      path: '/financeiro/fluxo-caixa'
+      fullPath: '/financeiro/fluxo-caixa'
+      preLoaderRoute: typeof AppFinanceiroFluxoCaixaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/financeiro/faturas': {
-      id: '/_app/financeiro/faturas';
-      path: '/financeiro/faturas';
-      fullPath: '/financeiro/faturas';
-      preLoaderRoute: typeof AppFinanceiroFaturasRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/financeiro/faturas'
+      path: '/financeiro/faturas'
+      fullPath: '/financeiro/faturas'
+      preLoaderRoute: typeof AppFinanceiroFaturasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/novo': {
-      id: '/_app/eventos/novo';
-      path: '/eventos/novo';
-      fullPath: '/eventos/novo';
-      preLoaderRoute: typeof AppEventosNovoRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/novo'
+      path: '/eventos/novo'
+      fullPath: '/eventos/novo'
+      preLoaderRoute: typeof AppEventosNovoRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/configuracoes/usuarios': {
-      id: '/_app/configuracoes/usuarios';
-      path: '/configuracoes/usuarios';
-      fullPath: '/configuracoes/usuarios';
-      preLoaderRoute: typeof AppConfiguracoesUsuariosRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/configuracoes/usuarios'
+      path: '/configuracoes/usuarios'
+      fullPath: '/configuracoes/usuarios'
+      preLoaderRoute: typeof AppConfiguracoesUsuariosRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/configuracoes/permissoes': {
-      id: '/_app/configuracoes/permissoes';
-      path: '/configuracoes/permissoes';
-      fullPath: '/configuracoes/permissoes';
-      preLoaderRoute: typeof AppConfiguracoesPermissoesRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/configuracoes/permissoes'
+      path: '/configuracoes/permissoes'
+      fullPath: '/configuracoes/permissoes'
+      preLoaderRoute: typeof AppConfiguracoesPermissoesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/configuracoes/integracoes': {
-      id: '/_app/configuracoes/integracoes';
-      path: '/configuracoes/integracoes';
-      fullPath: '/configuracoes/integracoes';
-      preLoaderRoute: typeof AppConfiguracoesIntegracoesRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/configuracoes/integracoes'
+      path: '/configuracoes/integracoes'
+      fullPath: '/configuracoes/integracoes'
+      preLoaderRoute: typeof AppConfiguracoesIntegracoesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/configuracoes/auditoria': {
-      id: '/_app/configuracoes/auditoria';
-      path: '/configuracoes/auditoria';
-      fullPath: '/configuracoes/auditoria';
-      preLoaderRoute: typeof AppConfiguracoesAuditoriaRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/configuracoes/auditoria'
+      path: '/configuracoes/auditoria'
+      fullPath: '/configuracoes/auditoria'
+      preLoaderRoute: typeof AppConfiguracoesAuditoriaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/comunicacao/push': {
-      id: '/_app/comunicacao/push';
-      path: '/comunicacao/push';
-      fullPath: '/comunicacao/push';
-      preLoaderRoute: typeof AppComunicacaoPushRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/comunicacao/push'
+      path: '/comunicacao/push'
+      fullPath: '/comunicacao/push'
+      preLoaderRoute: typeof AppComunicacaoPushRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/comunicacao/avisos': {
-      id: '/_app/comunicacao/avisos';
-      path: '/comunicacao/avisos';
-      fullPath: '/comunicacao/avisos';
-      preLoaderRoute: typeof AppComunicacaoAvisosRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/comunicacao/avisos'
+      path: '/comunicacao/avisos'
+      fullPath: '/comunicacao/avisos'
+      preLoaderRoute: typeof AppComunicacaoAvisosRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/$id/': {
-      id: '/_app/eventos/$id/';
-      path: '/eventos/$id';
-      fullPath: '/eventos/$id/';
-      preLoaderRoute: typeof AppEventosIdIndexRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/$id/'
+      path: '/eventos/$id'
+      fullPath: '/eventos/$id/'
+      preLoaderRoute: typeof AppEventosIdIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/$id/tribos': {
-      id: '/_app/eventos/$id/tribos';
-      path: '/eventos/$id/tribos';
-      fullPath: '/eventos/$id/tribos';
-      preLoaderRoute: typeof AppEventosIdTribosRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/$id/tribos'
+      path: '/eventos/$id/tribos'
+      fullPath: '/eventos/$id/tribos'
+      preLoaderRoute: typeof AppEventosIdTribosRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/$id/relatorios': {
-      id: '/_app/eventos/$id/relatorios';
-      path: '/eventos/$id/relatorios';
-      fullPath: '/eventos/$id/relatorios';
-      preLoaderRoute: typeof AppEventosIdRelatoriosRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/$id/relatorios'
+      path: '/eventos/$id/relatorios'
+      fullPath: '/eventos/$id/relatorios'
+      preLoaderRoute: typeof AppEventosIdRelatoriosRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/$id/perguntas': {
-      id: '/_app/eventos/$id/perguntas';
-      path: '/eventos/$id/perguntas';
-      fullPath: '/eventos/$id/perguntas';
-      preLoaderRoute: typeof AppEventosIdPerguntasRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/$id/perguntas'
+      path: '/eventos/$id/perguntas'
+      fullPath: '/eventos/$id/perguntas'
+      preLoaderRoute: typeof AppEventosIdPerguntasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/$id/pdv': {
-      id: '/_app/eventos/$id/pdv';
-      path: '/eventos/$id/pdv';
-      fullPath: '/eventos/$id/pdv';
-      preLoaderRoute: typeof AppEventosIdPdvRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/$id/pdv'
+      path: '/eventos/$id/pdv'
+      fullPath: '/eventos/$id/pdv'
+      preLoaderRoute: typeof AppEventosIdPdvRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/$id/inscricoes': {
-      id: '/_app/eventos/$id/inscricoes';
-      path: '/eventos/$id/inscricoes';
-      fullPath: '/eventos/$id/inscricoes';
-      preLoaderRoute: typeof AppEventosIdInscricoesRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/$id/inscricoes'
+      path: '/eventos/$id/inscricoes'
+      fullPath: '/eventos/$id/inscricoes'
+      preLoaderRoute: typeof AppEventosIdInscricoesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/eventos/$id/equipes': {
-      id: '/_app/eventos/$id/equipes';
-      path: '/eventos/$id/equipes';
-      fullPath: '/eventos/$id/equipes';
-      preLoaderRoute: typeof AppEventosIdEquipesRouteImport;
-      parentRoute: typeof AppRoute;
-    };
+      id: '/_app/eventos/$id/equipes'
+      path: '/eventos/$id/equipes'
+      fullPath: '/eventos/$id/equipes'
+      preLoaderRoute: typeof AppEventosIdEquipesRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
-  AppIndexRoute: typeof AppIndexRoute;
-  AppComunicacaoAvisosRoute: typeof AppComunicacaoAvisosRoute;
-  AppComunicacaoPushRoute: typeof AppComunicacaoPushRoute;
-  AppConfiguracoesAuditoriaRoute: typeof AppConfiguracoesAuditoriaRoute;
-  AppConfiguracoesIntegracoesRoute: typeof AppConfiguracoesIntegracoesRoute;
-  AppConfiguracoesPermissoesRoute: typeof AppConfiguracoesPermissoesRoute;
-  AppConfiguracoesUsuariosRoute: typeof AppConfiguracoesUsuariosRoute;
-  AppEventosNovoRoute: typeof AppEventosNovoRoute;
-  AppFinanceiroFaturasRoute: typeof AppFinanceiroFaturasRoute;
-  AppFinanceiroFluxoCaixaRoute: typeof AppFinanceiroFluxoCaixaRoute;
-  AppFinanceiroPagamentosRoute: typeof AppFinanceiroPagamentosRoute;
-  AppFinanceiroReembolsosRoute: typeof AppFinanceiroReembolsosRoute;
-  AppPdvContasRoute: typeof AppPdvContasRoute;
-  AppPdvItensRoute: typeof AppPdvItensRoute;
-  AppPessoasIdRoute: typeof AppPessoasIdRoute;
-  AppPessoasNovaRoute: typeof AppPessoasNovaRoute;
-  AppRelatoriosFinanceiroRoute: typeof AppRelatoriosFinanceiroRoute;
-  AppRelatoriosHistoricoLegadoRoute: typeof AppRelatoriosHistoricoLegadoRoute;
-  AppRelatoriosInscricoesRoute: typeof AppRelatoriosInscricoesRoute;
-  AppRelatoriosParticipantesRoute: typeof AppRelatoriosParticipantesRoute;
-  AppSiteFaqRoute: typeof AppSiteFaqRoute;
-  AppSiteGaleriaRoute: typeof AppSiteGaleriaRoute;
-  AppSiteHomeRoute: typeof AppSiteHomeRoute;
-  AppSitePaginasRoute: typeof AppSitePaginasRoute;
-  AppSitePostsRoute: typeof AppSitePostsRoute;
-  AppEquipesServicoIndexRoute: typeof AppEquipesServicoIndexRoute;
-  AppEventosIndexRoute: typeof AppEventosIndexRoute;
-  AppInscricoesIndexRoute: typeof AppInscricoesIndexRoute;
-  AppLojinhaSiteIndexRoute: typeof AppLojinhaSiteIndexRoute;
-  AppPessoasIndexRoute: typeof AppPessoasIndexRoute;
-  AppTribosIndexRoute: typeof AppTribosIndexRoute;
-  AppEventosIdEquipesRoute: typeof AppEventosIdEquipesRoute;
-  AppEventosIdInscricoesRoute: typeof AppEventosIdInscricoesRoute;
-  AppEventosIdPdvRoute: typeof AppEventosIdPdvRoute;
-  AppEventosIdPerguntasRoute: typeof AppEventosIdPerguntasRoute;
-  AppEventosIdRelatoriosRoute: typeof AppEventosIdRelatoriosRoute;
-  AppEventosIdTribosRoute: typeof AppEventosIdTribosRoute;
-  AppEventosIdIndexRoute: typeof AppEventosIdIndexRoute;
+  AppIndexRoute: typeof AppIndexRoute
+  AppComunicacaoAvisosRoute: typeof AppComunicacaoAvisosRoute
+  AppComunicacaoPushRoute: typeof AppComunicacaoPushRoute
+  AppConfiguracoesAuditoriaRoute: typeof AppConfiguracoesAuditoriaRoute
+  AppConfiguracoesIntegracoesRoute: typeof AppConfiguracoesIntegracoesRoute
+  AppConfiguracoesPermissoesRoute: typeof AppConfiguracoesPermissoesRoute
+  AppConfiguracoesUsuariosRoute: typeof AppConfiguracoesUsuariosRoute
+  AppEventosNovoRoute: typeof AppEventosNovoRoute
+  AppFinanceiroFaturasRoute: typeof AppFinanceiroFaturasRoute
+  AppFinanceiroFluxoCaixaRoute: typeof AppFinanceiroFluxoCaixaRoute
+  AppFinanceiroPagamentosRoute: typeof AppFinanceiroPagamentosRoute
+  AppFinanceiroReembolsosRoute: typeof AppFinanceiroReembolsosRoute
+  AppPdvContasRoute: typeof AppPdvContasRoute
+  AppPdvItensRoute: typeof AppPdvItensRoute
+  AppPessoasIdRoute: typeof AppPessoasIdRoute
+  AppPessoasNovaRoute: typeof AppPessoasNovaRoute
+  AppRelatoriosFinanceiroRoute: typeof AppRelatoriosFinanceiroRoute
+  AppRelatoriosHistoricoLegadoRoute: typeof AppRelatoriosHistoricoLegadoRoute
+  AppRelatoriosInscricoesRoute: typeof AppRelatoriosInscricoesRoute
+  AppRelatoriosParticipantesRoute: typeof AppRelatoriosParticipantesRoute
+  AppSiteFaqRoute: typeof AppSiteFaqRoute
+  AppSiteGaleriaRoute: typeof AppSiteGaleriaRoute
+  AppSiteHomeRoute: typeof AppSiteHomeRoute
+  AppSitePaginasRoute: typeof AppSitePaginasRoute
+  AppSitePostsRoute: typeof AppSitePostsRoute
+  AppEquipesServicoIndexRoute: typeof AppEquipesServicoIndexRoute
+  AppEventosIndexRoute: typeof AppEventosIndexRoute
+  AppInscricoesIndexRoute: typeof AppInscricoesIndexRoute
+  AppLojinhaSiteIndexRoute: typeof AppLojinhaSiteIndexRoute
+  AppPessoasIndexRoute: typeof AppPessoasIndexRoute
+  AppTribosIndexRoute: typeof AppTribosIndexRoute
+  AppEventosIdEquipesRoute: typeof AppEventosIdEquipesRoute
+  AppEventosIdInscricoesRoute: typeof AppEventosIdInscricoesRoute
+  AppEventosIdPdvRoute: typeof AppEventosIdPdvRoute
+  AppEventosIdPerguntasRoute: typeof AppEventosIdPerguntasRoute
+  AppEventosIdRelatoriosRoute: typeof AppEventosIdRelatoriosRoute
+  AppEventosIdTribosRoute: typeof AppEventosIdTribosRoute
+  AppEventosIdIndexRoute: typeof AppEventosIdIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -872,14 +878,14 @@ const AppRouteChildren: AppRouteChildren = {
   AppEventosIdRelatoriosRoute: AppEventosIdRelatoriosRoute,
   AppEventosIdTribosRoute: AppEventosIdTribosRoute,
   AppEventosIdIndexRoute: AppEventosIdIndexRoute,
-};
+}
 
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren);
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
