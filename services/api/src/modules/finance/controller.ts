@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { reportsService } from '../reports/service.ts';
 import { recordCashPaymentSchema } from './schemas.ts';
 import { FinanceError, financeService } from './service.ts';
 
@@ -45,8 +46,17 @@ export const financeController = {
     return { items };
   },
 
-  listPayments: notImplemented,
-  listRefunds: notImplemented,
+  async listPayments(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const items = await reportsService.listPayments(req.server.db);
+    return { items };
+  },
+
+  async listRefunds(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const items = await reportsService.listRefunds(req.server.db);
+    return { items };
+  },
   createAsaasCharge: notImplemented,
 
   async recordCashPayment(req: FastifyRequest, reply: FastifyReply) {
@@ -113,6 +123,14 @@ export const financeController = {
     }
   },
 
-  cashflowReport: notImplemented,
-  byEventReport: notImplemented,
+  async cashflowReport(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    return reportsService.financeReport(req.server.db);
+  },
+
+  async byEventReport(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const items = await reportsService.participantsByEvent(req.server.db);
+    return { items };
+  },
 };

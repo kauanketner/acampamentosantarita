@@ -15,4 +15,9 @@ export const reportsRoutes: FastifyPluginAsync = async (app) => {
     { schema: { tags: ['reports'] } },
     reportsController.legacyHistory,
   );
+  app.get(
+    '/audit',
+    { schema: { tags: ['reports'] } },
+    reportsController.audit,
+  );
 };
