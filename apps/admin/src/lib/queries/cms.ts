@@ -216,5 +216,155 @@ export function useDeleteGalleryPhoto() {
   });
 }
 
+// ===== Posts (blog) =====
+
+export type Post = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  content: string | null;
+  coverUrl: string | null;
+  authorUserId: string | null;
+  publishedAt: string | null;
+  tags: unknown;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type PostInput = {
+  slug: string;
+  title: string;
+  excerpt?: string | null;
+  content?: string | null;
+  coverUrl?: string | null;
+  tags?: string[];
+  publish?: boolean;
+};
+
+const POSTS_KEY = ['admin', 'cms', 'posts'] as const;
+
+export function useAdminPosts() {
+  return useQuery<Post[]>({
+    queryKey: POSTS_KEY,
+    queryFn: async () => {
+      const res = await api<{ items: Post[] }>('/v1/cms/posts');
+      return res.items;
+    },
+    staleTime: 30_000,
+  });
+}
+
+export function useCreatePost() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (input: PostInput) =>
+      api<Post>('/v1/cms/posts', { method: 'POST', json: input }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: POSTS_KEY });
+    },
+  });
+}
+
+export function useUpdatePost() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, input }: { id: string; input: Partial<PostInput> }) =>
+      api<Post>(`/v1/cms/posts/${id}`, { method: 'PATCH', json: input }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: POSTS_KEY });
+    },
+  });
+}
+
+export function useDeletePost() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) =>
+      api<void>(`/v1/cms/posts/${id}`, { method: 'DELETE' }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: POSTS_KEY });
+    },
+  });
+}
+
+// ===== Home Blocks =====
+
+export type HomeBlockType =
+  | 'hero'
+  | 'call_to_action'
+  | 'text'
+  | 'gallery'
+  | 'testimonial'
+  | 'numbers';
+
+export type HomeBlock = {
+  id: string;
+  type: HomeBlockType;
+  content: Record<string, unknown>;
+  order: number;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type HomeBlockInput = {
+  type: HomeBlockType;
+  content: Record<string, unknown>;
+  order?: number;
+  active?: boolean;
+};
+
+const HOMEBLOCKS_KEY = ['admin', 'cms', 'home-blocks'] as const;
+
+export function useHomeBlocks() {
+  return useQuery<HomeBlock[]>({
+    queryKey: HOMEBLOCKS_KEY,
+    queryFn: async () => {
+      const res = await api<{ items: HomeBlock[] }>('/v1/cms/home-blocks');
+      return res.items;
+    },
+    staleTime: 30_000,
+  });
+}
+
+export function useCreateHomeBlock() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (input: HomeBlockInput) =>
+      api<HomeBlock>('/v1/cms/home-blocks', { method: 'POST', json: input }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: HOMEBLOCKS_KEY });
+    },
+  });
+}
+
+export function useUpdateHomeBlock() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, input }: { id: string; input: Partial<HomeBlockInput> }) =>
+      api<HomeBlock>(`/v1/cms/home-blocks/${id}`, {
+        method: 'PATCH',
+        json: input,
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: HOMEBLOCKS_KEY });
+    },
+  });
+}
+
+export function useDeleteHomeBlock() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) =>
+      api<void>(`/v1/cms/home-blocks/${id}`, { method: 'DELETE' }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: HOMEBLOCKS_KEY });
+    },
+  });
+}
+
 export const adminFaqQueryKey = FAQ_KEY;
 export const adminGalleryQueryKey = GALLERY_KEY;
+export const adminPostsQueryKey = POSTS_KEY;
+export const adminHomeBlocksQueryKey = HOMEBLOCKS_KEY;

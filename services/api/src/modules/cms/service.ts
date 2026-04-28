@@ -1,12 +1,16 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
-import { and, asc, desc, eq, ne } from 'drizzle-orm';
+import { and, asc, desc, eq, isNotNull, ne } from 'drizzle-orm';
 import type {
   AddGalleryPhoto,
   CreateFaqItem,
   CreateGalleryAlbum,
+  CreateHomeBlock,
+  CreatePost,
   UpdateFaqItem,
   UpdateGalleryAlbum,
+  UpdateHomeBlock,
+  UpdatePost,
 } from './schemas.ts';
 
 export class CmsError extends Error {
@@ -246,5 +250,134 @@ export const cmsService = {
       .limit(1);
     if (!existing) throw new CmsError('NOT_FOUND', 'Foto não encontrada.');
     await db.delete(schema.galleryPhotos).where(eq(schema.galleryPhotos.id, photoId));
+  },
+
+  // ===== Posts =====
+
+  async listPostsAll(db: Database) {
+    return db
+      .select()
+      .from(schema.posts)
+      .orderBy(desc(schema.posts.publishedAt), desc(schema.posts.createdAt));
+  },
+
+  async createPost(
+    db: Database,
+    payload: CreatePost,
+    authorUserId: string,
+  ) {
+    const [existing] = await db
+      .select({ id: schema.posts.id })
+      .from(schema.posts)
+      .where(eq(schema.posts.slug, payload.slug))
+      .limit(1);
+    if (existing) throw new CmsError('SLUG_TAKEN', 'Slug já em uso.');
+
+    const [created] = await db
+      .insert(schema.posts)
+      .values({
+        slug: payload.slug,
+        title: payload.title,
+        excerpt: payload.excerpt ?? null,
+        content: payload.content ?? null,
+        coverUrl: payload.coverUrl ?? null,
+        authorUserId,
+        tags: payload.tags as unknown as Record<string, unknown>,
+        publishedAt: payload.publish ? new Date() : null,
+      })
+      .returning();
+    return created!;
+  },
+
+  async updatePost(db: Database, id: string, payload: UpdatePost) {
+    const [existing] = await db
+      .select()
+      .from(schema.posts)
+      .where(eq(schema.posts.id, id))
+      .limit(1);
+    if (!existing) throw new CmsError('NOT_FOUND', 'Post não encontrado.');
+
+    if (payload.slug && payload.slug !== existing.slug) {
+      const [other] = await db
+        .select({ id: schema.posts.id })
+        .from(schema.posts)
+        .where(and(eq(schema.posts.slug, payload.slug), ne(schema.posts.id, id)))
+        .limit(1);
+      if (other) throw new CmsError('SLUG_TAKEN', 'Slug já em uso.');
+    }
+
+    const patch: Record<string, unknown> = { updatedAt: new Date() };
+    if (payload.slug !== undefined) patch.slug = payload.slug;
+    if (payload.title !== undefined) patch.title = payload.title;
+    if (payload.excerpt !== undefined) patch.excerpt = payload.excerpt;
+    if (payload.content !== undefined) patch.content = payload.content;
+    if (payload.coverUrl !== undefined) patch.coverUrl = payload.coverUrl;
+    if (payload.tags !== undefined) patch.tags = payload.tags;
+    if (payload.publish !== undefined) {
+      if (payload.publish) {
+        if (!existing.publishedAt) patch.publishedAt = new Date();
+      } else {
+        patch.publishedAt = null;
+      }
+    }
+
+    const [updated] = await db
+      .update(schema.posts)
+      .set(patch)
+      .where(eq(schema.posts.id, id))
+      .returning();
+    return updated!;
+  },
+
+  async deletePost(db: Database, id: string) {
+    await db.delete(schema.posts).where(eq(schema.posts.id, id));
+  },
+
+  // ===== Home blocks =====
+
+  async listHomeBlocksAll(db: Database) {
+    return db
+      .select()
+      .from(schema.homeBlocks)
+      .orderBy(asc(schema.homeBlocks.order), asc(schema.homeBlocks.createdAt));
+  },
+
+  async createHomeBlock(db: Database, payload: CreateHomeBlock) {
+    const [created] = await db
+      .insert(schema.homeBlocks)
+      .values({
+        type: payload.type,
+        content: payload.content as unknown as Record<string, unknown>,
+        order: payload.order,
+        active: payload.active,
+      })
+      .returning();
+    return created!;
+  },
+
+  async updateHomeBlock(db: Database, id: string, payload: UpdateHomeBlock) {
+    const [existing] = await db
+      .select({ id: schema.homeBlocks.id })
+      .from(schema.homeBlocks)
+      .where(eq(schema.homeBlocks.id, id))
+      .limit(1);
+    if (!existing) throw new CmsError('NOT_FOUND', 'Bloco não encontrado.');
+
+    const patch: Record<string, unknown> = { updatedAt: new Date() };
+    for (const [key, value] of Object.entries(payload)) {
+      if (value === undefined) continue;
+      patch[key] = value;
+    }
+
+    const [updated] = await db
+      .update(schema.homeBlocks)
+      .set(patch)
+      .where(eq(schema.homeBlocks.id, id))
+      .returning();
+    return updated!;
+  },
+
+  async deleteHomeBlock(db: Database, id: string) {
+    await db.delete(schema.homeBlocks).where(eq(schema.homeBlocks.id, id));
   },
 };

@@ -3,8 +3,12 @@ import {
   addGalleryPhotoSchema,
   createFaqItemSchema,
   createGalleryAlbumSchema,
+  createHomeBlockSchema,
+  createPostSchema,
   updateFaqItemSchema,
   updateGalleryAlbumSchema,
+  updateHomeBlockSchema,
+  updatePostSchema,
 } from './schemas.ts';
 import { CmsError, cmsService } from './service.ts';
 
@@ -41,11 +45,45 @@ export const cmsController = {
   updatePage: notImplemented,
   deletePage: notImplemented,
 
-  // posts — fora do escopo desta fase
-  listPosts: notImplemented,
-  createPost: notImplemented,
-  updatePost: notImplemented,
-  deletePost: notImplemented,
+  // ===== Posts =====
+  async listPosts(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const items = await cmsService.listPostsAll(req.server.db);
+    return { items };
+  },
+  async createPost(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const parsed = createPostSchema.parse(req.body);
+    try {
+      const created = await cmsService.createPost(
+        req.server.db,
+        parsed,
+        req.user!.id,
+      );
+      reply.code(201);
+      return created;
+    } catch (e) {
+      if (e instanceof CmsError) return sendError(reply, e);
+      throw e;
+    }
+  },
+  async updatePost(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { id } = req.params as { id: string };
+    const parsed = updatePostSchema.parse(req.body);
+    try {
+      return await cmsService.updatePost(req.server.db, id, parsed);
+    } catch (e) {
+      if (e instanceof CmsError) return sendError(reply, e);
+      throw e;
+    }
+  },
+  async deletePost(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { id } = req.params as { id: string };
+    await cmsService.deletePost(req.server.db, id);
+    reply.code(204);
+  },
 
   // ===== Gallery =====
   async listAlbums(req: FastifyRequest, reply: FastifyReply) {
@@ -119,11 +157,36 @@ export const cmsController = {
     }
   },
 
-  // home blocks — fora do escopo desta fase
-  listHomeBlocks: notImplemented,
-  createHomeBlock: notImplemented,
-  updateHomeBlock: notImplemented,
-  deleteHomeBlock: notImplemented,
+  // ===== Home blocks =====
+  async listHomeBlocks(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const items = await cmsService.listHomeBlocksAll(req.server.db);
+    return { items };
+  },
+  async createHomeBlock(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const parsed = createHomeBlockSchema.parse(req.body);
+    const created = await cmsService.createHomeBlock(req.server.db, parsed);
+    reply.code(201);
+    return created;
+  },
+  async updateHomeBlock(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { id } = req.params as { id: string };
+    const parsed = updateHomeBlockSchema.parse(req.body);
+    try {
+      return await cmsService.updateHomeBlock(req.server.db, id, parsed);
+    } catch (e) {
+      if (e instanceof CmsError) return sendError(reply, e);
+      throw e;
+    }
+  },
+  async deleteHomeBlock(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { id } = req.params as { id: string };
+    await cmsService.deleteHomeBlock(req.server.db, id);
+    reply.code(204);
+  },
 
   // ===== FAQ =====
   async listFaq(req: FastifyRequest, reply: FastifyReply) {
