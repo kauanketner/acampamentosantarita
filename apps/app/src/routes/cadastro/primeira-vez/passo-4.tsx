@@ -1,4 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field } from '@/components/form/Field';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -6,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCadastroStore } from '@/lib/cadastro-store';
 import { cn } from '@/lib/cn';
+import { createFileRoute } from '@tanstack/react-router';
 
 const SACRAMENTS = [
   { id: 'batismo', label: 'Batismo' },
@@ -32,7 +32,11 @@ function PassoQuatro() {
       total={5}
       variant="primeira-vez"
       eyebrow="Passo 4 — Vida de fé"
-      title={<>Onde sua <span className="font-display-italic">fé</span> mora.</>}
+      title={
+        <>
+          Onde sua <span className="font-display-italic">fé</span> mora.
+        </>
+      }
       description="Sem julgamento. Use os campos como couber para você."
       ctaTo="/cadastro/primeira-vez/passo-5"
     >
@@ -83,10 +87,7 @@ function PassoQuatro() {
                       : 'border-(color:--color-border) bg-(color:--color-surface) hover:bg-(color:--color-muted)',
                   )}
                 >
-                  <Checkbox
-                    checked={checked}
-                    onCheckedChange={(v) => toggle(sac.id, !!v)}
-                  />
+                  <Checkbox checked={checked} onCheckedChange={(v) => toggle(sac.id, !!v)} />
                   <span className="text-[15px] font-medium">{sac.label}</span>
                 </label>
               );

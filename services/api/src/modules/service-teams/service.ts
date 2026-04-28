@@ -1,19 +1,11 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
 import { and, asc, desc, eq } from 'drizzle-orm';
-import type {
-  AddAssignment,
-  CreateServiceTeam,
-  UpdateServiceTeam,
-} from './schemas.ts';
+import type { AddAssignment, CreateServiceTeam, UpdateServiceTeam } from './schemas.ts';
 
 export class ServiceTeamError extends Error {
   constructor(
-    public code:
-      | 'NOT_FOUND'
-      | 'EVENT_NOT_FOUND'
-      | 'PERSON_NOT_FOUND'
-      | 'ALREADY_ASSIGNED',
+    public code: 'NOT_FOUND' | 'EVENT_NOT_FOUND' | 'PERSON_NOT_FOUND' | 'ALREADY_ASSIGNED',
     message: string,
   ) {
     super(message);
@@ -22,10 +14,7 @@ export class ServiceTeamError extends Error {
 
 export const serviceTeamsService = {
   async listAll(db: Database) {
-    return db
-      .select()
-      .from(schema.serviceTeams)
-      .orderBy(asc(schema.serviceTeams.name));
+    return db.select().from(schema.serviceTeams).orderBy(asc(schema.serviceTeams.name));
   },
 
   async getById(db: Database, id: string) {
@@ -105,10 +94,7 @@ export const serviceTeamsService = {
         },
       })
       .from(schema.serviceTeamAssignments)
-      .innerJoin(
-        schema.persons,
-        eq(schema.serviceTeamAssignments.personId, schema.persons.id),
-      )
+      .innerJoin(schema.persons, eq(schema.serviceTeamAssignments.personId, schema.persons.id))
       .where(eq(schema.serviceTeamAssignments.eventId, eventId))
       .orderBy(asc(schema.persons.fullName));
 
@@ -125,11 +111,7 @@ export const serviceTeamsService = {
     }));
   },
 
-  async addAssignment(
-    db: Database,
-    teamId: string,
-    payload: AddAssignment,
-  ) {
+  async addAssignment(db: Database, teamId: string, payload: AddAssignment) {
     const [team] = await db
       .select({ id: schema.serviceTeams.id })
       .from(schema.serviceTeams)
@@ -167,10 +149,7 @@ export const serviceTeamsService = {
       )
       .limit(1);
     if (existing) {
-      throw new ServiceTeamError(
-        'ALREADY_ASSIGNED',
-        'Pessoa já está nesta equipe deste evento.',
-      );
+      throw new ServiceTeamError('ALREADY_ASSIGNED', 'Pessoa já está nesta equipe deste evento.');
     }
 
     const [created] = await db
@@ -186,12 +165,7 @@ export const serviceTeamsService = {
     return created!;
   },
 
-  async removeAssignment(
-    db: Database,
-    teamId: string,
-    eventId: string,
-    personId: string,
-  ) {
+  async removeAssignment(db: Database, teamId: string, eventId: string, personId: string) {
     await db
       .delete(schema.serviceTeamAssignments)
       .where(
@@ -215,10 +189,7 @@ export const serviceTeamsService = {
         schema.serviceTeams,
         eq(schema.serviceTeamAssignments.serviceTeamId, schema.serviceTeams.id),
       )
-      .innerJoin(
-        schema.events,
-        eq(schema.serviceTeamAssignments.eventId, schema.events.id),
-      )
+      .innerJoin(schema.events, eq(schema.serviceTeamAssignments.eventId, schema.events.id))
       .where(eq(schema.serviceTeamAssignments.personId, personId))
       .orderBy(desc(schema.events.startDate))
       .limit(1);

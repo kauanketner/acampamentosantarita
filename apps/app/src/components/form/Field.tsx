@@ -1,5 +1,5 @@
-import type * as React from 'react';
 import { cn } from '@/lib/cn';
+import type * as React from 'react';
 
 type Props = {
   label?: React.ReactNode;
@@ -36,9 +36,7 @@ export function Field({ label, hint, error, optional, htmlFor, className, childr
       {hint && !error && (
         <p className="text-xs text-(color:--color-muted-foreground) leading-snug">{hint}</p>
       )}
-      {error && (
-        <p className="text-xs text-(color:--color-destructive) leading-snug">{error}</p>
-      )}
+      {error && <p className="text-xs text-(color:--color-destructive) leading-snug">{error}</p>}
     </div>
   );
 }

@@ -1,13 +1,13 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
 import { asc, desc, eq } from 'drizzle-orm';
-import type {
-  CreateShopProduct,
-  UpdateShopProduct,
-} from './schemas.ts';
+import type { CreateShopProduct, UpdateShopProduct } from './schemas.ts';
 
 export class ShopError extends Error {
-  constructor(public code: 'NOT_FOUND', message: string) {
+  constructor(
+    public code: 'NOT_FOUND',
+    message: string,
+  ) {
     super(message);
   }
 }
@@ -17,10 +17,7 @@ export const shopService = {
     return db
       .select()
       .from(schema.shopProducts)
-      .orderBy(
-        asc(schema.shopProducts.sortOrder),
-        desc(schema.shopProducts.createdAt),
-      );
+      .orderBy(asc(schema.shopProducts.sortOrder), desc(schema.shopProducts.createdAt));
   },
 
   async create(db: Database, payload: CreateShopProduct) {
@@ -63,8 +60,6 @@ export const shopService = {
   },
 
   async delete(db: Database, id: string) {
-    await db
-      .delete(schema.shopProducts)
-      .where(eq(schema.shopProducts.id, id));
+    await db.delete(schema.shopProducts).where(eq(schema.shopProducts.id, id));
   },
 };

@@ -1,13 +1,13 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
 import { desc, eq, isNotNull } from 'drizzle-orm';
-import type {
-  CreateAnnouncement,
-  UpdateAnnouncement,
-} from './schemas.ts';
+import type { CreateAnnouncement, UpdateAnnouncement } from './schemas.ts';
 
 export class AnnouncementError extends Error {
-  constructor(public code: 'NOT_FOUND', message: string) {
+  constructor(
+    public code: 'NOT_FOUND',
+    message: string,
+  ) {
     super(message);
   }
 }
@@ -26,10 +26,7 @@ export const communicationService = {
         },
       })
       .from(schema.announcements)
-      .leftJoin(
-        schema.events,
-        eq(schema.announcements.eventId, schema.events.id),
-      )
+      .leftJoin(schema.events, eq(schema.announcements.eventId, schema.events.id))
       .where(isNotNull(schema.announcements.publishedAt))
       .orderBy(desc(schema.announcements.publishedAt))
       .limit(limit);
@@ -52,10 +49,7 @@ export const communicationService = {
         },
       })
       .from(schema.announcements)
-      .leftJoin(
-        schema.events,
-        eq(schema.announcements.eventId, schema.events.id),
-      )
+      .leftJoin(schema.events, eq(schema.announcements.eventId, schema.events.id))
       .orderBy(desc(schema.announcements.createdAt))
       .limit(limit);
 
@@ -65,11 +59,7 @@ export const communicationService = {
     }));
   },
 
-  async create(
-    db: Database,
-    payload: CreateAnnouncement,
-    publishedByUserId: string,
-  ) {
+  async create(db: Database, payload: CreateAnnouncement, publishedByUserId: string) {
     const now = new Date();
     const [created] = await db
       .insert(schema.announcements)
@@ -88,12 +78,7 @@ export const communicationService = {
     return created!;
   },
 
-  async update(
-    db: Database,
-    id: string,
-    payload: UpdateAnnouncement,
-    publishedByUserId: string,
-  ) {
+  async update(db: Database, id: string, payload: UpdateAnnouncement, publishedByUserId: string) {
     const [existing] = await db
       .select()
       .from(schema.announcements)
@@ -108,8 +93,7 @@ export const communicationService = {
     if (payload.body !== undefined) patch.body = payload.body;
     if (payload.imageUrl !== undefined) patch.imageUrl = payload.imageUrl;
     if (payload.eventId !== undefined) patch.eventId = payload.eventId;
-    if (payload.targetAudience !== undefined)
-      patch.targetAudience = payload.targetAudience;
+    if (payload.targetAudience !== undefined) patch.targetAudience = payload.targetAudience;
     if (payload.targetId !== undefined) patch.targetId = payload.targetId;
     if (payload.sendPush !== undefined) patch.sendPush = payload.sendPush;
     if (payload.publish !== undefined) {

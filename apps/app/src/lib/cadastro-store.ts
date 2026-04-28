@@ -272,16 +272,17 @@ export function buildSignupPayload(state: CadastroState): SignupPayload {
       sacraments: state.sacraments,
     },
     health: sanitizedHealth,
-    campParticipations: state.variant === 'veterano'
-      ? state.campParticipations
-          .filter((p) => p.campEdition && p.role)
-          .map((p) => ({
-            campEdition: Number.parseInt(p.campEdition, 10),
-            role: p.role as 'campista' | 'equipista' | 'lider',
-            tribeNameLegacy: trim(p.tribeNameLegacy),
-            serviceTeam: trim(p.serviceTeam),
-            functionRole: trim(p.functionRole),
-          }))
-      : undefined,
+    campParticipations:
+      state.variant === 'veterano'
+        ? state.campParticipations
+            .filter((p) => p.campEdition && p.role)
+            .map((p) => ({
+              campEdition: Number.parseInt(p.campEdition, 10),
+              role: p.role as 'campista' | 'equipista' | 'lider',
+              tribeNameLegacy: trim(p.tribeNameLegacy),
+              serviceTeam: trim(p.serviceTeam),
+              functionRole: trim(p.functionRole),
+            }))
+        : undefined,
   };
 }

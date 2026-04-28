@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useMemo } from 'react';
 import { Card, CardBody } from '@/components/ui/Card';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Stat } from '@/components/ui/Stat';
 import { brl } from '@/lib/format';
 import { useFinanceReport } from '@/lib/queries/reports';
+import { createFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
 export const Route = createFileRoute('/_app/relatorios/financeiro')({
   component: RelatoriosFinanceiro,
@@ -30,7 +30,21 @@ const methodLabel: Record<string, string> = {
 const monthName = (m: string) => {
   // m is YYYY-MM
   const [, mm] = m.split('-');
-  const names = ['', 'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  const names = [
+    '',
+    'jan',
+    'fev',
+    'mar',
+    'abr',
+    'mai',
+    'jun',
+    'jul',
+    'ago',
+    'set',
+    'out',
+    'nov',
+    'dez',
+  ];
   return names[Number(mm)] ?? mm;
 };
 
@@ -65,20 +79,12 @@ function RelatoriosFinanceiro() {
         description="Receita mensal, saldos por status e movimentação recente. Tudo num só lugar para a tesouraria conferir com calma."
       />
 
-      {isLoading && (
-        <p className="text-sm text-(color:--color-muted-foreground)">
-          Carregando…
-        </p>
-      )}
+      {isLoading && <p className="text-sm text-(color:--color-muted-foreground)">Carregando…</p>}
 
       {data && (
         <>
           <section className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <Stat
-              label="Recebido (12m)"
-              value={brl(totalReceived)}
-              tone="success"
-            />
+            <Stat label="Recebido (12m)" value={brl(totalReceived)} tone="success" />
             <Stat
               label="A receber"
               value={brl(Number(open?.total ?? 0) + Number(partial?.total ?? 0))}
@@ -162,9 +168,7 @@ function RelatoriosFinanceiro() {
                   Saldo por status
                 </p>
                 {data.invoiceTotals.length === 0 ? (
-                  <p className="text-xs text-(color:--color-muted-foreground)">
-                    Sem faturas.
-                  </p>
+                  <p className="text-xs text-(color:--color-muted-foreground)">Sem faturas.</p>
                 ) : (
                   <ul className="divide-y divide-(color:--color-border)">
                     {data.invoiceTotals.map((t) => (
@@ -194,19 +198,14 @@ function RelatoriosFinanceiro() {
                   Por método de pagamento (12m)
                 </p>
                 {data.payments.length === 0 ? (
-                  <p className="text-xs text-(color:--color-muted-foreground)">
-                    Sem pagamentos.
-                  </p>
+                  <p className="text-xs text-(color:--color-muted-foreground)">Sem pagamentos.</p>
                 ) : (
                   <ul className="divide-y divide-(color:--color-border)">
                     {Object.entries(
-                      data.payments.reduce<Record<string, number>>(
-                        (acc, p) => ({
-                          ...acc,
-                          [p.method]: (acc[p.method] ?? 0) + Number(p.total),
-                        }),
-                        {},
-                      ),
+                      data.payments.reduce<Record<string, number>>((acc, p) => {
+                        acc[p.method] = (acc[p.method] ?? 0) + Number(p.total);
+                        return acc;
+                      }, {}),
                     )
                       .sort((a, b) => b[1] - a[1])
                       .map(([method, total]) => (
@@ -215,9 +214,7 @@ function RelatoriosFinanceiro() {
                           className="flex items-center justify-between text-sm py-2 first:pt-0 last:pb-0"
                         >
                           <span>{methodLabel[method] ?? method}</span>
-                          <span className="font-mono tabular-nums">
-                            {brl(total)}
-                          </span>
+                          <span className="font-mono tabular-nums">{brl(total)}</span>
                         </li>
                       ))}
                   </ul>
@@ -243,9 +240,7 @@ function RelatoriosFinanceiro() {
                       className="py-2.5 flex items-center justify-between gap-3 text-sm first:pt-0 last:pb-0"
                     >
                       <div className="min-w-0">
-                        <p className="font-medium leading-tight">
-                          {p.personName}
-                        </p>
+                        <p className="font-medium leading-tight">{p.personName}</p>
                         <p className="text-[11px] text-(color:--color-muted-foreground) mt-0.5">
                           <span className="font-mono uppercase tracking-wider text-[10px]">
                             {methodLabel[p.method] ?? p.method}
@@ -258,9 +253,7 @@ function RelatoriosFinanceiro() {
                           })}
                         </p>
                       </div>
-                      <span className="font-mono tabular-nums">
-                        {brl(Number(p.amount))}
-                      </span>
+                      <span className="font-mono tabular-nums">{brl(Number(p.amount))}</span>
                     </li>
                   ))}
                 </ul>

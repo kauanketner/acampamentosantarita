@@ -1,5 +1,5 @@
-import type * as React from 'react';
 import { cn } from '@/lib/cn';
+import type * as React from 'react';
 
 type Props = {
   icon?: React.ReactNode;
@@ -9,13 +9,7 @@ type Props = {
   className?: string;
 };
 
-export function EmptyState({
-  icon,
-  title,
-  description,
-  action,
-  className,
-}: Props) {
+export function EmptyState({ icon, title, description, action, className }: Props) {
   return (
     <div
       className={cn(
@@ -24,11 +18,7 @@ export function EmptyState({
         className,
       )}
     >
-      {icon && (
-        <div className="text-(color:--color-subtle) opacity-60 size-9 mb-1">
-          {icon}
-        </div>
-      )}
+      {icon && <div className="text-(color:--color-subtle) opacity-60 size-9 mb-1">{icon}</div>}
       <p className="font-display text-xl tracking-tight">{title}</p>
       {description && (
         <p className="text-sm text-(color:--color-muted-foreground) max-w-sm leading-relaxed">

@@ -1,18 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Page } from '@/components/shell/Page';
-import { TopBar } from '@/components/shell/TopBar';
-import { SectionTitle } from '@/components/shell/SectionTitle';
 import { Field } from '@/components/form/Field';
+import { Page } from '@/components/shell/Page';
+import { SectionTitle } from '@/components/shell/SectionTitle';
+import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ApiError } from '@/lib/api';
-import type { Sacrament } from '@/lib/queries/profile';
-import { useFaith, useUpdateFaith } from '@/lib/queries/faith';
 import { cn } from '@/lib/cn';
+import { useFaith, useUpdateFaith } from '@/lib/queries/faith';
+import type { Sacrament } from '@/lib/queries/profile';
+import { createFileRoute } from '@tanstack/react-router';
+import { Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export const Route = createFileRoute('/_auth/perfil/fe')({
   component: PerfilFe,
@@ -63,9 +63,7 @@ function PerfilFe() {
   const toggle = (id: Sacrament, checked: boolean) =>
     setForm((s) => ({
       ...s,
-      sacraments: checked
-        ? [...s.sacraments, id]
-        : s.sacraments.filter((x) => x !== id),
+      sacraments: checked ? [...s.sacraments, id] : s.sacraments.filter((x) => x !== id),
     }));
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -149,10 +147,7 @@ function PerfilFe() {
                     : 'border-(color:--color-border) bg-(color:--color-surface) hover:bg-(color:--color-muted)',
                 )}
               >
-                <Checkbox
-                  checked={checked}
-                  onCheckedChange={(v) => toggle(s.id, !!v)}
-                />
+                <Checkbox checked={checked} onCheckedChange={(v) => toggle(s.id, !!v)} />
                 <span className="text-[15px] font-medium">{s.label}</span>
               </label>
             );
@@ -160,9 +155,7 @@ function PerfilFe() {
         </div>
 
         {error && (
-          <p className="px-5 pb-3 text-sm text-(color:--color-destructive) text-center">
-            {error}
-          </p>
+          <p className="px-5 pb-3 text-sm text-(color:--color-destructive) text-center">{error}</p>
         )}
         {saved && !error && (
           <p className="px-5 pb-3 text-sm text-(color:--color-primary) text-center">Salvo.</p>

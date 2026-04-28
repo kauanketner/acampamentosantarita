@@ -51,19 +51,14 @@ export type AddMemberInput = {
 };
 
 const TRIBES_KEY = ['admin', 'tribes'] as const;
-const eventTribesKey = (eventId: string) =>
-  [...TRIBES_KEY, 'by-event', eventId] as const;
+const eventTribesKey = (eventId: string) => [...TRIBES_KEY, 'by-event', eventId] as const;
 const tribeKey = (id: string) => [...TRIBES_KEY, 'by-id', id] as const;
 
 export function useEventTribes(eventId: string | undefined) {
   return useQuery<TribeWithMembers[]>({
-    queryKey: eventId
-      ? eventTribesKey(eventId)
-      : ([...TRIBES_KEY, '__none__'] as const),
+    queryKey: eventId ? eventTribesKey(eventId) : ([...TRIBES_KEY, '__none__'] as const),
     queryFn: async () => {
-      const res = await api<{ items: TribeWithMembers[] }>(
-        `/v1/events/${eventId}/tribes`,
-      );
+      const res = await api<{ items: TribeWithMembers[] }>(`/v1/events/${eventId}/tribes`);
       return res.items;
     },
     enabled: !!eventId,
@@ -88,8 +83,7 @@ function invalidate(qc: ReturnType<typeof useQueryClient>, eventId?: string) {
 export function useCreateTribe() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: TribeInput) =>
-      api<Tribe>('/v1/tribes', { method: 'POST', json: input }),
+    mutationFn: (input: TribeInput) => api<Tribe>('/v1/tribes', { method: 'POST', json: input }),
     onSuccess: (_data, vars) => invalidate(qc, vars.eventId),
   });
 }
@@ -106,8 +100,7 @@ export function useUpdateTribe(eventId?: string) {
 export function useDeleteTribe(eventId?: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/tribes/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/tribes/${id}`, { method: 'DELETE' }),
     onSuccess: () => invalidate(qc, eventId),
   });
 }

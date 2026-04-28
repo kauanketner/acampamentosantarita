@@ -1,16 +1,11 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import {
-  createShopProductSchema,
-  updateShopProductSchema,
-} from './schemas.ts';
+import { createShopProductSchema, updateShopProductSchema } from './schemas.ts';
 import { ShopError, shopService } from './service.ts';
 
 const ERROR_TO_STATUS: Record<ShopError['code'], number> = { NOT_FOUND: 404 };
 
 function sendError(reply: FastifyReply, e: ShopError) {
-  reply
-    .code(ERROR_TO_STATUS[e.code] ?? 400)
-    .send({ error: e.code, message: e.message });
+  reply.code(ERROR_TO_STATUS[e.code] ?? 400).send({ error: e.code, message: e.message });
 }
 
 function requireAdmin(req: FastifyRequest, reply: FastifyReply): boolean {

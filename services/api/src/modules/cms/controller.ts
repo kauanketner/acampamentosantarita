@@ -21,9 +21,7 @@ const ERROR_TO_STATUS: Record<CmsError['code'], number> = {
 };
 
 function sendError(reply: FastifyReply, e: CmsError) {
-  reply
-    .code(ERROR_TO_STATUS[e.code] ?? 400)
-    .send({ error: e.code, message: e.message });
+  reply.code(ERROR_TO_STATUS[e.code] ?? 400).send({ error: e.code, message: e.message });
 }
 
 function requireAdmin(req: FastifyRequest, reply: FastifyReply): boolean {
@@ -55,11 +53,7 @@ export const cmsController = {
     if (!requireAdmin(req, reply)) return;
     const parsed = createPostSchema.parse(req.body);
     try {
-      const created = await cmsService.createPost(
-        req.server.db,
-        parsed,
-        req.user!.id,
-      );
+      const created = await cmsService.createPost(req.server.db, parsed, req.user!.id);
       reply.code(201);
       return created;
     } catch (e) {

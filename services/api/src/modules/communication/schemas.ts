@@ -8,7 +8,7 @@ export const announcementAudienceSchema = z.enum([
   'equipe_x',
 ]);
 
-const optionalText = z
+const _optionalText = z
   .union([z.string(), z.null(), z.literal('')])
   .transform((v) => (v === '' || v == null ? null : v));
 
@@ -28,23 +28,21 @@ const announcementBaseSchema = z
   })
   .strict();
 
-export const createAnnouncementSchema = announcementBaseSchema.superRefine(
-  (val, ctx) => {
-    if (
-      (val.targetAudience === 'tribo_x' ||
-        val.targetAudience === 'equipe_x' ||
-        val.targetAudience === 'participantes_evento') &&
-      !val.targetId &&
-      !val.eventId
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Audiência específica exige eventId ou targetId',
-        path: ['targetId'],
-      });
-    }
-  },
-);
+export const createAnnouncementSchema = announcementBaseSchema.superRefine((val, ctx) => {
+  if (
+    (val.targetAudience === 'tribo_x' ||
+      val.targetAudience === 'equipe_x' ||
+      val.targetAudience === 'participantes_evento') &&
+    !val.targetId &&
+    !val.eventId
+  ) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Audiência específica exige eventId ou targetId',
+      path: ['targetId'],
+    });
+  }
+});
 
 export const updateAnnouncementSchema = announcementBaseSchema.partial();
 

@@ -1,8 +1,8 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { useMemo } from 'react';
 import { brl, formatDate } from '@/lib/format';
 import { useAdminEvent } from '@/lib/queries/events';
 import { useEventRegistrations } from '@/lib/queries/registrations';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
 export const Route = createFileRoute('/_app/eventos/$id/relatorios')({
   component: EventoRelatorios,
@@ -72,11 +72,7 @@ function EventoRelatorios() {
           <section className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <Stat label="Pendentes de aprovação" value={stats.pendente} tone="amber" />
             <Stat label="Presentes (check-in)" value={stats.attended} tone="green" />
-            <Stat
-              label="Receita confirmada"
-              value={brl(stats.revenue)}
-              tone="green"
-            />
+            <Stat label="Receita confirmada" value={brl(stats.revenue)} tone="green" />
           </section>
 
           <section className="rounded-lg border bg-card p-5 space-y-2">
@@ -135,9 +131,7 @@ function Stat({
   };
   return (
     <div className={`rounded-lg border bg-card p-4 ${ring[tone]}`}>
-      <p className="text-xs uppercase tracking-wider text-muted-foreground">
-        {label}
-      </p>
+      <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
       <p className="font-serif text-2xl mt-1 tabular-nums">{value}</p>
     </div>
   );

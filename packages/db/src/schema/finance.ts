@@ -1,21 +1,9 @@
 import { relations } from 'drizzle-orm';
-import {
-  numeric,
-  pgEnum,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-} from 'drizzle-orm/pg-core';
+import { numeric, pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { users } from './auth.ts';
 import { persons } from './persons.ts';
 
-export const invoiceTypeEnum = pgEnum('invoice_type', [
-  'registration',
-  'pos',
-  'shop',
-  'other',
-]);
+export const invoiceTypeEnum = pgEnum('invoice_type', ['registration', 'pos', 'shop', 'other']);
 
 export const invoiceStatusEnum = pgEnum('invoice_status', [
   'pendente',

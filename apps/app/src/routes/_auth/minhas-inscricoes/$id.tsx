@@ -1,9 +1,6 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Calendar, Loader2, MapPin, ShieldCheck } from 'lucide-react';
-import { useState } from 'react';
 import { Page } from '@/components/shell/Page';
-import { TopBar } from '@/components/shell/TopBar';
 import { SectionTitle } from '@/components/shell/SectionTitle';
+import { TopBar } from '@/components/shell/TopBar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
@@ -17,6 +14,9 @@ import {
   useCancelRegistration,
   useRegistration,
 } from '@/lib/queries/registrations';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Calendar, Loader2, MapPin, ShieldCheck } from 'lucide-react';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_auth/minhas-inscricoes/$id')({
   component: InscricaoDetalhe,
@@ -97,9 +97,7 @@ function DetalheView({ reg }: { reg: RegistrationDetail }) {
       await cancel.mutateAsync({ id: reg.id });
       setShowCancel(false);
     } catch (err) {
-      setCancelError(
-        err instanceof ApiError ? err.message : 'Não foi possível cancelar agora.',
-      );
+      setCancelError(err instanceof ApiError ? err.message : 'Não foi possível cancelar agora.');
     }
   };
 

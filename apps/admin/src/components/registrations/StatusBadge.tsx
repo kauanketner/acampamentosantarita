@@ -1,13 +1,7 @@
 import { Badge, type Tone } from '@/components/ui/Badge';
-import type {
-  RegistrationPaymentStatus,
-  RegistrationStatus,
-} from '@/lib/queries/registrations';
+import type { RegistrationPaymentStatus, RegistrationStatus } from '@/lib/queries/registrations';
 
-const statusInfo: Record<
-  RegistrationStatus,
-  { label: string; tone: Tone }
-> = {
+const statusInfo: Record<RegistrationStatus, { label: string; tone: Tone }> = {
   pendente: { label: 'Pendente', tone: 'warning' },
   aprovada: { label: 'Aprovada', tone: 'info' },
   confirmada: { label: 'Confirmada', tone: 'success' },
@@ -16,10 +10,7 @@ const statusInfo: Record<
   rejeitada: { label: 'Rejeitada', tone: 'danger' },
 };
 
-const paymentInfo: Record<
-  RegistrationPaymentStatus,
-  { label: string; tone: Tone }
-> = {
+const paymentInfo: Record<RegistrationPaymentStatus, { label: string; tone: Tone }> = {
   pago: { label: 'pago', tone: 'success' },
   pendente: { label: 'pagto pendente', tone: 'warning' },
   parcial: { label: 'parcial', tone: 'warning' },

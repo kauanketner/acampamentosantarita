@@ -1,7 +1,7 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { useMemo } from 'react';
 import { formatDateRange } from '@/lib/format';
 import { type AdminEvent, useAdminEvents } from '@/lib/queries/events';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
 export const Route = createFileRoute('/_app/tribos/')({
   component: TribosIndex,
@@ -20,8 +20,8 @@ function TribosIndex() {
       <header>
         <h1 className="font-serif text-2xl">Tribos</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Acesse a gestão de tribos por acampamento. Cada acampamento numerado tem
-          suas próprias tribos.
+          Acesse a gestão de tribos por acampamento. Cada acampamento numerado tem suas próprias
+          tribos.
         </p>
       </header>
 
@@ -31,8 +31,7 @@ function TribosIndex() {
         <div className="rounded-md border border-dashed bg-card p-10 text-center">
           <p className="font-serif text-xl">Nenhum acampamento cadastrado</p>
           <p className="text-sm text-muted-foreground mt-1.5 max-w-md mx-auto">
-            As tribos vivem dentro de acampamentos numerados. Crie um acampamento
-            primeiro.
+            As tribos vivem dentro de acampamentos numerados. Crie um acampamento primeiro.
           </p>
           <Link
             to="/eventos/novo"

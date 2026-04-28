@@ -1,8 +1,8 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { useMemo } from 'react';
 import { brl } from '@/lib/format';
 import { useAdminEvent } from '@/lib/queries/events';
 import { usePosAccounts } from '@/lib/queries/pos';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
 export const Route = createFileRoute('/_app/eventos/$id/pdv')({
   component: EventoPdv,
@@ -39,8 +39,8 @@ function EventoPdv() {
         </Link>
         <h1 className="font-serif text-2xl">PDV deste evento</h1>
         <p className="text-sm text-muted-foreground">
-          Visão consolidada das contas (cantina/lojinha) deste evento. Pra
-          gerenciar lançamentos e fechar contas, vá em{' '}
+          Visão consolidada das contas (cantina/lojinha) deste evento. Pra gerenciar lançamentos e
+          fechar contas, vá em{' '}
           <Link to="/pdv/contas" className="text-primary underline">
             PDV — Contas
           </Link>
@@ -55,11 +55,7 @@ function EventoPdv() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <Stat label="Contas (total)" value={stats.count} />
             <Stat label="Em aberto" value={stats.open} tone="amber" />
-            <Stat
-              label="Saldo total acumulado"
-              value={brl(stats.totalAll)}
-              tone="green"
-            />
+            <Stat label="Saldo total acumulado" value={brl(stats.totalAll)} tone="green" />
           </div>
 
           {accounts.length === 0 ? (
@@ -83,10 +79,7 @@ function EventoPdv() {
                 </thead>
                 <tbody>
                   {accounts.map((a) => (
-                    <tr
-                      key={a.id}
-                      className="border-b last:border-b-0 hover:bg-secondary/30"
-                    >
+                    <tr key={a.id} className="border-b last:border-b-0 hover:bg-secondary/30">
                       <td className="px-4 py-2 font-medium">{a.person.fullName}</td>
                       <td className="px-4 py-2 text-xs capitalize">{a.status}</td>
                       <td className="px-4 py-2 text-right font-mono">
@@ -126,9 +119,7 @@ function Stat({
   };
   return (
     <div className={`rounded-lg border bg-card p-4 ${ring[tone]}`}>
-      <p className="text-xs uppercase tracking-wider text-muted-foreground">
-        {label}
-      </p>
+      <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
       <p className="font-serif text-2xl mt-1 tabular-nums">{value}</p>
     </div>
   );

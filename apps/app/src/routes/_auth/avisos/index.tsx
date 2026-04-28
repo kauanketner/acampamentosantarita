@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { Bell, Loader2 } from 'lucide-react';
 import { Page } from '@/components/shell/Page';
 import { PageHeader } from '@/components/shell/PageHeader';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +7,8 @@ import {
   type AnnouncementAudience,
   useAnnouncements,
 } from '@/lib/queries/communication';
+import { createFileRoute } from '@tanstack/react-router';
+import { Bell, Loader2 } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/avisos/')({
   component: AvisosIndex,
@@ -30,11 +30,7 @@ function AvisosIndex() {
       <div className="safe-top" />
       <PageHeader
         eyebrow={
-          isLoading
-            ? 'Carregando…'
-            : data && data.length > 0
-              ? 'Da comunidade'
-              : 'Tudo em silêncio'
+          isLoading ? 'Carregando…' : data && data.length > 0 ? 'Da comunidade' : 'Tudo em silêncio'
         }
         title={
           <>

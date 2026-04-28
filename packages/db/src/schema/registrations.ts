@@ -10,7 +10,7 @@ import {
   uuid,
 } from 'drizzle-orm/pg-core';
 import { users } from './auth.ts';
-import { eventCustomQuestions, events } from './events.ts';
+import { events, eventCustomQuestions } from './events.ts';
 import { persons } from './persons.ts';
 import { serviceTeams } from './service-teams.ts';
 import { tribes } from './tribes.ts';

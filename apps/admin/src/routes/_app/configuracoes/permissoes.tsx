@@ -32,8 +32,8 @@ function ConfiguracoesPermissoes() {
       <header>
         <h1 className="font-serif text-2xl">Permissões</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Permissões hoje são derivadas da função (role) do usuário. Esta matriz
-          serve de referência prática.
+          Permissões hoje são derivadas da função (role) do usuário. Esta matriz serve de referência
+          prática.
         </p>
       </header>
 
@@ -53,15 +53,9 @@ function ConfiguracoesPermissoes() {
               <tr key={row.area} className="border-b last:border-b-0">
                 <td className="px-4 py-2 font-medium">{row.area}</td>
                 <td className="px-4 py-2 text-center">{row.admin}</td>
-                <td className="px-4 py-2 text-center text-muted-foreground">
-                  {row.equipe}
-                </td>
-                <td className="px-4 py-2 text-center text-muted-foreground">
-                  {row.tesouraria}
-                </td>
-                <td className="px-4 py-2 text-center text-muted-foreground">
-                  {row.comunicacao}
-                </td>
+                <td className="px-4 py-2 text-center text-muted-foreground">{row.equipe}</td>
+                <td className="px-4 py-2 text-center text-muted-foreground">{row.tesouraria}</td>
+                <td className="px-4 py-2 text-center text-muted-foreground">{row.comunicacao}</td>
               </tr>
             ))}
           </tbody>
@@ -71,10 +65,9 @@ function ConfiguracoesPermissoes() {
       <div className="rounded-md border bg-card p-4 text-xs text-muted-foreground space-y-1">
         <p>✓ acesso total · ○ ler somente · — sem acesso</p>
         <p>
-          Observação: hoje o backend trata <em>qualquer role !== participante</em>{' '}
-          como autorizado pra todas as áreas administrativas. As restrições por
-          função granular ficam pra uma próxima iteração — por enquanto,
-          atribua a função certa pra cada pessoa em{' '}
+          Observação: hoje o backend trata <em>qualquer role !== participante</em> como autorizado
+          pra todas as áreas administrativas. As restrições por função granular ficam pra uma
+          próxima iteração — por enquanto, atribua a função certa pra cada pessoa em{' '}
           <span className="font-medium text-foreground">Configurações → Usuários</span>.
         </p>
       </div>

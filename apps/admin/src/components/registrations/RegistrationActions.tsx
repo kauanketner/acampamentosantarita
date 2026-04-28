@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { ApiError } from '@/lib/api';
@@ -9,6 +8,7 @@ import {
   useMarkAttended,
   useRejectRegistration,
 } from '@/lib/queries/registrations';
+import { useState } from 'react';
 
 type Props = {
   registration: EventRegistration;
@@ -65,11 +65,7 @@ export function RegistrationActions({ registration }: Props) {
     }
   };
 
-  const isPending =
-    approve.isPending ||
-    reject.isPending ||
-    cancel.isPending ||
-    attend.isPending;
+  const isPending = approve.isPending || reject.isPending || cancel.isPending || attend.isPending;
 
   if (confirmReject || confirmCancel) {
     const label = confirmReject ? 'Rejeitar inscrição' : 'Cancelar inscrição';
@@ -88,12 +84,7 @@ export function RegistrationActions({ registration }: Props) {
         />
         {error && <p className="text-xs text-(color:--color-danger)">{error}</p>}
         <div className="flex items-center gap-2">
-          <Button
-            variant="danger"
-            size="sm"
-            onClick={action}
-            disabled={isPending}
-          >
+          <Button variant="danger" size="sm" onClick={action} disabled={isPending}>
             {isPending ? '…' : 'Confirmar'}
           </Button>
           <button
@@ -113,16 +104,12 @@ export function RegistrationActions({ registration }: Props) {
     );
   }
 
-  const showApprove =
-    registration.status === 'pendente' || registration.status === 'em_espera';
+  const showApprove = registration.status === 'pendente' || registration.status === 'em_espera';
   const showAttend =
     (registration.status === 'aprovada' || registration.status === 'confirmada') &&
     !registration.attended;
-  const showReject =
-    registration.status === 'pendente' || registration.status === 'em_espera';
-  const showCancel =
-    registration.status !== 'cancelada' &&
-    registration.status !== 'rejeitada';
+  const showReject = registration.status === 'pendente' || registration.status === 'em_espera';
+  const showCancel = registration.status !== 'cancelada' && registration.status !== 'rejeitada';
 
   return (
     <div className="flex flex-col gap-1.5 items-end">
@@ -134,12 +121,7 @@ export function RegistrationActions({ registration }: Props) {
           </Button>
         )}
         {showAttend && (
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={onAttend}
-            disabled={isPending}
-          >
+          <Button variant="secondary" size="sm" onClick={onAttend} disabled={isPending}>
             {attend.isPending ? '…' : 'Marcar presença'}
           </Button>
         )}

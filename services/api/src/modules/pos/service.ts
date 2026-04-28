@@ -1,12 +1,7 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
-import { and, asc, desc, eq, inArray } from 'drizzle-orm';
-import type {
-  AddTransaction,
-  CreatePosItem,
-  OpenAccount,
-  UpdatePosItem,
-} from './schemas.ts';
+import { and, asc, desc, eq } from 'drizzle-orm';
+import type { AddTransaction, CreatePosItem, OpenAccount, UpdatePosItem } from './schemas.ts';
 
 export class PosError extends Error {
   constructor(
@@ -107,14 +102,8 @@ export const posService = {
         },
       })
       .from(schema.posAccounts)
-      .innerJoin(
-        schema.persons,
-        eq(schema.posAccounts.personId, schema.persons.id),
-      )
-      .innerJoin(
-        schema.events,
-        eq(schema.posAccounts.eventId, schema.events.id),
-      )
+      .innerJoin(schema.persons, eq(schema.posAccounts.personId, schema.persons.id))
+      .innerJoin(schema.events, eq(schema.posAccounts.eventId, schema.events.id))
       .where(where.length ? and(...where) : undefined)
       .orderBy(desc(schema.posAccounts.openedAt));
 
@@ -142,14 +131,8 @@ export const posService = {
         },
       })
       .from(schema.posAccounts)
-      .innerJoin(
-        schema.persons,
-        eq(schema.posAccounts.personId, schema.persons.id),
-      )
-      .innerJoin(
-        schema.events,
-        eq(schema.posAccounts.eventId, schema.events.id),
-      )
+      .innerJoin(schema.persons, eq(schema.posAccounts.personId, schema.persons.id))
+      .innerJoin(schema.events, eq(schema.posAccounts.eventId, schema.events.id))
       .where(eq(schema.posAccounts.id, accountId))
       .limit(1);
     if (!row) throw new PosError('NOT_FOUND', 'Conta não encontrada.');
@@ -195,10 +178,7 @@ export const posService = {
       )
       .limit(1);
     if (existing) {
-      throw new PosError(
-        'ALREADY_OPEN',
-        'Já existe conta aberta para esta pessoa neste evento.',
-      );
+      throw new PosError('ALREADY_OPEN', 'Já existe conta aberta para esta pessoa neste evento.');
     }
 
     const [created] = await db
@@ -308,9 +288,7 @@ export const posService = {
     }
 
     return db.transaction(async (tx) => {
-      await tx
-        .delete(schema.posTransactions)
-        .where(eq(schema.posTransactions.id, transactionId));
+      await tx.delete(schema.posTransactions).where(eq(schema.posTransactions.id, transactionId));
 
       const remaining = await tx
         .select({ total: schema.posTransactions.total })

@@ -1,7 +1,7 @@
+import { cn } from '@/lib/cn';
 import { Link, useLocation } from '@tanstack/react-router';
 import { Bell, CalendarDays, Home, User, Wallet } from 'lucide-react';
 import { motion } from 'motion/react';
-import { cn } from '@/lib/cn';
 
 type Tab = {
   to: string;
@@ -71,10 +71,7 @@ export function BottomNav() {
                     transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                   />
                 )}
-                <t.Icon
-                  className="size-[18px] relative"
-                  strokeWidth={isActive ? 2 : 1.5}
-                />
+                <t.Icon className="size-[18px] relative" strokeWidth={isActive ? 2 : 1.5} />
               </span>
               <span>{t.label}</span>
             </Link>

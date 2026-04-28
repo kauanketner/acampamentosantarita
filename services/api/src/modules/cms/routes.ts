@@ -19,30 +19,14 @@ export const cmsRoutes: FastifyPluginAsync = async (app) => {
   app.post('/gallery-albums', { schema: { tags: ['cms'] } }, cmsController.createAlbum);
   app.patch('/gallery-albums/:id', { schema: { tags: ['cms'] } }, cmsController.updateAlbum);
   app.delete('/gallery-albums/:id', { schema: { tags: ['cms'] } }, cmsController.deleteAlbum);
-  app.post(
-    '/gallery-albums/:id/photos',
-    { schema: { tags: ['cms'] } },
-    cmsController.addPhoto,
-  );
-  app.delete(
-    '/gallery-photos/:id',
-    { schema: { tags: ['cms'] } },
-    cmsController.deletePhoto,
-  );
+  app.post('/gallery-albums/:id/photos', { schema: { tags: ['cms'] } }, cmsController.addPhoto);
+  app.delete('/gallery-photos/:id', { schema: { tags: ['cms'] } }, cmsController.deletePhoto);
 
   // home blocks
   app.get('/home-blocks', { schema: { tags: ['cms'] } }, cmsController.listHomeBlocks);
   app.post('/home-blocks', { schema: { tags: ['cms'] } }, cmsController.createHomeBlock);
-  app.patch(
-    '/home-blocks/:id',
-    { schema: { tags: ['cms'] } },
-    cmsController.updateHomeBlock,
-  );
-  app.delete(
-    '/home-blocks/:id',
-    { schema: { tags: ['cms'] } },
-    cmsController.deleteHomeBlock,
-  );
+  app.patch('/home-blocks/:id', { schema: { tags: ['cms'] } }, cmsController.updateHomeBlock);
+  app.delete('/home-blocks/:id', { schema: { tags: ['cms'] } }, cmsController.deleteHomeBlock);
 
   // faq
   app.get('/faq', { schema: { tags: ['cms'] } }, cmsController.listFaq);

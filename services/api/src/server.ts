@@ -6,7 +6,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod';
-import { ensureUploadDir, UPLOADS_PATH } from './lib/storage.ts';
+import { UPLOADS_PATH, ensureUploadDir } from './lib/storage.ts';
 import { authPlugin } from './plugins/auth.ts';
 import { corsPlugin } from './plugins/cors.ts';
 import { dbPlugin } from './plugins/db.ts';

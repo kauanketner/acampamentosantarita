@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { cn } from '@/lib/cn';
+import * as React from 'react';
 
 const baseClass =
   'block w-full rounded-(--radius-md) bg-(color:--color-surface) text-(color:--color-foreground) ' +
@@ -23,10 +23,7 @@ export const Textarea = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <textarea
     ref={ref}
-    className={cn(
-      baseClass.replace('h-9', 'min-h-24 py-2 leading-relaxed'),
-      className,
-    )}
+    className={cn(baseClass.replace('h-9', 'min-h-24 py-2 leading-relaxed'), className)}
     {...props}
   />
 ));
@@ -41,7 +38,7 @@ export const Select = React.forwardRef<
     className={cn(baseClass, 'pr-8 appearance-none', className)}
     style={{
       backgroundImage:
-        'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\' fill=\'none\'%3e%3cpath d=\'M3 4.5L6 7.5L9 4.5\' stroke=\'currentColor\' stroke-width=\'1.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3e%3c/svg%3e")',
+        "url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3e%3cpath d='M3 4.5L6 7.5L9 4.5' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e\")",
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'right 0.65rem center',
       backgroundSize: '12px 12px',
@@ -76,9 +73,7 @@ export function Field({ label, hint, required, error, children, className }: Fie
         </span>
       )}
       <div className="mt-1.5">{children}</div>
-      {error && (
-        <p className="mt-1 text-[11px] text-(color:--color-danger)">{error}</p>
-      )}
+      {error && <p className="mt-1 text-[11px] text-(color:--color-danger)">{error}</p>}
     </label>
   );
 }

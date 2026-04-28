@@ -42,8 +42,7 @@ export type GalleryAlbumDetail = Omit<GalleryAlbumLite, 'photoCount'> & {
 
 const FAQ_KEY = ['cms', 'faq'] as const;
 const GALLERY_KEY = ['cms', 'gallery'] as const;
-const galleryAlbumKey = (slug: string) =>
-  [...GALLERY_KEY, 'by-slug', slug] as const;
+const galleryAlbumKey = (slug: string) => [...GALLERY_KEY, 'by-slug', slug] as const;
 
 export function useFaq() {
   return useQuery<FaqItem[]>({
@@ -69,7 +68,7 @@ export function useGalleryAlbums() {
 
 export function useGalleryAlbum(slug: string | undefined) {
   return useQuery<GalleryAlbumDetail>({
-    queryKey: slug ? galleryAlbumKey(slug) : [...GALLERY_KEY, '__none__'] as const,
+    queryKey: slug ? galleryAlbumKey(slug) : ([...GALLERY_KEY, '__none__'] as const),
     queryFn: () => api<GalleryAlbumDetail>(`/public/gallery/${slug}`),
     enabled: !!slug,
     staleTime: 5 * 60_000,

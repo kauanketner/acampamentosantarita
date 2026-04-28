@@ -10,10 +10,7 @@ export function Separator({ variant = 'line', className }: Props) {
     return (
       <div className={cn('flex items-center justify-center gap-3 py-2', className)}>
         <span className="h-px flex-1 bg-(color:--color-border-strong)" />
-        <span
-          aria-hidden
-          className="text-(color:--color-accent) font-display text-lg leading-none"
-        >
+        <span aria-hidden className="text-(color:--color-accent) font-display text-lg leading-none">
           ✦
         </span>
         <span className="h-px flex-1 bg-(color:--color-border-strong)" />

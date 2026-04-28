@@ -1,11 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { Loader2, X } from 'lucide-react';
-import { useState } from 'react';
-import { motion } from 'motion/react';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
-import { useGalleryAlbum, type GalleryPhoto } from '@/lib/queries/cms';
+import { type GalleryPhoto, useGalleryAlbum } from '@/lib/queries/cms';
 import { mediaUrl } from '@/lib/queries/profile';
+import { createFileRoute } from '@tanstack/react-router';
+import { Loader2, X } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_auth/galeria/$slug')({
   component: AlbumDetalhe,
@@ -47,9 +47,7 @@ function AlbumDetalhe() {
 
       <div className="px-5 pt-3 pb-2">
         <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-muted-foreground)">
-          {album.event
-            ? `${new Date(album.event.startDate).getFullYear()} · `
-            : ''}
+          {album.event ? `${new Date(album.event.startDate).getFullYear()} · ` : ''}
           {photos.length === 0
             ? 'em breve'
             : `${photos.length} ${photos.length === 1 ? 'foto' : 'fotos'}`}
@@ -97,9 +95,7 @@ function AlbumDetalhe() {
           index={openIndex}
           total={photos.length}
           onClose={() => setOpenIndex(null)}
-          onPrev={() =>
-            setOpenIndex((i) => (i! - 1 + photos.length) % photos.length)
-          }
+          onPrev={() => setOpenIndex((i) => (i! - 1 + photos.length) % photos.length)}
           onNext={() => setOpenIndex((i) => (i! + 1) % photos.length)}
         />
       )}

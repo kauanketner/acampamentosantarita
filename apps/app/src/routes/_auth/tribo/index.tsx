@@ -1,6 +1,3 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { Loader2 } from 'lucide-react';
-import { motion } from 'motion/react';
 import { ArchMotif } from '@/components/motif/arch';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
@@ -8,12 +5,15 @@ import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { formatDateRange } from '@/lib/format';
+import { mediaUrl } from '@/lib/queries/profile';
 import {
   type CurrentTribePending,
   type CurrentTribeRevealed,
   useCurrentTribe,
 } from '@/lib/queries/tribes';
-import { mediaUrl } from '@/lib/queries/profile';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { Loader2 } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export const Route = createFileRoute('/_auth/tribo/')({
   component: TriboPage,
@@ -41,9 +41,7 @@ function TriboPage() {
         <TopBar title="Tribo" border={false} />
         <div className="px-6 py-16 text-center">
           <p className="font-display text-2xl">Não conseguimos buscar agora.</p>
-          <p className="text-sm text-(color:--color-muted-foreground) mt-2">
-            Tente daqui a pouco.
-          </p>
+          <p className="text-sm text-(color:--color-muted-foreground) mt-2">Tente daqui a pouco.</p>
         </div>
       </Page>
     );
@@ -88,8 +86,8 @@ function NoTribe() {
           </h1>
           <Separator variant="ornament" className="my-8" />
           <p className="text-[15px] leading-relaxed text-(color:--color-muted-foreground) text-pretty">
-            Ainda não há um acampamento com tribo definida pra você. Quando estiver inscrito
-            num acampamento e a coordenação revelar, ela mora aqui.
+            Ainda não há um acampamento com tribo definida pra você. Quando estiver inscrito num
+            acampamento e a coordenação revelar, ela mora aqui.
           </p>
           <Button asChild variant="ghost" size="md" className="mt-6">
             <Link to="/eventos">Ver acampamentos</Link>
@@ -134,8 +132,8 @@ function PreReveal({ data }: { data: CurrentTribePending }) {
           </h1>
           <Separator variant="ornament" className="my-8" />
           <p className="text-[15px] leading-relaxed text-(color:--color-muted-foreground) text-pretty">
-            A tribo é parte do que se vive lá dentro. Aqui, ela espera. Quando o tempo
-            certo chegar, ela aparece.
+            A tribo é parte do que se vive lá dentro. Aqui, ela espera. Quando o tempo certo chegar,
+            ela aparece.
           </p>
           <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.22em] text-(color:--color-subtle)">
             {data.event.name} · {formatDateRange(data.event.startDate, data.event.endDate)}
@@ -155,10 +153,7 @@ function Revealed({ data }: { data: CurrentTribeRevealed }) {
       <TopBar title="Sua tribo" border />
 
       <div className="px-5 pt-4 pb-3">
-        <p
-          className="font-mono text-[10px] uppercase tracking-[0.22em] mb-2"
-          style={{ color }}
-        >
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] mb-2" style={{ color }}>
           Revelada · {data.event.name}
         </p>
         <h1
@@ -227,9 +222,7 @@ function Revealed({ data }: { data: CurrentTribeRevealed }) {
                   ringed={m.role !== 'campista'}
                 />
                 <div className="min-w-0">
-                  <p className="text-[15px] font-medium leading-tight">
-                    {m.person.fullName}
-                  </p>
+                  <p className="text-[15px] font-medium leading-tight">{m.person.fullName}</p>
                   <p className="font-mono text-[10px] uppercase tracking-wider text-(color:--color-muted-foreground) mt-0.5">
                     {m.role === 'lider'
                       ? 'líder'

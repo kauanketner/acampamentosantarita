@@ -13,8 +13,8 @@ function EventoPerguntas() {
       <h1 className="font-serif text-2xl">Perguntas customizadas</h1>
       <div className="rounded-lg border bg-card p-5 space-y-2">
         <p className="text-sm">
-          As perguntas customizadas do evento são gerenciadas direto na página
-          do evento, junto com os outros dados.
+          As perguntas customizadas do evento são gerenciadas direto na página do evento, junto com
+          os outros dados.
         </p>
         <Link
           to="/eventos/$id"

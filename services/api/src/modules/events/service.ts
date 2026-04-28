@@ -122,9 +122,7 @@ export const eventsService = {
       const [other] = await db
         .select({ id: schema.events.id })
         .from(schema.events)
-        .where(
-          and(eq(schema.events.slug, payload.slug), ne(schema.events.id, id)),
-        )
+        .where(and(eq(schema.events.slug, payload.slug), ne(schema.events.id, id)))
         .limit(1);
       if (other) {
         throw new EventError('SLUG_TAKEN', 'Já existe um evento com esse slug.');
@@ -159,11 +157,7 @@ export const eventsService = {
       .where(eq(schema.events.id, id));
   },
 
-  async createCustomQuestion(
-    db: Database,
-    eventId: string,
-    payload: CreateCustomQuestion,
-  ) {
+  async createCustomQuestion(db: Database, eventId: string, payload: CreateCustomQuestion) {
     const event = await eventsService.getById(db, eventId);
     if (!event) throw new EventError('NOT_FOUND', 'Evento não encontrado.');
 
@@ -182,11 +176,7 @@ export const eventsService = {
     return created!;
   },
 
-  async updateCustomQuestion(
-    db: Database,
-    questionId: string,
-    payload: UpdateCustomQuestion,
-  ) {
+  async updateCustomQuestion(db: Database, questionId: string, payload: UpdateCustomQuestion) {
     const [existing] = await db
       .select()
       .from(schema.eventCustomQuestions)

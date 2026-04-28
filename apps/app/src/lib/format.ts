@@ -76,8 +76,7 @@ export function formatDateRange(startIso: string, endIso: string): string {
   const end = parseDate(endIso);
   const sameMonth =
     start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth();
-  const sameDay =
-    sameMonth && start.getDate() === end.getDate();
+  const sameDay = sameMonth && start.getDate() === end.getDate();
   const year = end.getFullYear();
   if (sameDay) {
     return `${start.getDate()} de ${MONTHS[start.getMonth()]} · ${year}`;

@@ -1,14 +1,11 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
-import { and, asc, desc, eq, ilike, isNull, or } from 'drizzle-orm';
+import { and, asc, eq, ilike, isNull, or } from 'drizzle-orm';
 import { toE164 } from '../../lib/whatsapp.ts';
 import type { PersonUpdate } from './schemas.ts';
 
 export const personsService = {
-  async listAdmin(
-    db: Database,
-    opts: { search?: string; limit?: number } = {},
-  ) {
+  async listAdmin(db: Database, opts: { search?: string; limit?: number } = {}) {
     const limit = opts.limit ?? 200;
     const where = [isNull(schema.persons.deletedAt)];
     if (opts.search?.trim()) {
@@ -36,9 +33,7 @@ export const personsService = {
 
     return rows.map((r) => ({
       ...r.person,
-      user: r.userId
-        ? { id: r.userId, role: r.role!, email: r.email }
-        : null,
+      user: r.userId ? { id: r.userId, role: r.role!, email: r.email } : null,
     }));
   },
 
@@ -57,21 +52,14 @@ export const personsService = {
     if (!row) return null;
     return {
       ...row.person,
-      user: row.userId
-        ? { id: row.userId, role: row.role!, email: row.email }
-        : null,
+      user: row.userId ? { id: row.userId, role: row.role!, email: row.email } : null,
     };
   },
 
   async updateUserRole(
     db: Database,
     personId: string,
-    role:
-      | 'admin'
-      | 'equipe_acampamento'
-      | 'tesouraria'
-      | 'comunicacao'
-      | 'participante',
+    role: 'admin' | 'equipe_acampamento' | 'tesouraria' | 'comunicacao' | 'participante',
   ) {
     const [user] = await db
       .select({ id: schema.users.id })
@@ -157,10 +145,7 @@ export const personsService = {
 
     await db.transaction(async (tx) => {
       if (Object.keys(personPatch).length > 1) {
-        await tx
-          .update(schema.persons)
-          .set(personPatch)
-          .where(eq(schema.persons.id, personId));
+        await tx.update(schema.persons).set(personPatch).where(eq(schema.persons.id, personId));
       }
 
       if (mobilePhone !== undefined) {

@@ -1,4 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field } from '@/components/form/Field';
 import { HealthQuestion } from '@/components/form/HealthQuestion';
@@ -6,6 +5,7 @@ import { Textarea } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useCadastroStore } from '@/lib/cadastro-store';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/cadastro/veterano/passo-5')({
   component: PassoCinco,

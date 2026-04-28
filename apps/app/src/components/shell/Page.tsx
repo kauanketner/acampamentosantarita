@@ -1,6 +1,6 @@
+import { cn } from '@/lib/cn';
 import { motion } from 'motion/react';
 import type * as React from 'react';
-import { cn } from '@/lib/cn';
 
 type Props = {
   children: React.ReactNode;

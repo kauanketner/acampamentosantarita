@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-const moneyString = z
-  .string()
-  .regex(/^\d+(\.\d{1,2})?$/, 'Valor inválido (use ponto, ex: 5.00)');
+const moneyString = z.string().regex(/^\d+(\.\d{1,2})?$/, 'Valor inválido (use ponto, ex: 5.00)');
 
 export const posCategorySchema = z.enum(['cantina', 'lojinha', 'outros']);
 

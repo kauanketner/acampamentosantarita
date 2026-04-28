@@ -1,3 +1,10 @@
+import { Page } from '@/components/shell/Page';
+import { Avatar } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { useLogout, useSession } from '@/lib/auth';
+import { mediaUrl, useFullProfile } from '@/lib/queries/profile';
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import {
   Bell,
@@ -9,13 +16,6 @@ import {
   Stethoscope,
   User,
 } from 'lucide-react';
-import { Page } from '@/components/shell/Page';
-import { Avatar } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { useLogout, useSession } from '@/lib/auth';
-import { mediaUrl, useFullProfile } from '@/lib/queries/profile';
 
 export const Route = createFileRoute('/_auth/perfil/')({
   component: PerfilIndex,
@@ -36,7 +36,7 @@ function PerfilIndex() {
   const isVeteran = veteranCount > 0;
   const sacramentCount = profile?.sacraments.length ?? 0;
   const lastReview = profile?.health
-    ? (profile.health as { lastReviewedAt?: string | null }).lastReviewedAt ?? null
+    ? ((profile.health as { lastReviewedAt?: string | null }).lastReviewedAt ?? null)
     : null;
 
   const items = [
@@ -50,9 +50,7 @@ function PerfilIndex() {
       to: '/perfil/saude' as const,
       label: 'Saúde',
       Icon: Stethoscope,
-      hint: lastReview
-        ? `Revisada ${formatRelativeDays(lastReview)}`
-        : 'Atualize quando puder',
+      hint: lastReview ? `Revisada ${formatRelativeDays(lastReview)}` : 'Atualize quando puder',
     },
     {
       to: '/perfil/fe' as const,
@@ -130,9 +128,7 @@ function PerfilIndex() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[15px] font-medium leading-tight">{i.label}</p>
-                <p className="text-xs text-(color:--color-muted-foreground) mt-0.5">
-                  {i.hint}
-                </p>
+                <p className="text-xs text-(color:--color-muted-foreground) mt-0.5">{i.hint}</p>
               </div>
               <ChevronRight
                 className="size-4 text-(color:--color-muted-foreground)"

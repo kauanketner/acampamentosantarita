@@ -1,6 +1,6 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
-import { and, desc, eq, gt, isNull } from 'drizzle-orm';
+import { and, desc, eq, isNull } from 'drizzle-orm';
 import { sendOTP, toE164 } from './whatsapp.ts';
 
 const CODE_TTL_MINUTES = 10;
@@ -39,12 +39,7 @@ export async function consumeAuthCode(
   const [latest] = await db
     .select()
     .from(schema.authCodes)
-    .where(
-      and(
-        eq(schema.authCodes.phone, phoneE164),
-        isNull(schema.authCodes.consumedAt),
-      ),
-    )
+    .where(and(eq(schema.authCodes.phone, phoneE164), isNull(schema.authCodes.consumedAt)))
     .orderBy(desc(schema.authCodes.createdAt))
     .limit(1);
 

@@ -1,5 +1,5 @@
-import type * as React from 'react';
 import { cn } from '@/lib/cn';
+import type * as React from 'react';
 
 type Props = {
   icon?: React.ReactNode;
@@ -11,12 +11,7 @@ type Props = {
 
 export function EmptyState({ icon, title, description, action, className }: Props) {
   return (
-    <div
-      className={cn(
-        'flex flex-col items-center text-center px-6 py-14 gap-3',
-        className,
-      )}
-    >
+    <div className={cn('flex flex-col items-center text-center px-6 py-14 gap-3', className)}>
       {icon && (
         <div className="text-(color:--color-subtle) opacity-60 mb-1" aria-hidden>
           {icon}

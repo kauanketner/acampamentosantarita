@@ -1,12 +1,6 @@
 import { z } from 'zod';
 
-export const eventTypeSchema = z.enum([
-  'acampamento',
-  'retiro',
-  'encontro',
-  'formacao',
-  'outro',
-]);
+export const eventTypeSchema = z.enum(['acampamento', 'retiro', 'encontro', 'formacao', 'outro']);
 
 export const eventStatusSchema = z.enum([
   'rascunho',
@@ -19,17 +13,11 @@ export const eventStatusSchema = z.enum([
 
 const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-const dateOnly = z
-  .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Data inválida (yyyy-mm-dd)');
+const dateOnly = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data inválida (yyyy-mm-dd)');
 
-const isoDateTime = z
-  .string()
-  .datetime({ offset: true, message: 'Data/hora inválida (ISO 8601)' });
+const isoDateTime = z.string().datetime({ offset: true, message: 'Data/hora inválida (ISO 8601)' });
 
-const moneyString = z
-  .string()
-  .regex(/^\d+(\.\d{1,2})?$/, 'Valor inválido (use ponto, ex: 280.00)');
+const moneyString = z.string().regex(/^\d+(\.\d{1,2})?$/, 'Valor inválido (use ponto, ex: 280.00)');
 
 const moneyNullable = z
   .union([moneyString, z.literal(''), z.null()])
@@ -37,11 +25,7 @@ const moneyNullable = z
 
 const optionalText = (max?: number) =>
   z
-    .union([
-      max ? z.string().max(max) : z.string(),
-      z.null(),
-      z.literal(''),
-    ])
+    .union([max ? z.string().max(max) : z.string(), z.null(), z.literal('')])
     .transform((v) => (v === '' || v == null ? null : v));
 
 const eventBaseSchema = z
@@ -97,17 +81,15 @@ export const createEventSchema = eventBaseSchema.superRefine((val, ctx) => {
   }
 });
 
-export const updateEventSchema = eventBaseSchema
-  .partial()
-  .superRefine((val, ctx) => {
-    if (val.startDate && val.endDate && val.endDate < val.startDate) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'endDate deve ser >= startDate',
-        path: ['endDate'],
-      });
-    }
-  });
+export const updateEventSchema = eventBaseSchema.partial().superRefine((val, ctx) => {
+  if (val.startDate && val.endDate && val.endDate < val.startDate) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'endDate deve ser >= startDate',
+      path: ['endDate'],
+    });
+  }
+});
 
 export const customQuestionTypeSchema = z.enum([
   'text',
@@ -119,11 +101,7 @@ export const customQuestionTypeSchema = z.enum([
   'date',
 ]);
 
-export const customQuestionAudienceSchema = z.enum([
-  'campista',
-  'equipista',
-  'ambos',
-]);
+export const customQuestionAudienceSchema = z.enum(['campista', 'equipista', 'ambos']);
 
 const optionItem = z.object({
   value: z.string().min(1),
@@ -144,19 +122,17 @@ const customQuestionBaseSchema = z
   })
   .strict();
 
-export const createCustomQuestionSchema = customQuestionBaseSchema.superRefine(
-  (val, ctx) => {
-    if (val.type === 'select' || val.type === 'multi_select') {
-      if (!val.options || val.options.options.length === 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Perguntas do tipo select exigem options',
-          path: ['options'],
-        });
-      }
+export const createCustomQuestionSchema = customQuestionBaseSchema.superRefine((val, ctx) => {
+  if (val.type === 'select' || val.type === 'multi_select') {
+    if (!val.options || val.options.options.length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Perguntas do tipo select exigem options',
+        path: ['options'],
+      });
     }
-  },
-);
+  }
+});
 
 export const updateCustomQuestionSchema = customQuestionBaseSchema.partial();
 

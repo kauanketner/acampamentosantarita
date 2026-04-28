@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import {
   type HomeBlock,
@@ -10,6 +8,8 @@ import {
   useHomeBlocks,
   useUpdateHomeBlock,
 } from '@/lib/queries/cms';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/site/home')({
   component: SiteHome,
@@ -37,8 +37,8 @@ function SiteHome() {
         <div>
           <h1 className="font-serif text-2xl">Home do site</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Blocos da home do site público. O conteúdo é JSON flexível por
-            tipo (hero, CTA, texto, galeria, depoimento, números).
+            Blocos da home do site público. O conteúdo é JSON flexível por tipo (hero, CTA, texto,
+            galeria, depoimento, números).
           </p>
         </div>
         {!creating && (
@@ -123,9 +123,7 @@ function BlockRow({ block, index }: { block: HomeBlock; index: number }) {
         <div className="flex flex-col items-end gap-1.5 shrink-0">
           <button
             type="button"
-            onClick={() =>
-              update.mutate({ id: block.id, input: { active: !block.active } })
-            }
+            onClick={() => update.mutate({ id: block.id, input: { active: !block.active } })}
             className="text-xs text-muted-foreground hover:text-foreground underline"
           >
             {block.active ? 'Desativar' : 'Ativar'}
@@ -223,17 +221,13 @@ function BlockForm({
       }
       onSaved();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
   return (
     <form onSubmit={onSubmit} className="rounded-lg border bg-card p-5 space-y-3">
-      <h2 className="font-serif text-lg">
-        {mode === 'create' ? 'Novo bloco' : 'Editar bloco'}
-      </h2>
+      <h2 className="font-serif text-lg">{mode === 'create' ? 'Novo bloco' : 'Editar bloco'}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <label className="block md:col-span-2">
           <span className="text-sm font-medium">Tipo</span>
@@ -263,8 +257,8 @@ function BlockForm({
       <label className="block">
         <span className="text-sm font-medium">Conteúdo (JSON)</span>
         <span className="block text-xs text-muted-foreground mt-0.5">
-          Por exemplo, hero: {'{ "title": "...", "subtitle": "...", "image": "..." }'}.
-          Cada tipo tem campos próprios — combinado com o site público.
+          Por exemplo, hero: {'{ "title": "...", "subtitle": "...", "image": "..." }'}. Cada tipo
+          tem campos próprios — combinado com o site público.
         </span>
         <textarea
           value={contentText}
@@ -275,11 +269,7 @@ function BlockForm({
         />
       </label>
       <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={active}
-          onChange={(e) => setActive(e.target.checked)}
-        />
+        <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
         Ativo
       </label>
       {error && <p className="text-sm text-destructive">{error}</p>}

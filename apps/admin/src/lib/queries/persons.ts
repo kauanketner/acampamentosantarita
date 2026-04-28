@@ -65,9 +65,7 @@ export function useAdminPersons(search?: string) {
   return useQuery<AdminPersonRow[]>({
     queryKey: [...PERSONS_KEY, 'list', search ?? ''] as const,
     queryFn: async () => {
-      const url = search
-        ? `/v1/persons?search=${encodeURIComponent(search)}`
-        : '/v1/persons';
+      const url = search ? `/v1/persons?search=${encodeURIComponent(search)}` : '/v1/persons';
       const res = await api<{ items: AdminPersonRow[] }>(url);
       return res.items;
     },

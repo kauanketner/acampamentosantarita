@@ -30,9 +30,7 @@ export function useAnnouncements() {
   return useQuery<Announcement[]>({
     queryKey: ANNOUNCEMENTS_KEY,
     queryFn: async () => {
-      const res = await api<{ items: Announcement[] }>(
-        '/v1/communication/announcements',
-      );
+      const res = await api<{ items: Announcement[] }>('/v1/communication/announcements');
       return res.items;
     },
     staleTime: 30_000,

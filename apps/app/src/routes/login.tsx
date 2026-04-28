@@ -1,15 +1,15 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Loader2 } from 'lucide-react';
-import { motion } from 'motion/react';
-import { useState } from 'react';
+import { Field } from '@/components/form/Field';
 import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { Button } from '@/components/ui/button';
-import { Field } from '@/components/form/Field';
 import { Label } from '@/components/ui/label';
 import { MaskedInput } from '@/components/ui/masked-input';
 import { ApiError } from '@/lib/api';
 import { useRequestCode } from '@/lib/auth';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Loader2 } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
@@ -97,9 +97,7 @@ function LoginPage() {
             />
           </Field>
 
-          {error && (
-            <p className="text-sm text-(color:--color-destructive) text-center">{error}</p>
-          )}
+          {error && <p className="text-sm text-(color:--color-destructive) text-center">{error}</p>}
 
           <Button
             type="submit"

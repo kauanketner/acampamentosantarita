@@ -10,9 +10,17 @@ export const eventsRoutes: FastifyPluginAsync = async (app) => {
 
   app.post('/:id/duplicate', { schema: { tags: ['events'] } }, eventsController.duplicate);
 
-  app.get('/:id/registrations', { schema: { tags: ['events'] } }, eventsController.listRegistrations);
+  app.get(
+    '/:id/registrations',
+    { schema: { tags: ['events'] } },
+    eventsController.listRegistrations,
+  );
   app.get('/:id/tribes', { schema: { tags: ['events'] } }, eventsController.listTribes);
-  app.get('/:id/service-teams', { schema: { tags: ['events'] } }, eventsController.listServiceTeams);
+  app.get(
+    '/:id/service-teams',
+    { schema: { tags: ['events'] } },
+    eventsController.listServiceTeams,
+  );
 
   app.get(
     '/:id/custom-questions',

@@ -1,5 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { useRegistrationsReport } from '@/lib/queries/reports';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/relatorios/inscricoes')({
   component: RelatoriosInscricoes,
@@ -37,9 +37,7 @@ function RelatoriosInscricoes() {
                   <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                     {statusLabel[s.status] ?? s.status}
                   </p>
-                  <p className="font-serif text-2xl mt-1 tabular-nums">
-                    {s.total}
-                  </p>
+                  <p className="font-serif text-2xl mt-1 tabular-nums">{s.total}</p>
                 </div>
               ))}
             </div>

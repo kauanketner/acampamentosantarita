@@ -151,8 +151,7 @@ export function useUpdateEvent(id: string) {
 export function useDeleteEvent() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/events/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/events/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: EVENTS_KEY });
     },
@@ -165,9 +164,7 @@ export function useCustomQuestions(eventId: string | undefined) {
       ? customQuestionsKey(eventId)
       : ([...EVENTS_KEY, '__none__', 'custom-questions'] as const),
     queryFn: async () => {
-      const res = await api<{ items: CustomQuestion[] }>(
-        `/v1/events/${eventId}/custom-questions`,
-      );
+      const res = await api<{ items: CustomQuestion[] }>(`/v1/events/${eventId}/custom-questions`);
       return res.items;
     },
     enabled: !!eventId,

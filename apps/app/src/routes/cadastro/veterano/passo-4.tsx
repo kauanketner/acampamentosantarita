@@ -1,4 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field } from '@/components/form/Field';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -6,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCadastroStore } from '@/lib/cadastro-store';
 import { cn } from '@/lib/cn';
+import { createFileRoute } from '@tanstack/react-router';
 
 const SACRAMENTS = [
   { id: 'batismo', label: 'Batismo' },
@@ -76,10 +76,7 @@ function PassoQuatro() {
                       : 'border-(color:--color-border) bg-(color:--color-surface) hover:bg-(color:--color-muted)',
                   )}
                 >
-                  <Checkbox
-                    checked={checked}
-                    onCheckedChange={(v) => toggle(sac.id, !!v)}
-                  />
+                  <Checkbox checked={checked} onCheckedChange={(v) => toggle(sac.id, !!v)} />
                   <span className="text-[15px] font-medium">{sac.label}</span>
                 </label>
               );

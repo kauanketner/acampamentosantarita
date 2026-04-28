@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import {
   type Announcement,
@@ -11,6 +9,8 @@ import {
   useUpdateAnnouncement,
 } from '@/lib/queries/announcements';
 import { useAdminEvents } from '@/lib/queries/events';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/comunicacao/avisos')({
   component: Avisos,
@@ -74,8 +74,8 @@ function Avisos() {
         <div className="rounded-md border border-dashed bg-card p-10 text-center">
           <p className="font-serif text-xl">Nenhum aviso ainda</p>
           <p className="text-sm text-muted-foreground mt-1.5 max-w-md mx-auto">
-            Quando você publicar um aviso, ele aparece aqui — e na lista de avisos
-            do app dos campistas (se publicado).
+            Quando você publicar um aviso, ele aparece aqui — e na lista de avisos do app dos
+            campistas (se publicado).
           </p>
         </div>
       )}
@@ -128,9 +128,7 @@ function AnnouncementCard({ announcement: a }: { announcement: Announcement }) {
     try {
       await remove.mutateAsync(a.id);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível excluir.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   };
 
@@ -142,9 +140,7 @@ function AnnouncementCard({ announcement: a }: { announcement: Announcement }) {
         input: { publish: !a.publishedAt },
       });
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
@@ -177,11 +173,7 @@ function AnnouncementCard({ announcement: a }: { announcement: Announcement }) {
             disabled={update.isPending}
             className="rounded-md border px-3 py-1 text-xs hover:bg-secondary disabled:opacity-50"
           >
-            {update.isPending
-              ? '…'
-              : a.publishedAt
-                ? 'Despublicar'
-                : 'Publicar'}
+            {update.isPending ? '…' : a.publishedAt ? 'Despublicar' : 'Publicar'}
           </button>
           <button
             type="button"
@@ -273,24 +265,19 @@ function AnnouncementForm({
       }
       onSaved();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
   const isPublished = announcement?.publishedAt != null;
-  const canSubmit =
-    form.title.trim().length >= 2 && form.body.trim().length >= 2 && !isPending;
+  const canSubmit = form.title.trim().length >= 2 && form.body.trim().length >= 2 && !isPending;
 
   return (
     <form
       className="rounded-lg border bg-card p-5 space-y-4"
       onSubmit={(e) => onSubmit(e, isPublished)}
     >
-      <h2 className="font-serif text-lg">
-        {mode === 'create' ? 'Novo aviso' : 'Editar aviso'}
-      </h2>
+      <h2 className="font-serif text-lg">{mode === 'create' ? 'Novo aviso' : 'Editar aviso'}</h2>
 
       <label className="block">
         <span className="text-sm font-medium">Título</span>
@@ -382,8 +369,8 @@ function AnnouncementForm({
         <div>
           <p className="text-sm font-medium">Enviar push notification</p>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Avisa pessoalmente os destinatários no aparelho. (Push entra em
-            produção em breve — por enquanto só registra a flag.)
+            Avisa pessoalmente os destinatários no aparelho. (Push entra em produção em breve — por
+            enquanto só registra a flag.)
           </p>
         </div>
       </label>
@@ -407,11 +394,7 @@ function AnnouncementForm({
           disabled={!canSubmit}
           className="rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium disabled:opacity-50"
         >
-          {isPending
-            ? 'Salvando…'
-            : isPublished
-              ? 'Salvar alterações'
-              : 'Publicar agora'}
+          {isPending ? 'Salvando…' : isPublished ? 'Salvar alterações' : 'Publicar agora'}
         </button>
         <button
           type="button"

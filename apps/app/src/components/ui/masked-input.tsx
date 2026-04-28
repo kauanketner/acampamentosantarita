@@ -1,6 +1,6 @@
+import { maskCEP, maskCPF, maskPhone } from '@/lib/masks';
 import * as React from 'react';
 import { Input } from './input';
-import { maskCEP, maskCPF, maskPhone } from '@/lib/masks';
 
 type Mask = 'cpf' | 'cep' | 'phone';
 
@@ -42,14 +42,7 @@ type Props = Omit<
 
 export const MaskedInput = React.forwardRef<HTMLInputElement, Props>(
   (
-    {
-      mask,
-      value: controlledValue,
-      defaultValue = '',
-      onValueChange,
-      placeholder,
-      ...rest
-    },
+    { mask, value: controlledValue, defaultValue = '', onValueChange, placeholder, ...rest },
     ref,
   ) => {
     const isControlled = controlledValue !== undefined;

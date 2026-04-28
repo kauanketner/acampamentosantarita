@@ -8,9 +8,5 @@
     "./biome.base.json": "./biome.base.json",
     "./tailwind.base": "./tailwind.base.ts"
   },
-  "files": [
-    "tsconfig.base.json",
-    "biome.base.json",
-    "tailwind.base.ts"
-  ]
+  "files": ["tsconfig.base.json", "biome.base.json", "tailwind.base.ts"]
 }

@@ -21,11 +21,7 @@ export const faithController = {
       return;
     }
     const parsed = faithUpsertSchema.parse(req.body);
-    const data = await faithService.upsertMine(
-      req.server.db,
-      req.user.personId,
-      parsed,
-    );
+    const data = await faithService.upsertMine(req.server.db, req.user.personId, parsed);
     return data;
   },
 

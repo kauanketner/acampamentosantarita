@@ -1,15 +1,15 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { CalendarDays, Loader2 } from 'lucide-react';
-import { motion } from 'motion/react';
 import { EventCover } from '@/components/EventCover';
 import { Page } from '@/components/shell/Page';
 import { PageHeader } from '@/components/shell/PageHeader';
 import { SectionTitle } from '@/components/shell/SectionTitle';
 import { Badge } from '@/components/ui/badge';
 import { EmptyState } from '@/components/ui/empty-state';
-import { type AppEvent, type EventStatus, useUpcomingEvents } from '@/lib/queries/events';
 import { eventGradient, formatDateRange } from '@/lib/format';
+import { type AppEvent, type EventStatus, useUpcomingEvents } from '@/lib/queries/events';
 import { mediaUrl } from '@/lib/queries/profile';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { CalendarDays, Loader2 } from 'lucide-react';
+import { motion } from 'motion/react';
 
 const typeLabel: Record<string, string> = {
   acampamento: 'Acampamento',
@@ -19,17 +19,15 @@ const typeLabel: Record<string, string> = {
   outro: 'Evento',
 };
 
-const statusInfo: Record<
-  EventStatus,
-  { label: string; tone: 'primary' | 'neutral' | 'warning' }
-> = {
-  rascunho: { label: 'rascunho', tone: 'neutral' },
-  inscricoes_abertas: { label: 'inscrições abertas', tone: 'primary' },
-  inscricoes_fechadas: { label: 'inscrições fechadas', tone: 'neutral' },
-  em_andamento: { label: 'acontecendo agora', tone: 'warning' },
-  finalizado: { label: 'finalizado', tone: 'neutral' },
-  cancelado: { label: 'cancelado', tone: 'neutral' },
-};
+const statusInfo: Record<EventStatus, { label: string; tone: 'primary' | 'neutral' | 'warning' }> =
+  {
+    rascunho: { label: 'rascunho', tone: 'neutral' },
+    inscricoes_abertas: { label: 'inscrições abertas', tone: 'primary' },
+    inscricoes_fechadas: { label: 'inscrições fechadas', tone: 'neutral' },
+    em_andamento: { label: 'acontecendo agora', tone: 'warning' },
+    finalizado: { label: 'finalizado', tone: 'neutral' },
+    cancelado: { label: 'cancelado', tone: 'neutral' },
+  };
 
 export const Route = createFileRoute('/_auth/eventos/')({
   component: EventosIndex,
@@ -165,12 +163,7 @@ function EventCard({ event }: { event: AppEvent }) {
   const cover = mediaUrl(event.coverImageUrl);
   return (
     <Link to="/eventos/$slug" params={{ slug: event.slug }} className="block group">
-      <EventCover
-        gradient={grad}
-        imageUrl={cover}
-        height="md"
-        className="mb-3"
-      >
+      <EventCover gradient={grad} imageUrl={cover} height="md" className="mb-3">
         <div className="absolute inset-0 p-4 flex flex-col justify-between text-white">
           <div className="flex justify-between gap-2">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-90">

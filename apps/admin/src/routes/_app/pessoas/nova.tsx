@@ -17,10 +17,9 @@ function NovaPessoa() {
       <h1 className="font-serif text-2xl">Nova pessoa</h1>
       <div className="rounded-lg border bg-card p-5 space-y-3">
         <p className="text-sm">
-          Cadastros são criados quando o próprio interessado faz login pelo app
-          em <span className="font-mono">app2.acampamentosantarita.com.br</span>{' '}
-          — primeiro acesso pelo telefone, OTP via WhatsApp, fluxo guiado de 5
-          passos.
+          Cadastros são criados quando o próprio interessado faz login pelo app em{' '}
+          <span className="font-mono">app2.acampamentosantarita.com.br</span> — primeiro acesso pelo
+          telefone, OTP via WhatsApp, fluxo guiado de 5 passos.
         </p>
         <p className="text-sm text-muted-foreground">
           Pra dar acesso administrativo a alguém que já se cadastrou: vá em{' '}
@@ -30,8 +29,7 @@ function NovaPessoa() {
           → abra o perfil → clique em &quot;Promover a admin/equipe&quot; (em breve).
         </p>
         <p className="text-xs text-muted-foreground">
-          Importação em massa de histórico legado será habilitada quando for
-          necessário.
+          Importação em massa de histórico legado será habilitada quando for necessário.
         </p>
       </div>
     </div>

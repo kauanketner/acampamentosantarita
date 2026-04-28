@@ -1,12 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useMemo, useState } from 'react';
 import { ApiError } from '@/lib/api';
 import { brl, formatDate } from '@/lib/format';
 import { useAdminEvents } from '@/lib/queries/events';
+import { useAdminPersons } from '@/lib/queries/persons';
 import {
   type PosAccountRow,
   type PosAccountStatus,
-  type PosAccountDetail,
   useAddPosTransaction,
   useClosePosAccount,
   useDeletePosTransaction,
@@ -15,7 +13,8 @@ import {
   usePosAccounts,
   usePosItems,
 } from '@/lib/queries/pos';
-import { useAdminPersons } from '@/lib/queries/persons';
+import { createFileRoute } from '@tanstack/react-router';
+import { useMemo, useState } from 'react';
 
 export const Route = createFileRoute('/_app/pdv/contas')({
   component: PdvContas,
@@ -45,15 +44,11 @@ function PdvContas() {
   const { data: events } = useAdminEvents();
   const ongoing = useMemo(
     () =>
-      (events ?? []).find(
-        (e) => e.status === 'em_andamento' || e.status === 'inscricoes_fechadas',
-      ),
+      (events ?? []).find((e) => e.status === 'em_andamento' || e.status === 'inscricoes_fechadas'),
     [events],
   );
   const [eventId, setEventId] = useState<string | undefined>();
-  const [statusFilter, setStatusFilter] = useState<PosAccountStatus | 'all'>(
-    'aberta',
-  );
+  const [statusFilter, setStatusFilter] = useState<PosAccountStatus | 'all'>('aberta');
   const [opening, setOpening] = useState(false);
 
   const effectiveEventId = eventId || ongoing?.id;
@@ -71,17 +66,14 @@ function PdvContas() {
       <header>
         <h1 className="font-serif text-2xl">PDV — Contas</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Contas abertas durante o evento. Cada lançamento (cantina/lojinha) entra
-          em uma conta. Quando você fecha a conta, é gerada uma fatura
-          correspondente.
+          Contas abertas durante o evento. Cada lançamento (cantina/lojinha) entra em uma conta.
+          Quando você fecha a conta, é gerada uma fatura correspondente.
         </p>
       </header>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <label className="block">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground">
-            Evento
-          </span>
+          <span className="text-xs uppercase tracking-wider text-muted-foreground">Evento</span>
           <select
             value={effectiveEventId ?? ''}
             onChange={(e) => setEventId(e.target.value || undefined)}
@@ -96,14 +88,10 @@ function PdvContas() {
           </select>
         </label>
         <label className="block">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground">
-            Status
-          </span>
+          <span className="text-xs uppercase tracking-wider text-muted-foreground">Status</span>
           <select
             value={statusFilter}
-            onChange={(e) =>
-              setStatusFilter(e.target.value as PosAccountStatus | 'all')
-            }
+            onChange={(e) => setStatusFilter(e.target.value as PosAccountStatus | 'all')}
             className={`mt-1 ${inputClass}`}
           >
             <option value="aberta">Apenas abertas</option>
@@ -120,9 +108,7 @@ function PdvContas() {
             <p className="text-xs uppercase tracking-wider text-muted-foreground">
               Total em aberto
             </p>
-            <p className="font-serif text-2xl mt-1 tabular-nums">
-              {brl(totalOpen)}
-            </p>
+            <p className="font-serif text-2xl mt-1 tabular-nums">{brl(totalOpen)}</p>
           </div>
           <button
             type="button"
@@ -143,9 +129,7 @@ function PdvContas() {
       )}
 
       {!effectiveEventId && (
-        <p className="text-sm text-muted-foreground">
-          Escolha um evento pra ver as contas.
-        </p>
+        <p className="text-sm text-muted-foreground">Escolha um evento pra ver as contas.</p>
       )}
 
       {effectiveEventId && isLoading && (
@@ -181,9 +165,7 @@ function AccountRow({ account }: { account: PosAccountRow }) {
     try {
       await close.mutateAsync(account.id);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível fechar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível fechar.');
     }
   };
 
@@ -201,9 +183,7 @@ function AccountRow({ account }: { account: PosAccountRow }) {
             >
               {status.label}
             </span>
-            <span className="font-mono text-sm">
-              {brl(Number(account.totalAmount))}
-            </span>
+            <span className="font-mono text-sm">{brl(Number(account.totalAmount))}</span>
           </div>
         </div>
         <div className="flex flex-col items-end gap-2">
@@ -269,9 +249,7 @@ function AccountTransactions({ accountId }: { accountId: string }) {
       setPicked('');
       setQty(1);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível lançar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível lançar.');
     }
   };
 
@@ -385,9 +363,7 @@ function OpenAccountForm({
       await open.mutateAsync({ eventId, personId });
       onCreated();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível abrir conta.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível abrir conta.');
     }
   };
 
@@ -406,9 +382,7 @@ function OpenAccountForm({
       {search.length >= 2 && persons && (
         <ul className="space-y-1 max-h-60 overflow-y-auto">
           {persons.length === 0 ? (
-            <li className="text-xs text-muted-foreground">
-              Nenhuma pessoa encontrada.
-            </li>
+            <li className="text-xs text-muted-foreground">Nenhuma pessoa encontrada.</li>
           ) : (
             persons.slice(0, 10).map((p) => (
               <li
@@ -437,11 +411,7 @@ function OpenAccountForm({
           )}
         </ul>
       )}
-      <button
-        type="button"
-        onClick={onCancel}
-        className="text-xs text-muted-foreground underline"
-      >
+      <button type="button" onClick={onCancel} className="text-xs text-muted-foreground underline">
         Cancelar
       </button>
     </div>

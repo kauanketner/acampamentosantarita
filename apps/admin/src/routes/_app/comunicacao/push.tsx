@@ -32,12 +32,11 @@ function Push() {
           </li>
           <li>
             Implementar o disparador (<span className="font-mono">lib/push.ts</span>) usando{' '}
-            <span className="font-mono">web-push</span> e chamar nos pontos onde
-            o aviso é publicado com <span className="font-mono">sendPush=true</span>.
+            <span className="font-mono">web-push</span> e chamar nos pontos onde o aviso é publicado
+            com <span className="font-mono">sendPush=true</span>.
           </li>
           <li>
-            Implementar o controller{' '}
-            <span className="font-mono">subscribePush</span> pra registrar
+            Implementar o controller <span className="font-mono">subscribePush</span> pra registrar
             subscriptions vindas do PWA.
           </li>
         </ol>
@@ -46,17 +45,15 @@ function Push() {
           <Link to="/comunicacao/avisos" className="text-primary underline">
             Avisos
           </Link>{' '}
-          aparecem no app campista assim que ele abrir, mesmo sem push (refresh
-          do feed).
+          aparecem no app campista assim que ele abrir, mesmo sem push (refresh do feed).
         </p>
       </div>
 
       <div className="rounded-md border border-amber-300 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-800 p-4 text-sm text-amber-900 dark:text-amber-100 space-y-2">
         <p>
-          <strong>Workaround atual:</strong> avisos críticos (financeiro,
-          cancelamentos) chegam por WhatsApp via WTS. Marcar{' '}
-          <span className="font-mono">sendPush</span> hoje só registra a flag —
-          a entrega de fato vai funcionar quando a infra acima estiver pronta.
+          <strong>Workaround atual:</strong> avisos críticos (financeiro, cancelamentos) chegam por
+          WhatsApp via WTS. Marcar <span className="font-mono">sendPush</span> hoje só registra a
+          flag — a entrega de fato vai funcionar quando a infra acima estiver pronta.
         </p>
       </div>
     </div>

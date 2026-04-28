@@ -8,378 +8,367 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as CodigoRouteImport } from './routes/codigo'
-import { Route as AuthRouteImport } from './routes/_auth'
-import { Route as CadastroIndexRouteImport } from './routes/cadastro/index'
-import { Route as AuthIndexRouteImport } from './routes/_auth/index'
-import { Route as AuthTriboIndexRouteImport } from './routes/_auth/tribo/index'
-import { Route as AuthPerfilIndexRouteImport } from './routes/_auth/perfil/index'
-import { Route as AuthMinhasInscricoesIndexRouteImport } from './routes/_auth/minhas-inscricoes/index'
-import { Route as AuthGaleriaIndexRouteImport } from './routes/_auth/galeria/index'
-import { Route as AuthFinanceiroIndexRouteImport } from './routes/_auth/financeiro/index'
-import { Route as AuthFaqIndexRouteImport } from './routes/_auth/faq/index'
-import { Route as AuthEventosIndexRouteImport } from './routes/_auth/eventos/index'
-import { Route as AuthAvisosIndexRouteImport } from './routes/_auth/avisos/index'
-import { Route as CadastroVeteranoPasso6RouteImport } from './routes/cadastro/veterano/passo-6'
-import { Route as CadastroVeteranoPasso5RouteImport } from './routes/cadastro/veterano/passo-5'
-import { Route as CadastroVeteranoPasso4RouteImport } from './routes/cadastro/veterano/passo-4'
-import { Route as CadastroVeteranoPasso3RouteImport } from './routes/cadastro/veterano/passo-3'
-import { Route as CadastroVeteranoPasso2RouteImport } from './routes/cadastro/veterano/passo-2'
-import { Route as CadastroVeteranoPasso1RouteImport } from './routes/cadastro/veterano/passo-1'
-import { Route as CadastroVeteranoConcluidoRouteImport } from './routes/cadastro/veterano/concluido'
-import { Route as CadastroPrimeiraVezPasso5RouteImport } from './routes/cadastro/primeira-vez/passo-5'
-import { Route as CadastroPrimeiraVezPasso4RouteImport } from './routes/cadastro/primeira-vez/passo-4'
-import { Route as CadastroPrimeiraVezPasso3RouteImport } from './routes/cadastro/primeira-vez/passo-3'
-import { Route as CadastroPrimeiraVezPasso2RouteImport } from './routes/cadastro/primeira-vez/passo-2'
-import { Route as CadastroPrimeiraVezPasso1RouteImport } from './routes/cadastro/primeira-vez/passo-1'
-import { Route as CadastroPrimeiraVezConcluidoRouteImport } from './routes/cadastro/primeira-vez/concluido'
-import { Route as AuthPerfilSaudeRouteImport } from './routes/_auth/perfil/saude'
-import { Route as AuthPerfilNotificacoesRouteImport } from './routes/_auth/perfil/notificacoes'
-import { Route as AuthPerfilHistoricoRouteImport } from './routes/_auth/perfil/historico'
-import { Route as AuthPerfilFeRouteImport } from './routes/_auth/perfil/fe'
-import { Route as AuthPerfilEditarRouteImport } from './routes/_auth/perfil/editar'
-import { Route as AuthMinhasInscricoesIdRouteImport } from './routes/_auth/minhas-inscricoes/$id'
-import { Route as AuthGaleriaSlugRouteImport } from './routes/_auth/galeria/$slug'
-import { Route as AuthFinanceiroInvoiceIdRouteImport } from './routes/_auth/financeiro/$invoiceId'
-import { Route as AuthEventosSlugRouteImport } from './routes/_auth/eventos/$slug'
-import { Route as AuthFinanceiroPdvEventoIndexRouteImport } from './routes/_auth/financeiro/pdv-evento/index'
-import { Route as AuthEventosSlugInscricaoIndexRouteImport } from './routes/_auth/eventos/$slug.inscricao/index'
-import { Route as AuthEventosSlugInscricaoPagamentoRouteImport } from './routes/_auth/eventos/$slug.inscricao/pagamento'
-import { Route as AuthEventosSlugInscricaoConfirmadoRouteImport } from './routes/_auth/eventos/$slug.inscricao/confirmado'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as AuthRouteImport } from './routes/_auth';
+import { Route as AuthAvisosIndexRouteImport } from './routes/_auth/avisos/index';
+import { Route as AuthEventosSlugRouteImport } from './routes/_auth/eventos/$slug';
+import { Route as AuthEventosSlugInscricaoConfirmadoRouteImport } from './routes/_auth/eventos/$slug.inscricao/confirmado';
+import { Route as AuthEventosSlugInscricaoIndexRouteImport } from './routes/_auth/eventos/$slug.inscricao/index';
+import { Route as AuthEventosSlugInscricaoPagamentoRouteImport } from './routes/_auth/eventos/$slug.inscricao/pagamento';
+import { Route as AuthEventosIndexRouteImport } from './routes/_auth/eventos/index';
+import { Route as AuthFaqIndexRouteImport } from './routes/_auth/faq/index';
+import { Route as AuthFinanceiroInvoiceIdRouteImport } from './routes/_auth/financeiro/$invoiceId';
+import { Route as AuthFinanceiroIndexRouteImport } from './routes/_auth/financeiro/index';
+import { Route as AuthFinanceiroPdvEventoIndexRouteImport } from './routes/_auth/financeiro/pdv-evento/index';
+import { Route as AuthGaleriaSlugRouteImport } from './routes/_auth/galeria/$slug';
+import { Route as AuthGaleriaIndexRouteImport } from './routes/_auth/galeria/index';
+import { Route as AuthIndexRouteImport } from './routes/_auth/index';
+import { Route as AuthMinhasInscricoesIdRouteImport } from './routes/_auth/minhas-inscricoes/$id';
+import { Route as AuthMinhasInscricoesIndexRouteImport } from './routes/_auth/minhas-inscricoes/index';
+import { Route as AuthPerfilEditarRouteImport } from './routes/_auth/perfil/editar';
+import { Route as AuthPerfilFeRouteImport } from './routes/_auth/perfil/fe';
+import { Route as AuthPerfilHistoricoRouteImport } from './routes/_auth/perfil/historico';
+import { Route as AuthPerfilIndexRouteImport } from './routes/_auth/perfil/index';
+import { Route as AuthPerfilNotificacoesRouteImport } from './routes/_auth/perfil/notificacoes';
+import { Route as AuthPerfilSaudeRouteImport } from './routes/_auth/perfil/saude';
+import { Route as AuthTriboIndexRouteImport } from './routes/_auth/tribo/index';
+import { Route as CadastroIndexRouteImport } from './routes/cadastro/index';
+import { Route as CadastroPrimeiraVezConcluidoRouteImport } from './routes/cadastro/primeira-vez/concluido';
+import { Route as CadastroPrimeiraVezPasso1RouteImport } from './routes/cadastro/primeira-vez/passo-1';
+import { Route as CadastroPrimeiraVezPasso2RouteImport } from './routes/cadastro/primeira-vez/passo-2';
+import { Route as CadastroPrimeiraVezPasso3RouteImport } from './routes/cadastro/primeira-vez/passo-3';
+import { Route as CadastroPrimeiraVezPasso4RouteImport } from './routes/cadastro/primeira-vez/passo-4';
+import { Route as CadastroPrimeiraVezPasso5RouteImport } from './routes/cadastro/primeira-vez/passo-5';
+import { Route as CadastroVeteranoConcluidoRouteImport } from './routes/cadastro/veterano/concluido';
+import { Route as CadastroVeteranoPasso1RouteImport } from './routes/cadastro/veterano/passo-1';
+import { Route as CadastroVeteranoPasso2RouteImport } from './routes/cadastro/veterano/passo-2';
+import { Route as CadastroVeteranoPasso3RouteImport } from './routes/cadastro/veterano/passo-3';
+import { Route as CadastroVeteranoPasso4RouteImport } from './routes/cadastro/veterano/passo-4';
+import { Route as CadastroVeteranoPasso5RouteImport } from './routes/cadastro/veterano/passo-5';
+import { Route as CadastroVeteranoPasso6RouteImport } from './routes/cadastro/veterano/passo-6';
+import { Route as CodigoRouteImport } from './routes/codigo';
+import { Route as LoginRouteImport } from './routes/login';
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const CodigoRoute = CodigoRouteImport.update({
   id: '/codigo',
   path: '/codigo',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const CadastroIndexRoute = CadastroIndexRouteImport.update({
   id: '/cadastro/',
   path: '/cadastro/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AuthIndexRoute = AuthIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthTriboIndexRoute = AuthTriboIndexRouteImport.update({
   id: '/tribo/',
   path: '/tribo/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthPerfilIndexRoute = AuthPerfilIndexRouteImport.update({
   id: '/perfil/',
   path: '/perfil/',
   getParentRoute: () => AuthRoute,
-} as any)
-const AuthMinhasInscricoesIndexRoute =
-  AuthMinhasInscricoesIndexRouteImport.update({
-    id: '/minhas-inscricoes/',
-    path: '/minhas-inscricoes/',
-    getParentRoute: () => AuthRoute,
-  } as any)
+} as any);
+const AuthMinhasInscricoesIndexRoute = AuthMinhasInscricoesIndexRouteImport.update({
+  id: '/minhas-inscricoes/',
+  path: '/minhas-inscricoes/',
+  getParentRoute: () => AuthRoute,
+} as any);
 const AuthGaleriaIndexRoute = AuthGaleriaIndexRouteImport.update({
   id: '/galeria/',
   path: '/galeria/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthFinanceiroIndexRoute = AuthFinanceiroIndexRouteImport.update({
   id: '/financeiro/',
   path: '/financeiro/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthFaqIndexRoute = AuthFaqIndexRouteImport.update({
   id: '/faq/',
   path: '/faq/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthEventosIndexRoute = AuthEventosIndexRouteImport.update({
   id: '/eventos/',
   path: '/eventos/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthAvisosIndexRoute = AuthAvisosIndexRouteImport.update({
   id: '/avisos/',
   path: '/avisos/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const CadastroVeteranoPasso6Route = CadastroVeteranoPasso6RouteImport.update({
   id: '/cadastro/veterano/passo-6',
   path: '/cadastro/veterano/passo-6',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const CadastroVeteranoPasso5Route = CadastroVeteranoPasso5RouteImport.update({
   id: '/cadastro/veterano/passo-5',
   path: '/cadastro/veterano/passo-5',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const CadastroVeteranoPasso4Route = CadastroVeteranoPasso4RouteImport.update({
   id: '/cadastro/veterano/passo-4',
   path: '/cadastro/veterano/passo-4',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const CadastroVeteranoPasso3Route = CadastroVeteranoPasso3RouteImport.update({
   id: '/cadastro/veterano/passo-3',
   path: '/cadastro/veterano/passo-3',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const CadastroVeteranoPasso2Route = CadastroVeteranoPasso2RouteImport.update({
   id: '/cadastro/veterano/passo-2',
   path: '/cadastro/veterano/passo-2',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const CadastroVeteranoPasso1Route = CadastroVeteranoPasso1RouteImport.update({
   id: '/cadastro/veterano/passo-1',
   path: '/cadastro/veterano/passo-1',
   getParentRoute: () => rootRouteImport,
-} as any)
-const CadastroVeteranoConcluidoRoute =
-  CadastroVeteranoConcluidoRouteImport.update({
-    id: '/cadastro/veterano/concluido',
-    path: '/cadastro/veterano/concluido',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const CadastroPrimeiraVezPasso5Route =
-  CadastroPrimeiraVezPasso5RouteImport.update({
-    id: '/cadastro/primeira-vez/passo-5',
-    path: '/cadastro/primeira-vez/passo-5',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const CadastroPrimeiraVezPasso4Route =
-  CadastroPrimeiraVezPasso4RouteImport.update({
-    id: '/cadastro/primeira-vez/passo-4',
-    path: '/cadastro/primeira-vez/passo-4',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const CadastroPrimeiraVezPasso3Route =
-  CadastroPrimeiraVezPasso3RouteImport.update({
-    id: '/cadastro/primeira-vez/passo-3',
-    path: '/cadastro/primeira-vez/passo-3',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const CadastroPrimeiraVezPasso2Route =
-  CadastroPrimeiraVezPasso2RouteImport.update({
-    id: '/cadastro/primeira-vez/passo-2',
-    path: '/cadastro/primeira-vez/passo-2',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const CadastroPrimeiraVezPasso1Route =
-  CadastroPrimeiraVezPasso1RouteImport.update({
-    id: '/cadastro/primeira-vez/passo-1',
-    path: '/cadastro/primeira-vez/passo-1',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const CadastroPrimeiraVezConcluidoRoute =
-  CadastroPrimeiraVezConcluidoRouteImport.update({
-    id: '/cadastro/primeira-vez/concluido',
-    path: '/cadastro/primeira-vez/concluido',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+} as any);
+const CadastroVeteranoConcluidoRoute = CadastroVeteranoConcluidoRouteImport.update({
+  id: '/cadastro/veterano/concluido',
+  path: '/cadastro/veterano/concluido',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const CadastroPrimeiraVezPasso5Route = CadastroPrimeiraVezPasso5RouteImport.update({
+  id: '/cadastro/primeira-vez/passo-5',
+  path: '/cadastro/primeira-vez/passo-5',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const CadastroPrimeiraVezPasso4Route = CadastroPrimeiraVezPasso4RouteImport.update({
+  id: '/cadastro/primeira-vez/passo-4',
+  path: '/cadastro/primeira-vez/passo-4',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const CadastroPrimeiraVezPasso3Route = CadastroPrimeiraVezPasso3RouteImport.update({
+  id: '/cadastro/primeira-vez/passo-3',
+  path: '/cadastro/primeira-vez/passo-3',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const CadastroPrimeiraVezPasso2Route = CadastroPrimeiraVezPasso2RouteImport.update({
+  id: '/cadastro/primeira-vez/passo-2',
+  path: '/cadastro/primeira-vez/passo-2',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const CadastroPrimeiraVezPasso1Route = CadastroPrimeiraVezPasso1RouteImport.update({
+  id: '/cadastro/primeira-vez/passo-1',
+  path: '/cadastro/primeira-vez/passo-1',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const CadastroPrimeiraVezConcluidoRoute = CadastroPrimeiraVezConcluidoRouteImport.update({
+  id: '/cadastro/primeira-vez/concluido',
+  path: '/cadastro/primeira-vez/concluido',
+  getParentRoute: () => rootRouteImport,
+} as any);
 const AuthPerfilSaudeRoute = AuthPerfilSaudeRouteImport.update({
   id: '/perfil/saude',
   path: '/perfil/saude',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthPerfilNotificacoesRoute = AuthPerfilNotificacoesRouteImport.update({
   id: '/perfil/notificacoes',
   path: '/perfil/notificacoes',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthPerfilHistoricoRoute = AuthPerfilHistoricoRouteImport.update({
   id: '/perfil/historico',
   path: '/perfil/historico',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthPerfilFeRoute = AuthPerfilFeRouteImport.update({
   id: '/perfil/fe',
   path: '/perfil/fe',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthPerfilEditarRoute = AuthPerfilEditarRouteImport.update({
   id: '/perfil/editar',
   path: '/perfil/editar',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthMinhasInscricoesIdRoute = AuthMinhasInscricoesIdRouteImport.update({
   id: '/minhas-inscricoes/$id',
   path: '/minhas-inscricoes/$id',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthGaleriaSlugRoute = AuthGaleriaSlugRouteImport.update({
   id: '/galeria/$slug',
   path: '/galeria/$slug',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthFinanceiroInvoiceIdRoute = AuthFinanceiroInvoiceIdRouteImport.update({
   id: '/financeiro/$invoiceId',
   path: '/financeiro/$invoiceId',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthEventosSlugRoute = AuthEventosSlugRouteImport.update({
   id: '/eventos/$slug',
   path: '/eventos/$slug',
   getParentRoute: () => AuthRoute,
-} as any)
-const AuthFinanceiroPdvEventoIndexRoute =
-  AuthFinanceiroPdvEventoIndexRouteImport.update({
-    id: '/financeiro/pdv-evento/',
-    path: '/financeiro/pdv-evento/',
-    getParentRoute: () => AuthRoute,
-  } as any)
-const AuthEventosSlugInscricaoIndexRoute =
-  AuthEventosSlugInscricaoIndexRouteImport.update({
-    id: '/inscricao/',
-    path: '/inscricao/',
-    getParentRoute: () => AuthEventosSlugRoute,
-  } as any)
-const AuthEventosSlugInscricaoPagamentoRoute =
-  AuthEventosSlugInscricaoPagamentoRouteImport.update({
-    id: '/inscricao/pagamento',
-    path: '/inscricao/pagamento',
-    getParentRoute: () => AuthEventosSlugRoute,
-  } as any)
+} as any);
+const AuthFinanceiroPdvEventoIndexRoute = AuthFinanceiroPdvEventoIndexRouteImport.update({
+  id: '/financeiro/pdv-evento/',
+  path: '/financeiro/pdv-evento/',
+  getParentRoute: () => AuthRoute,
+} as any);
+const AuthEventosSlugInscricaoIndexRoute = AuthEventosSlugInscricaoIndexRouteImport.update({
+  id: '/inscricao/',
+  path: '/inscricao/',
+  getParentRoute: () => AuthEventosSlugRoute,
+} as any);
+const AuthEventosSlugInscricaoPagamentoRoute = AuthEventosSlugInscricaoPagamentoRouteImport.update({
+  id: '/inscricao/pagamento',
+  path: '/inscricao/pagamento',
+  getParentRoute: () => AuthEventosSlugRoute,
+} as any);
 const AuthEventosSlugInscricaoConfirmadoRoute =
   AuthEventosSlugInscricaoConfirmadoRouteImport.update({
     id: '/inscricao/confirmado',
     path: '/inscricao/confirmado',
     getParentRoute: () => AuthEventosSlugRoute,
-  } as any)
+  } as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthIndexRoute
-  '/codigo': typeof CodigoRoute
-  '/login': typeof LoginRoute
-  '/cadastro/': typeof CadastroIndexRoute
-  '/eventos/$slug': typeof AuthEventosSlugRouteWithChildren
-  '/financeiro/$invoiceId': typeof AuthFinanceiroInvoiceIdRoute
-  '/galeria/$slug': typeof AuthGaleriaSlugRoute
-  '/minhas-inscricoes/$id': typeof AuthMinhasInscricoesIdRoute
-  '/perfil/editar': typeof AuthPerfilEditarRoute
-  '/perfil/fe': typeof AuthPerfilFeRoute
-  '/perfil/historico': typeof AuthPerfilHistoricoRoute
-  '/perfil/notificacoes': typeof AuthPerfilNotificacoesRoute
-  '/perfil/saude': typeof AuthPerfilSaudeRoute
-  '/cadastro/primeira-vez/concluido': typeof CadastroPrimeiraVezConcluidoRoute
-  '/cadastro/primeira-vez/passo-1': typeof CadastroPrimeiraVezPasso1Route
-  '/cadastro/primeira-vez/passo-2': typeof CadastroPrimeiraVezPasso2Route
-  '/cadastro/primeira-vez/passo-3': typeof CadastroPrimeiraVezPasso3Route
-  '/cadastro/primeira-vez/passo-4': typeof CadastroPrimeiraVezPasso4Route
-  '/cadastro/primeira-vez/passo-5': typeof CadastroPrimeiraVezPasso5Route
-  '/cadastro/veterano/concluido': typeof CadastroVeteranoConcluidoRoute
-  '/cadastro/veterano/passo-1': typeof CadastroVeteranoPasso1Route
-  '/cadastro/veterano/passo-2': typeof CadastroVeteranoPasso2Route
-  '/cadastro/veterano/passo-3': typeof CadastroVeteranoPasso3Route
-  '/cadastro/veterano/passo-4': typeof CadastroVeteranoPasso4Route
-  '/cadastro/veterano/passo-5': typeof CadastroVeteranoPasso5Route
-  '/cadastro/veterano/passo-6': typeof CadastroVeteranoPasso6Route
-  '/avisos/': typeof AuthAvisosIndexRoute
-  '/eventos/': typeof AuthEventosIndexRoute
-  '/faq/': typeof AuthFaqIndexRoute
-  '/financeiro/': typeof AuthFinanceiroIndexRoute
-  '/galeria/': typeof AuthGaleriaIndexRoute
-  '/minhas-inscricoes/': typeof AuthMinhasInscricoesIndexRoute
-  '/perfil/': typeof AuthPerfilIndexRoute
-  '/tribo/': typeof AuthTriboIndexRoute
-  '/financeiro/pdv-evento/': typeof AuthFinanceiroPdvEventoIndexRoute
-  '/eventos/$slug/inscricao/confirmado': typeof AuthEventosSlugInscricaoConfirmadoRoute
-  '/eventos/$slug/inscricao/pagamento': typeof AuthEventosSlugInscricaoPagamentoRoute
-  '/eventos/$slug/inscricao/': typeof AuthEventosSlugInscricaoIndexRoute
+  '/': typeof AuthIndexRoute;
+  '/codigo': typeof CodigoRoute;
+  '/login': typeof LoginRoute;
+  '/cadastro/': typeof CadastroIndexRoute;
+  '/eventos/$slug': typeof AuthEventosSlugRouteWithChildren;
+  '/financeiro/$invoiceId': typeof AuthFinanceiroInvoiceIdRoute;
+  '/galeria/$slug': typeof AuthGaleriaSlugRoute;
+  '/minhas-inscricoes/$id': typeof AuthMinhasInscricoesIdRoute;
+  '/perfil/editar': typeof AuthPerfilEditarRoute;
+  '/perfil/fe': typeof AuthPerfilFeRoute;
+  '/perfil/historico': typeof AuthPerfilHistoricoRoute;
+  '/perfil/notificacoes': typeof AuthPerfilNotificacoesRoute;
+  '/perfil/saude': typeof AuthPerfilSaudeRoute;
+  '/cadastro/primeira-vez/concluido': typeof CadastroPrimeiraVezConcluidoRoute;
+  '/cadastro/primeira-vez/passo-1': typeof CadastroPrimeiraVezPasso1Route;
+  '/cadastro/primeira-vez/passo-2': typeof CadastroPrimeiraVezPasso2Route;
+  '/cadastro/primeira-vez/passo-3': typeof CadastroPrimeiraVezPasso3Route;
+  '/cadastro/primeira-vez/passo-4': typeof CadastroPrimeiraVezPasso4Route;
+  '/cadastro/primeira-vez/passo-5': typeof CadastroPrimeiraVezPasso5Route;
+  '/cadastro/veterano/concluido': typeof CadastroVeteranoConcluidoRoute;
+  '/cadastro/veterano/passo-1': typeof CadastroVeteranoPasso1Route;
+  '/cadastro/veterano/passo-2': typeof CadastroVeteranoPasso2Route;
+  '/cadastro/veterano/passo-3': typeof CadastroVeteranoPasso3Route;
+  '/cadastro/veterano/passo-4': typeof CadastroVeteranoPasso4Route;
+  '/cadastro/veterano/passo-5': typeof CadastroVeteranoPasso5Route;
+  '/cadastro/veterano/passo-6': typeof CadastroVeteranoPasso6Route;
+  '/avisos/': typeof AuthAvisosIndexRoute;
+  '/eventos/': typeof AuthEventosIndexRoute;
+  '/faq/': typeof AuthFaqIndexRoute;
+  '/financeiro/': typeof AuthFinanceiroIndexRoute;
+  '/galeria/': typeof AuthGaleriaIndexRoute;
+  '/minhas-inscricoes/': typeof AuthMinhasInscricoesIndexRoute;
+  '/perfil/': typeof AuthPerfilIndexRoute;
+  '/tribo/': typeof AuthTriboIndexRoute;
+  '/financeiro/pdv-evento/': typeof AuthFinanceiroPdvEventoIndexRoute;
+  '/eventos/$slug/inscricao/confirmado': typeof AuthEventosSlugInscricaoConfirmadoRoute;
+  '/eventos/$slug/inscricao/pagamento': typeof AuthEventosSlugInscricaoPagamentoRoute;
+  '/eventos/$slug/inscricao/': typeof AuthEventosSlugInscricaoIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/codigo': typeof CodigoRoute
-  '/login': typeof LoginRoute
-  '/': typeof AuthIndexRoute
-  '/cadastro': typeof CadastroIndexRoute
-  '/eventos/$slug': typeof AuthEventosSlugRouteWithChildren
-  '/financeiro/$invoiceId': typeof AuthFinanceiroInvoiceIdRoute
-  '/galeria/$slug': typeof AuthGaleriaSlugRoute
-  '/minhas-inscricoes/$id': typeof AuthMinhasInscricoesIdRoute
-  '/perfil/editar': typeof AuthPerfilEditarRoute
-  '/perfil/fe': typeof AuthPerfilFeRoute
-  '/perfil/historico': typeof AuthPerfilHistoricoRoute
-  '/perfil/notificacoes': typeof AuthPerfilNotificacoesRoute
-  '/perfil/saude': typeof AuthPerfilSaudeRoute
-  '/cadastro/primeira-vez/concluido': typeof CadastroPrimeiraVezConcluidoRoute
-  '/cadastro/primeira-vez/passo-1': typeof CadastroPrimeiraVezPasso1Route
-  '/cadastro/primeira-vez/passo-2': typeof CadastroPrimeiraVezPasso2Route
-  '/cadastro/primeira-vez/passo-3': typeof CadastroPrimeiraVezPasso3Route
-  '/cadastro/primeira-vez/passo-4': typeof CadastroPrimeiraVezPasso4Route
-  '/cadastro/primeira-vez/passo-5': typeof CadastroPrimeiraVezPasso5Route
-  '/cadastro/veterano/concluido': typeof CadastroVeteranoConcluidoRoute
-  '/cadastro/veterano/passo-1': typeof CadastroVeteranoPasso1Route
-  '/cadastro/veterano/passo-2': typeof CadastroVeteranoPasso2Route
-  '/cadastro/veterano/passo-3': typeof CadastroVeteranoPasso3Route
-  '/cadastro/veterano/passo-4': typeof CadastroVeteranoPasso4Route
-  '/cadastro/veterano/passo-5': typeof CadastroVeteranoPasso5Route
-  '/cadastro/veterano/passo-6': typeof CadastroVeteranoPasso6Route
-  '/avisos': typeof AuthAvisosIndexRoute
-  '/eventos': typeof AuthEventosIndexRoute
-  '/faq': typeof AuthFaqIndexRoute
-  '/financeiro': typeof AuthFinanceiroIndexRoute
-  '/galeria': typeof AuthGaleriaIndexRoute
-  '/minhas-inscricoes': typeof AuthMinhasInscricoesIndexRoute
-  '/perfil': typeof AuthPerfilIndexRoute
-  '/tribo': typeof AuthTriboIndexRoute
-  '/financeiro/pdv-evento': typeof AuthFinanceiroPdvEventoIndexRoute
-  '/eventos/$slug/inscricao/confirmado': typeof AuthEventosSlugInscricaoConfirmadoRoute
-  '/eventos/$slug/inscricao/pagamento': typeof AuthEventosSlugInscricaoPagamentoRoute
-  '/eventos/$slug/inscricao': typeof AuthEventosSlugInscricaoIndexRoute
+  '/codigo': typeof CodigoRoute;
+  '/login': typeof LoginRoute;
+  '/': typeof AuthIndexRoute;
+  '/cadastro': typeof CadastroIndexRoute;
+  '/eventos/$slug': typeof AuthEventosSlugRouteWithChildren;
+  '/financeiro/$invoiceId': typeof AuthFinanceiroInvoiceIdRoute;
+  '/galeria/$slug': typeof AuthGaleriaSlugRoute;
+  '/minhas-inscricoes/$id': typeof AuthMinhasInscricoesIdRoute;
+  '/perfil/editar': typeof AuthPerfilEditarRoute;
+  '/perfil/fe': typeof AuthPerfilFeRoute;
+  '/perfil/historico': typeof AuthPerfilHistoricoRoute;
+  '/perfil/notificacoes': typeof AuthPerfilNotificacoesRoute;
+  '/perfil/saude': typeof AuthPerfilSaudeRoute;
+  '/cadastro/primeira-vez/concluido': typeof CadastroPrimeiraVezConcluidoRoute;
+  '/cadastro/primeira-vez/passo-1': typeof CadastroPrimeiraVezPasso1Route;
+  '/cadastro/primeira-vez/passo-2': typeof CadastroPrimeiraVezPasso2Route;
+  '/cadastro/primeira-vez/passo-3': typeof CadastroPrimeiraVezPasso3Route;
+  '/cadastro/primeira-vez/passo-4': typeof CadastroPrimeiraVezPasso4Route;
+  '/cadastro/primeira-vez/passo-5': typeof CadastroPrimeiraVezPasso5Route;
+  '/cadastro/veterano/concluido': typeof CadastroVeteranoConcluidoRoute;
+  '/cadastro/veterano/passo-1': typeof CadastroVeteranoPasso1Route;
+  '/cadastro/veterano/passo-2': typeof CadastroVeteranoPasso2Route;
+  '/cadastro/veterano/passo-3': typeof CadastroVeteranoPasso3Route;
+  '/cadastro/veterano/passo-4': typeof CadastroVeteranoPasso4Route;
+  '/cadastro/veterano/passo-5': typeof CadastroVeteranoPasso5Route;
+  '/cadastro/veterano/passo-6': typeof CadastroVeteranoPasso6Route;
+  '/avisos': typeof AuthAvisosIndexRoute;
+  '/eventos': typeof AuthEventosIndexRoute;
+  '/faq': typeof AuthFaqIndexRoute;
+  '/financeiro': typeof AuthFinanceiroIndexRoute;
+  '/galeria': typeof AuthGaleriaIndexRoute;
+  '/minhas-inscricoes': typeof AuthMinhasInscricoesIndexRoute;
+  '/perfil': typeof AuthPerfilIndexRoute;
+  '/tribo': typeof AuthTriboIndexRoute;
+  '/financeiro/pdv-evento': typeof AuthFinanceiroPdvEventoIndexRoute;
+  '/eventos/$slug/inscricao/confirmado': typeof AuthEventosSlugInscricaoConfirmadoRoute;
+  '/eventos/$slug/inscricao/pagamento': typeof AuthEventosSlugInscricaoPagamentoRoute;
+  '/eventos/$slug/inscricao': typeof AuthEventosSlugInscricaoIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/_auth': typeof AuthRouteWithChildren
-  '/codigo': typeof CodigoRoute
-  '/login': typeof LoginRoute
-  '/_auth/': typeof AuthIndexRoute
-  '/cadastro/': typeof CadastroIndexRoute
-  '/_auth/eventos/$slug': typeof AuthEventosSlugRouteWithChildren
-  '/_auth/financeiro/$invoiceId': typeof AuthFinanceiroInvoiceIdRoute
-  '/_auth/galeria/$slug': typeof AuthGaleriaSlugRoute
-  '/_auth/minhas-inscricoes/$id': typeof AuthMinhasInscricoesIdRoute
-  '/_auth/perfil/editar': typeof AuthPerfilEditarRoute
-  '/_auth/perfil/fe': typeof AuthPerfilFeRoute
-  '/_auth/perfil/historico': typeof AuthPerfilHistoricoRoute
-  '/_auth/perfil/notificacoes': typeof AuthPerfilNotificacoesRoute
-  '/_auth/perfil/saude': typeof AuthPerfilSaudeRoute
-  '/cadastro/primeira-vez/concluido': typeof CadastroPrimeiraVezConcluidoRoute
-  '/cadastro/primeira-vez/passo-1': typeof CadastroPrimeiraVezPasso1Route
-  '/cadastro/primeira-vez/passo-2': typeof CadastroPrimeiraVezPasso2Route
-  '/cadastro/primeira-vez/passo-3': typeof CadastroPrimeiraVezPasso3Route
-  '/cadastro/primeira-vez/passo-4': typeof CadastroPrimeiraVezPasso4Route
-  '/cadastro/primeira-vez/passo-5': typeof CadastroPrimeiraVezPasso5Route
-  '/cadastro/veterano/concluido': typeof CadastroVeteranoConcluidoRoute
-  '/cadastro/veterano/passo-1': typeof CadastroVeteranoPasso1Route
-  '/cadastro/veterano/passo-2': typeof CadastroVeteranoPasso2Route
-  '/cadastro/veterano/passo-3': typeof CadastroVeteranoPasso3Route
-  '/cadastro/veterano/passo-4': typeof CadastroVeteranoPasso4Route
-  '/cadastro/veterano/passo-5': typeof CadastroVeteranoPasso5Route
-  '/cadastro/veterano/passo-6': typeof CadastroVeteranoPasso6Route
-  '/_auth/avisos/': typeof AuthAvisosIndexRoute
-  '/_auth/eventos/': typeof AuthEventosIndexRoute
-  '/_auth/faq/': typeof AuthFaqIndexRoute
-  '/_auth/financeiro/': typeof AuthFinanceiroIndexRoute
-  '/_auth/galeria/': typeof AuthGaleriaIndexRoute
-  '/_auth/minhas-inscricoes/': typeof AuthMinhasInscricoesIndexRoute
-  '/_auth/perfil/': typeof AuthPerfilIndexRoute
-  '/_auth/tribo/': typeof AuthTriboIndexRoute
-  '/_auth/financeiro/pdv-evento/': typeof AuthFinanceiroPdvEventoIndexRoute
-  '/_auth/eventos/$slug/inscricao/confirmado': typeof AuthEventosSlugInscricaoConfirmadoRoute
-  '/_auth/eventos/$slug/inscricao/pagamento': typeof AuthEventosSlugInscricaoPagamentoRoute
-  '/_auth/eventos/$slug/inscricao/': typeof AuthEventosSlugInscricaoIndexRoute
+  __root__: typeof rootRouteImport;
+  '/_auth': typeof AuthRouteWithChildren;
+  '/codigo': typeof CodigoRoute;
+  '/login': typeof LoginRoute;
+  '/_auth/': typeof AuthIndexRoute;
+  '/cadastro/': typeof CadastroIndexRoute;
+  '/_auth/eventos/$slug': typeof AuthEventosSlugRouteWithChildren;
+  '/_auth/financeiro/$invoiceId': typeof AuthFinanceiroInvoiceIdRoute;
+  '/_auth/galeria/$slug': typeof AuthGaleriaSlugRoute;
+  '/_auth/minhas-inscricoes/$id': typeof AuthMinhasInscricoesIdRoute;
+  '/_auth/perfil/editar': typeof AuthPerfilEditarRoute;
+  '/_auth/perfil/fe': typeof AuthPerfilFeRoute;
+  '/_auth/perfil/historico': typeof AuthPerfilHistoricoRoute;
+  '/_auth/perfil/notificacoes': typeof AuthPerfilNotificacoesRoute;
+  '/_auth/perfil/saude': typeof AuthPerfilSaudeRoute;
+  '/cadastro/primeira-vez/concluido': typeof CadastroPrimeiraVezConcluidoRoute;
+  '/cadastro/primeira-vez/passo-1': typeof CadastroPrimeiraVezPasso1Route;
+  '/cadastro/primeira-vez/passo-2': typeof CadastroPrimeiraVezPasso2Route;
+  '/cadastro/primeira-vez/passo-3': typeof CadastroPrimeiraVezPasso3Route;
+  '/cadastro/primeira-vez/passo-4': typeof CadastroPrimeiraVezPasso4Route;
+  '/cadastro/primeira-vez/passo-5': typeof CadastroPrimeiraVezPasso5Route;
+  '/cadastro/veterano/concluido': typeof CadastroVeteranoConcluidoRoute;
+  '/cadastro/veterano/passo-1': typeof CadastroVeteranoPasso1Route;
+  '/cadastro/veterano/passo-2': typeof CadastroVeteranoPasso2Route;
+  '/cadastro/veterano/passo-3': typeof CadastroVeteranoPasso3Route;
+  '/cadastro/veterano/passo-4': typeof CadastroVeteranoPasso4Route;
+  '/cadastro/veterano/passo-5': typeof CadastroVeteranoPasso5Route;
+  '/cadastro/veterano/passo-6': typeof CadastroVeteranoPasso6Route;
+  '/_auth/avisos/': typeof AuthAvisosIndexRoute;
+  '/_auth/eventos/': typeof AuthEventosIndexRoute;
+  '/_auth/faq/': typeof AuthFaqIndexRoute;
+  '/_auth/financeiro/': typeof AuthFinanceiroIndexRoute;
+  '/_auth/galeria/': typeof AuthGaleriaIndexRoute;
+  '/_auth/minhas-inscricoes/': typeof AuthMinhasInscricoesIndexRoute;
+  '/_auth/perfil/': typeof AuthPerfilIndexRoute;
+  '/_auth/tribo/': typeof AuthTriboIndexRoute;
+  '/_auth/financeiro/pdv-evento/': typeof AuthFinanceiroPdvEventoIndexRoute;
+  '/_auth/eventos/$slug/inscricao/confirmado': typeof AuthEventosSlugInscricaoConfirmadoRoute;
+  '/_auth/eventos/$slug/inscricao/pagamento': typeof AuthEventosSlugInscricaoPagamentoRoute;
+  '/_auth/eventos/$slug/inscricao/': typeof AuthEventosSlugInscricaoIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/'
     | '/codigo'
@@ -418,8 +407,8 @@ export interface FileRouteTypes {
     | '/financeiro/pdv-evento/'
     | '/eventos/$slug/inscricao/confirmado'
     | '/eventos/$slug/inscricao/pagamento'
-    | '/eventos/$slug/inscricao/'
-  fileRoutesByTo: FileRoutesByTo
+    | '/eventos/$slug/inscricao/';
+  fileRoutesByTo: FileRoutesByTo;
   to:
     | '/codigo'
     | '/login'
@@ -458,7 +447,7 @@ export interface FileRouteTypes {
     | '/financeiro/pdv-evento'
     | '/eventos/$slug/inscricao/confirmado'
     | '/eventos/$slug/inscricao/pagamento'
-    | '/eventos/$slug/inscricao'
+    | '/eventos/$slug/inscricao';
   id:
     | '__root__'
     | '/_auth'
@@ -499,345 +488,343 @@ export interface FileRouteTypes {
     | '/_auth/financeiro/pdv-evento/'
     | '/_auth/eventos/$slug/inscricao/confirmado'
     | '/_auth/eventos/$slug/inscricao/pagamento'
-    | '/_auth/eventos/$slug/inscricao/'
-  fileRoutesById: FileRoutesById
+    | '/_auth/eventos/$slug/inscricao/';
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  AuthRoute: typeof AuthRouteWithChildren
-  CodigoRoute: typeof CodigoRoute
-  LoginRoute: typeof LoginRoute
-  CadastroIndexRoute: typeof CadastroIndexRoute
-  CadastroPrimeiraVezConcluidoRoute: typeof CadastroPrimeiraVezConcluidoRoute
-  CadastroPrimeiraVezPasso1Route: typeof CadastroPrimeiraVezPasso1Route
-  CadastroPrimeiraVezPasso2Route: typeof CadastroPrimeiraVezPasso2Route
-  CadastroPrimeiraVezPasso3Route: typeof CadastroPrimeiraVezPasso3Route
-  CadastroPrimeiraVezPasso4Route: typeof CadastroPrimeiraVezPasso4Route
-  CadastroPrimeiraVezPasso5Route: typeof CadastroPrimeiraVezPasso5Route
-  CadastroVeteranoConcluidoRoute: typeof CadastroVeteranoConcluidoRoute
-  CadastroVeteranoPasso1Route: typeof CadastroVeteranoPasso1Route
-  CadastroVeteranoPasso2Route: typeof CadastroVeteranoPasso2Route
-  CadastroVeteranoPasso3Route: typeof CadastroVeteranoPasso3Route
-  CadastroVeteranoPasso4Route: typeof CadastroVeteranoPasso4Route
-  CadastroVeteranoPasso5Route: typeof CadastroVeteranoPasso5Route
-  CadastroVeteranoPasso6Route: typeof CadastroVeteranoPasso6Route
+  AuthRoute: typeof AuthRouteWithChildren;
+  CodigoRoute: typeof CodigoRoute;
+  LoginRoute: typeof LoginRoute;
+  CadastroIndexRoute: typeof CadastroIndexRoute;
+  CadastroPrimeiraVezConcluidoRoute: typeof CadastroPrimeiraVezConcluidoRoute;
+  CadastroPrimeiraVezPasso1Route: typeof CadastroPrimeiraVezPasso1Route;
+  CadastroPrimeiraVezPasso2Route: typeof CadastroPrimeiraVezPasso2Route;
+  CadastroPrimeiraVezPasso3Route: typeof CadastroPrimeiraVezPasso3Route;
+  CadastroPrimeiraVezPasso4Route: typeof CadastroPrimeiraVezPasso4Route;
+  CadastroPrimeiraVezPasso5Route: typeof CadastroPrimeiraVezPasso5Route;
+  CadastroVeteranoConcluidoRoute: typeof CadastroVeteranoConcluidoRoute;
+  CadastroVeteranoPasso1Route: typeof CadastroVeteranoPasso1Route;
+  CadastroVeteranoPasso2Route: typeof CadastroVeteranoPasso2Route;
+  CadastroVeteranoPasso3Route: typeof CadastroVeteranoPasso3Route;
+  CadastroVeteranoPasso4Route: typeof CadastroVeteranoPasso4Route;
+  CadastroVeteranoPasso5Route: typeof CadastroVeteranoPasso5Route;
+  CadastroVeteranoPasso6Route: typeof CadastroVeteranoPasso6Route;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/login';
+      path: '/login';
+      fullPath: '/login';
+      preLoaderRoute: typeof LoginRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/codigo': {
-      id: '/codigo'
-      path: '/codigo'
-      fullPath: '/codigo'
-      preLoaderRoute: typeof CodigoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/codigo';
+      path: '/codigo';
+      fullPath: '/codigo';
+      preLoaderRoute: typeof CodigoRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_auth': {
-      id: '/_auth'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/_auth';
+      path: '';
+      fullPath: '/';
+      preLoaderRoute: typeof AuthRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/': {
-      id: '/cadastro/'
-      path: '/cadastro'
-      fullPath: '/cadastro/'
-      preLoaderRoute: typeof CadastroIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/';
+      path: '/cadastro';
+      fullPath: '/cadastro/';
+      preLoaderRoute: typeof CadastroIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_auth/': {
-      id: '/_auth/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof AuthIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/tribo/': {
-      id: '/_auth/tribo/'
-      path: '/tribo'
-      fullPath: '/tribo/'
-      preLoaderRoute: typeof AuthTriboIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/tribo/';
+      path: '/tribo';
+      fullPath: '/tribo/';
+      preLoaderRoute: typeof AuthTriboIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/perfil/': {
-      id: '/_auth/perfil/'
-      path: '/perfil'
-      fullPath: '/perfil/'
-      preLoaderRoute: typeof AuthPerfilIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/perfil/';
+      path: '/perfil';
+      fullPath: '/perfil/';
+      preLoaderRoute: typeof AuthPerfilIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/minhas-inscricoes/': {
-      id: '/_auth/minhas-inscricoes/'
-      path: '/minhas-inscricoes'
-      fullPath: '/minhas-inscricoes/'
-      preLoaderRoute: typeof AuthMinhasInscricoesIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/minhas-inscricoes/';
+      path: '/minhas-inscricoes';
+      fullPath: '/minhas-inscricoes/';
+      preLoaderRoute: typeof AuthMinhasInscricoesIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/galeria/': {
-      id: '/_auth/galeria/'
-      path: '/galeria'
-      fullPath: '/galeria/'
-      preLoaderRoute: typeof AuthGaleriaIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/galeria/';
+      path: '/galeria';
+      fullPath: '/galeria/';
+      preLoaderRoute: typeof AuthGaleriaIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/financeiro/': {
-      id: '/_auth/financeiro/'
-      path: '/financeiro'
-      fullPath: '/financeiro/'
-      preLoaderRoute: typeof AuthFinanceiroIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/financeiro/';
+      path: '/financeiro';
+      fullPath: '/financeiro/';
+      preLoaderRoute: typeof AuthFinanceiroIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/faq/': {
-      id: '/_auth/faq/'
-      path: '/faq'
-      fullPath: '/faq/'
-      preLoaderRoute: typeof AuthFaqIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/faq/';
+      path: '/faq';
+      fullPath: '/faq/';
+      preLoaderRoute: typeof AuthFaqIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/eventos/': {
-      id: '/_auth/eventos/'
-      path: '/eventos'
-      fullPath: '/eventos/'
-      preLoaderRoute: typeof AuthEventosIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/eventos/';
+      path: '/eventos';
+      fullPath: '/eventos/';
+      preLoaderRoute: typeof AuthEventosIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/avisos/': {
-      id: '/_auth/avisos/'
-      path: '/avisos'
-      fullPath: '/avisos/'
-      preLoaderRoute: typeof AuthAvisosIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/avisos/';
+      path: '/avisos';
+      fullPath: '/avisos/';
+      preLoaderRoute: typeof AuthAvisosIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/cadastro/veterano/passo-6': {
-      id: '/cadastro/veterano/passo-6'
-      path: '/cadastro/veterano/passo-6'
-      fullPath: '/cadastro/veterano/passo-6'
-      preLoaderRoute: typeof CadastroVeteranoPasso6RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/veterano/passo-6';
+      path: '/cadastro/veterano/passo-6';
+      fullPath: '/cadastro/veterano/passo-6';
+      preLoaderRoute: typeof CadastroVeteranoPasso6RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/veterano/passo-5': {
-      id: '/cadastro/veterano/passo-5'
-      path: '/cadastro/veterano/passo-5'
-      fullPath: '/cadastro/veterano/passo-5'
-      preLoaderRoute: typeof CadastroVeteranoPasso5RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/veterano/passo-5';
+      path: '/cadastro/veterano/passo-5';
+      fullPath: '/cadastro/veterano/passo-5';
+      preLoaderRoute: typeof CadastroVeteranoPasso5RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/veterano/passo-4': {
-      id: '/cadastro/veterano/passo-4'
-      path: '/cadastro/veterano/passo-4'
-      fullPath: '/cadastro/veterano/passo-4'
-      preLoaderRoute: typeof CadastroVeteranoPasso4RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/veterano/passo-4';
+      path: '/cadastro/veterano/passo-4';
+      fullPath: '/cadastro/veterano/passo-4';
+      preLoaderRoute: typeof CadastroVeteranoPasso4RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/veterano/passo-3': {
-      id: '/cadastro/veterano/passo-3'
-      path: '/cadastro/veterano/passo-3'
-      fullPath: '/cadastro/veterano/passo-3'
-      preLoaderRoute: typeof CadastroVeteranoPasso3RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/veterano/passo-3';
+      path: '/cadastro/veterano/passo-3';
+      fullPath: '/cadastro/veterano/passo-3';
+      preLoaderRoute: typeof CadastroVeteranoPasso3RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/veterano/passo-2': {
-      id: '/cadastro/veterano/passo-2'
-      path: '/cadastro/veterano/passo-2'
-      fullPath: '/cadastro/veterano/passo-2'
-      preLoaderRoute: typeof CadastroVeteranoPasso2RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/veterano/passo-2';
+      path: '/cadastro/veterano/passo-2';
+      fullPath: '/cadastro/veterano/passo-2';
+      preLoaderRoute: typeof CadastroVeteranoPasso2RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/veterano/passo-1': {
-      id: '/cadastro/veterano/passo-1'
-      path: '/cadastro/veterano/passo-1'
-      fullPath: '/cadastro/veterano/passo-1'
-      preLoaderRoute: typeof CadastroVeteranoPasso1RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/veterano/passo-1';
+      path: '/cadastro/veterano/passo-1';
+      fullPath: '/cadastro/veterano/passo-1';
+      preLoaderRoute: typeof CadastroVeteranoPasso1RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/veterano/concluido': {
-      id: '/cadastro/veterano/concluido'
-      path: '/cadastro/veterano/concluido'
-      fullPath: '/cadastro/veterano/concluido'
-      preLoaderRoute: typeof CadastroVeteranoConcluidoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/veterano/concluido';
+      path: '/cadastro/veterano/concluido';
+      fullPath: '/cadastro/veterano/concluido';
+      preLoaderRoute: typeof CadastroVeteranoConcluidoRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/primeira-vez/passo-5': {
-      id: '/cadastro/primeira-vez/passo-5'
-      path: '/cadastro/primeira-vez/passo-5'
-      fullPath: '/cadastro/primeira-vez/passo-5'
-      preLoaderRoute: typeof CadastroPrimeiraVezPasso5RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/primeira-vez/passo-5';
+      path: '/cadastro/primeira-vez/passo-5';
+      fullPath: '/cadastro/primeira-vez/passo-5';
+      preLoaderRoute: typeof CadastroPrimeiraVezPasso5RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/primeira-vez/passo-4': {
-      id: '/cadastro/primeira-vez/passo-4'
-      path: '/cadastro/primeira-vez/passo-4'
-      fullPath: '/cadastro/primeira-vez/passo-4'
-      preLoaderRoute: typeof CadastroPrimeiraVezPasso4RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/primeira-vez/passo-4';
+      path: '/cadastro/primeira-vez/passo-4';
+      fullPath: '/cadastro/primeira-vez/passo-4';
+      preLoaderRoute: typeof CadastroPrimeiraVezPasso4RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/primeira-vez/passo-3': {
-      id: '/cadastro/primeira-vez/passo-3'
-      path: '/cadastro/primeira-vez/passo-3'
-      fullPath: '/cadastro/primeira-vez/passo-3'
-      preLoaderRoute: typeof CadastroPrimeiraVezPasso3RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/primeira-vez/passo-3';
+      path: '/cadastro/primeira-vez/passo-3';
+      fullPath: '/cadastro/primeira-vez/passo-3';
+      preLoaderRoute: typeof CadastroPrimeiraVezPasso3RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/primeira-vez/passo-2': {
-      id: '/cadastro/primeira-vez/passo-2'
-      path: '/cadastro/primeira-vez/passo-2'
-      fullPath: '/cadastro/primeira-vez/passo-2'
-      preLoaderRoute: typeof CadastroPrimeiraVezPasso2RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/primeira-vez/passo-2';
+      path: '/cadastro/primeira-vez/passo-2';
+      fullPath: '/cadastro/primeira-vez/passo-2';
+      preLoaderRoute: typeof CadastroPrimeiraVezPasso2RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/primeira-vez/passo-1': {
-      id: '/cadastro/primeira-vez/passo-1'
-      path: '/cadastro/primeira-vez/passo-1'
-      fullPath: '/cadastro/primeira-vez/passo-1'
-      preLoaderRoute: typeof CadastroPrimeiraVezPasso1RouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/primeira-vez/passo-1';
+      path: '/cadastro/primeira-vez/passo-1';
+      fullPath: '/cadastro/primeira-vez/passo-1';
+      preLoaderRoute: typeof CadastroPrimeiraVezPasso1RouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/cadastro/primeira-vez/concluido': {
-      id: '/cadastro/primeira-vez/concluido'
-      path: '/cadastro/primeira-vez/concluido'
-      fullPath: '/cadastro/primeira-vez/concluido'
-      preLoaderRoute: typeof CadastroPrimeiraVezConcluidoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/cadastro/primeira-vez/concluido';
+      path: '/cadastro/primeira-vez/concluido';
+      fullPath: '/cadastro/primeira-vez/concluido';
+      preLoaderRoute: typeof CadastroPrimeiraVezConcluidoRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_auth/perfil/saude': {
-      id: '/_auth/perfil/saude'
-      path: '/perfil/saude'
-      fullPath: '/perfil/saude'
-      preLoaderRoute: typeof AuthPerfilSaudeRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/perfil/saude';
+      path: '/perfil/saude';
+      fullPath: '/perfil/saude';
+      preLoaderRoute: typeof AuthPerfilSaudeRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/perfil/notificacoes': {
-      id: '/_auth/perfil/notificacoes'
-      path: '/perfil/notificacoes'
-      fullPath: '/perfil/notificacoes'
-      preLoaderRoute: typeof AuthPerfilNotificacoesRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/perfil/notificacoes';
+      path: '/perfil/notificacoes';
+      fullPath: '/perfil/notificacoes';
+      preLoaderRoute: typeof AuthPerfilNotificacoesRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/perfil/historico': {
-      id: '/_auth/perfil/historico'
-      path: '/perfil/historico'
-      fullPath: '/perfil/historico'
-      preLoaderRoute: typeof AuthPerfilHistoricoRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/perfil/historico';
+      path: '/perfil/historico';
+      fullPath: '/perfil/historico';
+      preLoaderRoute: typeof AuthPerfilHistoricoRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/perfil/fe': {
-      id: '/_auth/perfil/fe'
-      path: '/perfil/fe'
-      fullPath: '/perfil/fe'
-      preLoaderRoute: typeof AuthPerfilFeRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/perfil/fe';
+      path: '/perfil/fe';
+      fullPath: '/perfil/fe';
+      preLoaderRoute: typeof AuthPerfilFeRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/perfil/editar': {
-      id: '/_auth/perfil/editar'
-      path: '/perfil/editar'
-      fullPath: '/perfil/editar'
-      preLoaderRoute: typeof AuthPerfilEditarRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/perfil/editar';
+      path: '/perfil/editar';
+      fullPath: '/perfil/editar';
+      preLoaderRoute: typeof AuthPerfilEditarRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/minhas-inscricoes/$id': {
-      id: '/_auth/minhas-inscricoes/$id'
-      path: '/minhas-inscricoes/$id'
-      fullPath: '/minhas-inscricoes/$id'
-      preLoaderRoute: typeof AuthMinhasInscricoesIdRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/minhas-inscricoes/$id';
+      path: '/minhas-inscricoes/$id';
+      fullPath: '/minhas-inscricoes/$id';
+      preLoaderRoute: typeof AuthMinhasInscricoesIdRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/galeria/$slug': {
-      id: '/_auth/galeria/$slug'
-      path: '/galeria/$slug'
-      fullPath: '/galeria/$slug'
-      preLoaderRoute: typeof AuthGaleriaSlugRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/galeria/$slug';
+      path: '/galeria/$slug';
+      fullPath: '/galeria/$slug';
+      preLoaderRoute: typeof AuthGaleriaSlugRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/financeiro/$invoiceId': {
-      id: '/_auth/financeiro/$invoiceId'
-      path: '/financeiro/$invoiceId'
-      fullPath: '/financeiro/$invoiceId'
-      preLoaderRoute: typeof AuthFinanceiroInvoiceIdRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/financeiro/$invoiceId';
+      path: '/financeiro/$invoiceId';
+      fullPath: '/financeiro/$invoiceId';
+      preLoaderRoute: typeof AuthFinanceiroInvoiceIdRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/eventos/$slug': {
-      id: '/_auth/eventos/$slug'
-      path: '/eventos/$slug'
-      fullPath: '/eventos/$slug'
-      preLoaderRoute: typeof AuthEventosSlugRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/eventos/$slug';
+      path: '/eventos/$slug';
+      fullPath: '/eventos/$slug';
+      preLoaderRoute: typeof AuthEventosSlugRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/financeiro/pdv-evento/': {
-      id: '/_auth/financeiro/pdv-evento/'
-      path: '/financeiro/pdv-evento'
-      fullPath: '/financeiro/pdv-evento/'
-      preLoaderRoute: typeof AuthFinanceiroPdvEventoIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/financeiro/pdv-evento/';
+      path: '/financeiro/pdv-evento';
+      fullPath: '/financeiro/pdv-evento/';
+      preLoaderRoute: typeof AuthFinanceiroPdvEventoIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/eventos/$slug/inscricao/': {
-      id: '/_auth/eventos/$slug/inscricao/'
-      path: '/inscricao'
-      fullPath: '/eventos/$slug/inscricao/'
-      preLoaderRoute: typeof AuthEventosSlugInscricaoIndexRouteImport
-      parentRoute: typeof AuthEventosSlugRoute
-    }
+      id: '/_auth/eventos/$slug/inscricao/';
+      path: '/inscricao';
+      fullPath: '/eventos/$slug/inscricao/';
+      preLoaderRoute: typeof AuthEventosSlugInscricaoIndexRouteImport;
+      parentRoute: typeof AuthEventosSlugRoute;
+    };
     '/_auth/eventos/$slug/inscricao/pagamento': {
-      id: '/_auth/eventos/$slug/inscricao/pagamento'
-      path: '/inscricao/pagamento'
-      fullPath: '/eventos/$slug/inscricao/pagamento'
-      preLoaderRoute: typeof AuthEventosSlugInscricaoPagamentoRouteImport
-      parentRoute: typeof AuthEventosSlugRoute
-    }
+      id: '/_auth/eventos/$slug/inscricao/pagamento';
+      path: '/inscricao/pagamento';
+      fullPath: '/eventos/$slug/inscricao/pagamento';
+      preLoaderRoute: typeof AuthEventosSlugInscricaoPagamentoRouteImport;
+      parentRoute: typeof AuthEventosSlugRoute;
+    };
     '/_auth/eventos/$slug/inscricao/confirmado': {
-      id: '/_auth/eventos/$slug/inscricao/confirmado'
-      path: '/inscricao/confirmado'
-      fullPath: '/eventos/$slug/inscricao/confirmado'
-      preLoaderRoute: typeof AuthEventosSlugInscricaoConfirmadoRouteImport
-      parentRoute: typeof AuthEventosSlugRoute
-    }
+      id: '/_auth/eventos/$slug/inscricao/confirmado';
+      path: '/inscricao/confirmado';
+      fullPath: '/eventos/$slug/inscricao/confirmado';
+      preLoaderRoute: typeof AuthEventosSlugInscricaoConfirmadoRouteImport;
+      parentRoute: typeof AuthEventosSlugRoute;
+    };
   }
 }
 
 interface AuthEventosSlugRouteChildren {
-  AuthEventosSlugInscricaoConfirmadoRoute: typeof AuthEventosSlugInscricaoConfirmadoRoute
-  AuthEventosSlugInscricaoPagamentoRoute: typeof AuthEventosSlugInscricaoPagamentoRoute
-  AuthEventosSlugInscricaoIndexRoute: typeof AuthEventosSlugInscricaoIndexRoute
+  AuthEventosSlugInscricaoConfirmadoRoute: typeof AuthEventosSlugInscricaoConfirmadoRoute;
+  AuthEventosSlugInscricaoPagamentoRoute: typeof AuthEventosSlugInscricaoPagamentoRoute;
+  AuthEventosSlugInscricaoIndexRoute: typeof AuthEventosSlugInscricaoIndexRoute;
 }
 
 const AuthEventosSlugRouteChildren: AuthEventosSlugRouteChildren = {
-  AuthEventosSlugInscricaoConfirmadoRoute:
-    AuthEventosSlugInscricaoConfirmadoRoute,
-  AuthEventosSlugInscricaoPagamentoRoute:
-    AuthEventosSlugInscricaoPagamentoRoute,
+  AuthEventosSlugInscricaoConfirmadoRoute: AuthEventosSlugInscricaoConfirmadoRoute,
+  AuthEventosSlugInscricaoPagamentoRoute: AuthEventosSlugInscricaoPagamentoRoute,
   AuthEventosSlugInscricaoIndexRoute: AuthEventosSlugInscricaoIndexRoute,
-}
+};
 
 const AuthEventosSlugRouteWithChildren = AuthEventosSlugRoute._addFileChildren(
   AuthEventosSlugRouteChildren,
-)
+);
 
 interface AuthRouteChildren {
-  AuthIndexRoute: typeof AuthIndexRoute
-  AuthEventosSlugRoute: typeof AuthEventosSlugRouteWithChildren
-  AuthFinanceiroInvoiceIdRoute: typeof AuthFinanceiroInvoiceIdRoute
-  AuthGaleriaSlugRoute: typeof AuthGaleriaSlugRoute
-  AuthMinhasInscricoesIdRoute: typeof AuthMinhasInscricoesIdRoute
-  AuthPerfilEditarRoute: typeof AuthPerfilEditarRoute
-  AuthPerfilFeRoute: typeof AuthPerfilFeRoute
-  AuthPerfilHistoricoRoute: typeof AuthPerfilHistoricoRoute
-  AuthPerfilNotificacoesRoute: typeof AuthPerfilNotificacoesRoute
-  AuthPerfilSaudeRoute: typeof AuthPerfilSaudeRoute
-  AuthAvisosIndexRoute: typeof AuthAvisosIndexRoute
-  AuthEventosIndexRoute: typeof AuthEventosIndexRoute
-  AuthFaqIndexRoute: typeof AuthFaqIndexRoute
-  AuthFinanceiroIndexRoute: typeof AuthFinanceiroIndexRoute
-  AuthGaleriaIndexRoute: typeof AuthGaleriaIndexRoute
-  AuthMinhasInscricoesIndexRoute: typeof AuthMinhasInscricoesIndexRoute
-  AuthPerfilIndexRoute: typeof AuthPerfilIndexRoute
-  AuthTriboIndexRoute: typeof AuthTriboIndexRoute
-  AuthFinanceiroPdvEventoIndexRoute: typeof AuthFinanceiroPdvEventoIndexRoute
+  AuthIndexRoute: typeof AuthIndexRoute;
+  AuthEventosSlugRoute: typeof AuthEventosSlugRouteWithChildren;
+  AuthFinanceiroInvoiceIdRoute: typeof AuthFinanceiroInvoiceIdRoute;
+  AuthGaleriaSlugRoute: typeof AuthGaleriaSlugRoute;
+  AuthMinhasInscricoesIdRoute: typeof AuthMinhasInscricoesIdRoute;
+  AuthPerfilEditarRoute: typeof AuthPerfilEditarRoute;
+  AuthPerfilFeRoute: typeof AuthPerfilFeRoute;
+  AuthPerfilHistoricoRoute: typeof AuthPerfilHistoricoRoute;
+  AuthPerfilNotificacoesRoute: typeof AuthPerfilNotificacoesRoute;
+  AuthPerfilSaudeRoute: typeof AuthPerfilSaudeRoute;
+  AuthAvisosIndexRoute: typeof AuthAvisosIndexRoute;
+  AuthEventosIndexRoute: typeof AuthEventosIndexRoute;
+  AuthFaqIndexRoute: typeof AuthFaqIndexRoute;
+  AuthFinanceiroIndexRoute: typeof AuthFinanceiroIndexRoute;
+  AuthGaleriaIndexRoute: typeof AuthGaleriaIndexRoute;
+  AuthMinhasInscricoesIndexRoute: typeof AuthMinhasInscricoesIndexRoute;
+  AuthPerfilIndexRoute: typeof AuthPerfilIndexRoute;
+  AuthTriboIndexRoute: typeof AuthTriboIndexRoute;
+  AuthFinanceiroPdvEventoIndexRoute: typeof AuthFinanceiroPdvEventoIndexRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
@@ -860,9 +847,9 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthPerfilIndexRoute: AuthPerfilIndexRoute,
   AuthTriboIndexRoute: AuthTriboIndexRoute,
   AuthFinanceiroPdvEventoIndexRoute: AuthFinanceiroPdvEventoIndexRoute,
-}
+};
 
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
@@ -882,7 +869,7 @@ const rootRouteChildren: RootRouteChildren = {
   CadastroVeteranoPasso4Route: CadastroVeteranoPasso4Route,
   CadastroVeteranoPasso5Route: CadastroVeteranoPasso5Route,
   CadastroVeteranoPasso6Route: CadastroVeteranoPasso6Route,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

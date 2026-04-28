@@ -1,10 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { Plus, Trash2 } from 'lucide-react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
+import { Card, CardBody } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardBody } from '@/components/ui/card';
 import { RadioCard, RadioGroup } from '@/components/ui/radio-group';
 import {
   Select,
@@ -13,10 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  type CampParticipationDraft,
-  useCadastroStore,
-} from '@/lib/cadastro-store';
+import { type CampParticipationDraft, useCadastroStore } from '@/lib/cadastro-store';
+import { createFileRoute } from '@tanstack/react-router';
+import { Plus, Trash2 } from 'lucide-react';
 
 export const Route = createFileRoute('/cadastro/veterano/passo-6')({
   component: PassoSeis,
@@ -41,7 +38,10 @@ function PassoSeis() {
       list.map((p) => (p.id === id ? { ...p, ...patch } : p)),
     );
   const remove = (id: string) =>
-    set('campParticipations', list.filter((p) => p.id !== id));
+    set(
+      'campParticipations',
+      list.filter((p) => p.id !== id),
+    );
   const add = () => set('campParticipations', [...list, blank()]);
 
   return (
@@ -106,18 +106,10 @@ function PassoSeis() {
                     }
                     className="grid grid-cols-3 gap-2"
                   >
-                    <RadioCard
-                      value="campista"
-                      checked={p.role === 'campista'}
-                      layout="stacked"
-                    >
+                    <RadioCard value="campista" checked={p.role === 'campista'} layout="stacked">
                       <p className="font-medium text-sm">Campista</p>
                     </RadioCard>
-                    <RadioCard
-                      value="equipista"
-                      checked={p.role === 'equipista'}
-                      layout="stacked"
-                    >
+                    <RadioCard value="equipista" checked={p.role === 'equipista'} layout="stacked">
                       <p className="font-medium text-sm">Equipista</p>
                     </RadioCard>
                     <RadioCard value="lider" checked={p.role === 'lider'} layout="stacked">
@@ -133,9 +125,7 @@ function PassoSeis() {
                   >
                     <Input
                       value={p.tribeNameLegacy}
-                      onChange={(e) =>
-                        setItem(p.id, { tribeNameLegacy: e.target.value })
-                      }
+                      onChange={(e) => setItem(p.id, { tribeNameLegacy: e.target.value })}
                       placeholder="Ex.: Tribo do Cedro"
                     />
                   </Field>

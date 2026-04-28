@@ -14,9 +14,7 @@ const ERROR_TO_STATUS: Record<ServiceTeamError['code'], number> = {
 };
 
 function sendError(reply: FastifyReply, e: ServiceTeamError) {
-  reply
-    .code(ERROR_TO_STATUS[e.code] ?? 400)
-    .send({ error: e.code, message: e.message });
+  reply.code(ERROR_TO_STATUS[e.code] ?? 400).send({ error: e.code, message: e.message });
 }
 
 function requireAdmin(req: FastifyRequest, reply: FastifyReply): boolean {
@@ -76,11 +74,7 @@ export const serviceTeamsController = {
     const { id } = req.params as { id: string };
     const parsed = addAssignmentSchema.parse(req.body);
     try {
-      const created = await serviceTeamsService.addAssignment(
-        req.server.db,
-        id,
-        parsed,
-      );
+      const created = await serviceTeamsService.addAssignment(req.server.db, id, parsed);
       reply.code(201);
       return created;
     } catch (e) {

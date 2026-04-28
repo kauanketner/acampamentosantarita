@@ -1,8 +1,3 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Loader2, MessageSquare } from 'lucide-react';
-import { motion } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
-import { z } from 'zod';
 import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
@@ -10,6 +5,11 @@ import { Button } from '@/components/ui/button';
 import { ApiError } from '@/lib/api';
 import { useRequestCode, useVerifyCode } from '@/lib/auth';
 import { cn } from '@/lib/cn';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Loader2, MessageSquare } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
+import { z } from 'zod';
 
 const searchSchema = z.object({
   phone: z.string(),
@@ -44,7 +44,7 @@ function CodigoPage() {
     return () => clearTimeout(t);
   }, [resendIn]);
 
-  const code = digits.join('');
+  const _code = digits.join('');
 
   const setAt = (idx: number, value: string) => {
     const clean = value.replace(/\D/g, '').slice(0, 1);
@@ -182,7 +182,8 @@ function CodigoPage() {
         <div className="mt-auto pb-12 pt-10 text-center">
           {resendIn > 0 ? (
             <p className="text-sm text-(color:--color-muted-foreground)">
-              Não recebeu? Você pode pedir um novo em <span className="tabular-nums font-medium">{resendIn}s</span>
+              Não recebeu? Você pode pedir um novo em{' '}
+              <span className="tabular-nums font-medium">{resendIn}s</span>
             </p>
           ) : (
             <Button

@@ -1,5 +1,3 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
 import { CustomQuestionsManager } from '@/components/forms/CustomQuestionsManager';
 import { EventForm } from '@/components/forms/EventForm';
 import { Button } from '@/components/ui/Button';
@@ -13,6 +11,8 @@ import {
   useDeleteEvent,
   useUpdateEvent,
 } from '@/lib/queries/events';
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/eventos/$id/')({
   component: EventoVisaoGeral,
@@ -33,9 +33,7 @@ function EventoVisaoGeral() {
 
   if (isLoading) {
     return (
-      <div className="px-8 py-8 text-sm text-(color:--color-muted-foreground)">
-        Carregando…
-      </div>
+      <div className="px-8 py-8 text-sm text-(color:--color-muted-foreground)">Carregando…</div>
     );
   }
   if (isError || !event) {
@@ -62,9 +60,7 @@ function EventoVisaoGeral() {
       await remove.mutateAsync(id);
       navigate({ to: '/eventos' });
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível excluir.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   };
 
@@ -107,20 +103,13 @@ function EventoVisaoGeral() {
         <Card>
           <CardBody className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <Mini label="Inscrições" value={adminRow.registrationCount} />
-            <Mini
-              label="Aprovados"
-              value={adminRow.approvedCount}
-              tone="success"
-            />
+            <Mini label="Aprovados" value={adminRow.approvedCount} tone="success" />
             <Mini
               label="Pendentes"
               value={adminRow.pendingCount}
               tone={adminRow.pendingCount > 0 ? 'warning' : 'neutral'}
             />
-            <Mini
-              label="Vagas"
-              value={adminRow.maxParticipants ?? '∞'}
-            />
+            <Mini label="Vagas" value={adminRow.maxParticipants ?? '∞'} />
           </CardBody>
         </Card>
       )}
@@ -136,9 +125,7 @@ function EventoVisaoGeral() {
               strokeLinejoin="round"
             />
           </svg>
-          <span>
-            Salvo. As mudanças aparecem no app dos campistas no próximo refresh.
-          </span>
+          <span>Salvo. As mudanças aparecem no app dos campistas no próximo refresh.</span>
         </div>
       )}
 
@@ -162,11 +149,7 @@ function EventoVisaoGeral() {
                   setSavedAt(Date.now());
                   setTimeout(() => setSavedAt(null), 3000);
                 } catch (err) {
-                  setError(
-                    err instanceof ApiError
-                      ? err.message
-                      : 'Não foi possível salvar.',
-                  );
+                  setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
                 }
               }}
             />
@@ -190,10 +173,7 @@ function EventoVisaoGeral() {
       {(event.priceCampista || event.priceEquipista) && (
         <Card variant="soft">
           <CardBody>
-            <SectionHeader
-              eyebrow="Financeiro"
-              title="Resumo de valores"
-            />
+            <SectionHeader eyebrow="Financeiro" title="Resumo de valores" />
             <div className="mt-4 grid grid-cols-2 gap-4">
               {event.priceCampista && (
                 <div>
@@ -234,21 +214,12 @@ function EventoVisaoGeral() {
           tone="danger"
         />
         {!confirmingDelete ? (
-          <Button
-            variant="danger-ghost"
-            size="sm"
-            onClick={() => setConfirmingDelete(true)}
-          >
+          <Button variant="danger-ghost" size="sm" onClick={() => setConfirmingDelete(true)}>
             Excluir evento
           </Button>
         ) : (
           <div className="flex items-center gap-3 flex-wrap">
-            <Button
-              variant="danger"
-              size="sm"
-              onClick={onDelete}
-              disabled={remove.isPending}
-            >
+            <Button variant="danger" size="sm" onClick={onDelete} disabled={remove.isPending}>
               {remove.isPending ? 'Excluindo…' : 'Confirmar exclusão'}
             </Button>
             <button
@@ -280,20 +251,12 @@ function SectionHeader({
   return (
     <div className="space-y-1.5">
       <p
-        className={
-          'text-[10px] font-mono uppercase tracking-[0.18em] ' +
-          (isDanger
-            ? 'text-(color:--color-danger)'
-            : 'text-(color:--color-muted-foreground)')
-        }
+        className={`text-[10px] font-mono uppercase tracking-[0.18em] ${isDanger ? 'text-(color:--color-danger)' : 'text-(color:--color-muted-foreground)'}`}
       >
         {eyebrow}
       </p>
       <h2
-        className={
-          'font-display text-xl leading-tight tracking-tight ' +
-          (isDanger ? 'text-(color:--color-danger)' : '')
-        }
+        className={`font-display text-xl leading-tight tracking-tight ${isDanger ? 'text-(color:--color-danger)' : ''}`}
         style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}
       >
         {title}
@@ -336,4 +299,3 @@ function Mini({
     </div>
   );
 }
-

@@ -59,8 +59,7 @@ export function useUpdateShopProduct() {
     }: {
       id: string;
       input: Partial<ShopProductInput>;
-    }) =>
-      api<ShopProduct>(`/v1/shop/${id}`, { method: 'PATCH', json: input }),
+    }) => api<ShopProduct>(`/v1/shop/${id}`, { method: 'PATCH', json: input }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: SHOP_KEY });
     },
@@ -70,8 +69,7 @@ export function useUpdateShopProduct() {
 export function useDeleteShopProduct() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/shop/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/shop/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: SHOP_KEY });
     },

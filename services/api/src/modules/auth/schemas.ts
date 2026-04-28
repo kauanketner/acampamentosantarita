@@ -24,9 +24,7 @@ export const personPayloadSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Data inválida (yyyy-mm-dd)')
     .optional(),
   cpf: cpfRaw.optional(),
-  maritalStatus: z
-    .enum(['solteiro', 'casado', 'divorciado', 'viuvo', 'uniao_estavel'])
-    .optional(),
+  maritalStatus: z.enum(['solteiro', 'casado', 'divorciado', 'viuvo', 'uniao_estavel']).optional(),
   heightCm: z.number().int().min(50).max(250).optional(),
   weightKg: z.number().positive().max(400).optional(),
   shirtSize: z.enum(['PP', 'P', 'M', 'G', 'GG', 'XGG']).optional(),

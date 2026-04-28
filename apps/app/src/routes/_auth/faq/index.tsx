@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { HelpCircle, Loader2 } from 'lucide-react';
 import { Page } from '@/components/shell/Page';
 import { PageHeader } from '@/components/shell/PageHeader';
 import { SectionTitle } from '@/components/shell/SectionTitle';
@@ -11,6 +9,8 @@ import {
 } from '@/components/ui/accordion';
 import { EmptyState } from '@/components/ui/empty-state';
 import { useFaq } from '@/lib/queries/cms';
+import { createFileRoute } from '@tanstack/react-router';
+import { HelpCircle, Loader2 } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/faq/')({
   component: FaqIndex,
@@ -78,7 +78,7 @@ function FaqIndex() {
 function FaqContent({ items }: { items: ReturnType<typeof useFaq>['data'] }) {
   if (!items) return null;
   const grouped = items.reduce<Record<string, typeof items>>((acc, item) => {
-    const cat = item.category && item.category.trim() ? item.category : UNCATEGORIZED;
+    const cat = item.category?.trim() ? item.category : UNCATEGORIZED;
     if (!acc[cat]) acc[cat] = [];
     acc[cat]!.push(item);
     return acc;

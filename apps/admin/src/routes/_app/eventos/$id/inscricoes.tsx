@@ -1,16 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useMemo, useState } from 'react';
-import {
-  PaymentBadge,
-  StatusBadge,
-} from '@/components/registrations/StatusBadge';
 import { RegistrationActions } from '@/components/registrations/RegistrationActions';
+import { PaymentBadge, StatusBadge } from '@/components/registrations/StatusBadge';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Select } from '@/components/ui/Input';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Stat } from '@/components/ui/Stat';
+import { TBody, TD, TH, THead, TR, Table } from '@/components/ui/Table';
 import { Toolbar, ToolbarSearch } from '@/components/ui/Toolbar';
-import { Table, THead, TH, TBody, TR, TD } from '@/components/ui/Table';
 import { brl, maskPhoneDisplay } from '@/lib/format';
 import { useAdminEvent } from '@/lib/queries/events';
 import {
@@ -18,6 +13,8 @@ import {
   type RegistrationStatus,
   useEventRegistrations,
 } from '@/lib/queries/registrations';
+import { createFileRoute } from '@tanstack/react-router';
+import { useMemo, useState } from 'react';
 
 export const Route = createFileRoute('/_app/eventos/$id/inscricoes')({
   component: EventoInscricoes,
@@ -44,12 +41,8 @@ function EventoInscricoes() {
   const { data: event } = useAdminEvent(id);
   const { data: registrations, isLoading, isError } = useEventRegistrations(id);
 
-  const [roleFilter, setRoleFilter] = useState<'all' | 'campista' | 'equipista'>(
-    'all',
-  );
-  const [statusFilter, setStatusFilter] = useState<'all' | RegistrationStatus>(
-    'all',
-  );
+  const [roleFilter, setRoleFilter] = useState<'all' | 'campista' | 'equipista'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | RegistrationStatus>('all');
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
@@ -75,8 +68,7 @@ function EventoInscricoes() {
       if (r.status === 'pendente') acc.pendente += 1;
       else if (r.status === 'aprovada') acc.aprovada += 1;
       else if (r.status === 'confirmada') acc.confirmada += 1;
-      else if (r.status === 'cancelada' || r.status === 'rejeitada')
-        acc.cancelada += 1;
+      else if (r.status === 'cancelada' || r.status === 'rejeitada') acc.cancelada += 1;
     }
     return acc;
   }, [registrations]);
@@ -106,16 +98,10 @@ function EventoInscricoes() {
       </section>
 
       <Toolbar>
-        <ToolbarSearch
-          value={search}
-          onChange={setSearch}
-          placeholder="Buscar por nome…"
-        />
+        <ToolbarSearch value={search} onChange={setSearch} placeholder="Buscar por nome…" />
         <Select
           value={roleFilter}
-          onChange={(e) =>
-            setRoleFilter(e.target.value as 'all' | 'campista' | 'equipista')
-          }
+          onChange={(e) => setRoleFilter(e.target.value as 'all' | 'campista' | 'equipista')}
           className="w-44"
         >
           {ROLE_FILTERS.map((f) => (
@@ -126,9 +112,7 @@ function EventoInscricoes() {
         </Select>
         <Select
           value={statusFilter}
-          onChange={(e) =>
-            setStatusFilter(e.target.value as 'all' | RegistrationStatus)
-          }
+          onChange={(e) => setStatusFilter(e.target.value as 'all' | RegistrationStatus)}
           className="w-48"
         >
           {STATUS_FILTERS.map((f) => (
@@ -139,11 +123,7 @@ function EventoInscricoes() {
         </Select>
       </Toolbar>
 
-      {isLoading && (
-        <p className="text-sm text-(color:--color-muted-foreground)">
-          Carregando…
-        </p>
-      )}
+      {isLoading && <p className="text-sm text-(color:--color-muted-foreground)">Carregando…</p>}
 
       {isError && (
         <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) px-4 py-3 text-sm text-(color:--color-danger)">
@@ -212,16 +192,10 @@ function RegistrationRow({ reg }: { reg: EventRegistration }) {
       <TD>
         <p className="font-medium leading-tight">{reg.person.fullName}</p>
         <p className="text-[11px] text-(color:--color-muted-foreground) mt-0.5 font-mono tabular-nums">
-          {reg.person.mobilePhone
-            ? maskPhoneDisplay(reg.person.mobilePhone)
-            : '—'}
-          {reg.person.city && (
-            <span className="font-sans"> · {reg.person.city}</span>
-          )}
+          {reg.person.mobilePhone ? maskPhoneDisplay(reg.person.mobilePhone) : '—'}
+          {reg.person.city && <span className="font-sans"> · {reg.person.city}</span>}
           {reg.person.state && (
-            <span className="font-sans text-(color:--color-subtle)">
-              /{reg.person.state}
-            </span>
+            <span className="font-sans text-(color:--color-subtle)">/{reg.person.state}</span>
           )}
         </p>
         <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-(color:--color-subtle) mt-1">

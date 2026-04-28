@@ -1,6 +1,6 @@
-import { mkdir } from 'node:fs/promises';
-import { join, extname } from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { mkdir } from 'node:fs/promises';
+import { extname, join } from 'node:path';
 
 // Storage local — MVP. Para produção trocar por Cloudflare R2 em lib/r2.ts.
 const UPLOAD_DIR = join(process.cwd(), 'uploads');

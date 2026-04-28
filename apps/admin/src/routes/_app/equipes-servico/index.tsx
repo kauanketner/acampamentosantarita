@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import {
   type ServiceTeam,
@@ -9,6 +7,8 @@ import {
   useServiceTeams,
   useUpdateServiceTeam,
 } from '@/lib/queries/service-teams';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/equipes-servico/')({
   component: EquipesServicoIndex,
@@ -27,8 +27,8 @@ function EquipesServicoIndex() {
         <div>
           <h1 className="font-serif text-2xl">Equipes de Serviço</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Catálogo das equipes (Cozinha, Bem-estar, Mídia…). Alocações por
-            evento ficam em <span className="text-foreground">Eventos → Equipes</span>.
+            Catálogo das equipes (Cozinha, Bem-estar, Mídia…). Alocações por evento ficam em{' '}
+            <span className="text-foreground">Eventos → Equipes</span>.
           </p>
         </div>
         {!creating && (
@@ -96,9 +96,7 @@ function TeamRow({ team }: { team: ServiceTeam }) {
     try {
       await remove.mutateAsync(team.id);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível excluir.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   };
 
@@ -116,9 +114,7 @@ function TeamRow({ team }: { team: ServiceTeam }) {
           <p className="font-medium leading-tight">{team.name}</p>
         </div>
         {team.description && (
-          <p className="text-xs text-muted-foreground mt-1">
-            {team.description}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">{team.description}</p>
         )}
       </div>
       <div className="flex items-center gap-2 shrink-0">
@@ -203,9 +199,7 @@ function TeamForm({
       }
       onSaved();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
@@ -213,9 +207,7 @@ function TeamForm({
 
   return (
     <form onSubmit={onSubmit} className="rounded-lg border bg-card p-5 space-y-3">
-      <h2 className="font-serif text-lg">
-        {mode === 'create' ? 'Nova equipe' : 'Editar equipe'}
-      </h2>
+      <h2 className="font-serif text-lg">{mode === 'create' ? 'Nova equipe' : 'Editar equipe'}</h2>
       <label className="block">
         <span className="text-sm font-medium">Nome</span>
         <input
@@ -232,9 +224,7 @@ function TeamForm({
         <span className="text-sm font-medium">Descrição</span>
         <textarea
           value={form.description}
-          onChange={(e) =>
-            setForm((s) => ({ ...s, description: e.target.value }))
-          }
+          onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
           rows={2}
           className={`mt-1 ${inputClass}`}
         />

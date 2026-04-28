@@ -1,7 +1,7 @@
+import { cn } from '@/lib/cn';
 import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
-import { cn } from '@/lib/cn';
 
 const buttonVariants = cva(
   [
@@ -20,10 +20,7 @@ const buttonVariants = cva(
           'shadow-[0_1px_0_oklch(1_0_0_/_0.18)_inset,0_8px_22px_-12px_oklch(0.42_0.09_45_/_0.6)]',
           'hover:brightness-110',
         ],
-        ghost: [
-          'bg-transparent text-(color:--color-foreground)',
-          'hover:bg-(color:--color-muted)',
-        ],
+        ghost: ['bg-transparent text-(color:--color-foreground)', 'hover:bg-(color:--color-muted)'],
         outline: [
           'bg-(color:--color-surface) text-(color:--color-foreground)',
           'border border-(color:--color-border-strong)',
@@ -38,10 +35,7 @@ const buttonVariants = cva(
           'shadow-[0_1px_0_oklch(1_0_0_/_0.4)_inset,0_8px_22px_-12px_oklch(0.5_0.08_60_/_0.7)]',
           'hover:brightness-105',
         ],
-        link: [
-          'bg-transparent text-(color:--color-primary) underline-offset-4',
-          'hover:underline',
-        ],
+        link: ['bg-transparent text-(color:--color-primary) underline-offset-4', 'hover:underline'],
         destructive: [
           'bg-(color:--color-destructive) text-(color:--color-destructive-foreground)',
           'hover:brightness-110',

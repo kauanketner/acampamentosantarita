@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { cn } from '@/lib/cn';
+import * as React from 'react';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'danger-ghost' | 'link';
 type Size = 'sm' | 'md' | 'lg';
@@ -36,7 +36,13 @@ const baseClass =
 
 export const Button = React.forwardRef<HTMLButtonElement, Props>(
   ({ variant = 'primary', size = 'md', block, asChild, className, children, ...props }, ref) => {
-    const classes = cn(baseClass, sizeClass[size], variantClass[variant], block && 'w-full', className);
+    const classes = cn(
+      baseClass,
+      sizeClass[size],
+      variantClass[variant],
+      block && 'w-full',
+      className,
+    );
 
     if (asChild && React.isValidElement(children)) {
       const child = children as React.ReactElement<{ className?: string }>;

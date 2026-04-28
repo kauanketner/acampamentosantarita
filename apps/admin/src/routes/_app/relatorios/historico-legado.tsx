@@ -1,5 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { useLegacyHistory } from '@/lib/queries/reports';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/relatorios/historico-legado')({
   component: RelatoriosHistoricoLegado,
@@ -21,9 +21,7 @@ function RelatoriosHistoricoLegado() {
       {isLoading && <p className="text-sm text-muted-foreground">Carregando…</p>}
 
       {data && data.length === 0 && (
-        <p className="text-sm text-muted-foreground">
-          Nenhum veterano declarou histórico ainda.
-        </p>
+        <p className="text-sm text-muted-foreground">Nenhum veterano declarou histórico ainda.</p>
       )}
 
       {data && data.length > 0 && (

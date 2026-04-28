@@ -1,13 +1,13 @@
-@import 'tailwindcss';
-@import '@fontsource-variable/fraunces/index.css';
-@import '@fontsource-variable/fraunces/wght-italic.css';
-@import '@fontsource-variable/dm-sans/index.css';
-@import '@fontsource/dm-mono/400.css';
-@import '@fontsource/dm-mono/500.css';
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces/index.css";
+@import "@fontsource-variable/fraunces/wght-italic.css";
+@import "@fontsource-variable/dm-sans/index.css";
+@import "@fontsource/dm-mono/400.css";
+@import "@fontsource/dm-mono/500.css";
 
 @theme {
   --color-background: oklch(0.99 0.004 130);
-  --color-foreground: oklch(0.20 0.025 145);
+  --color-foreground: oklch(0.2 0.025 145);
   --color-surface: oklch(1 0 0);
   --color-surface-elevated: oklch(0.985 0.003 130);
   --color-border: oklch(0.93 0.011 130);
@@ -36,9 +36,9 @@
 
   --color-ring: oklch(0.42 0.105 145 / 0.45);
 
-  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
-  --font-sans: 'DM Sans Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'DM Mono', ui-monospace, monospace;
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-sans: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -68,14 +68,14 @@
     --color-border-strong: oklch(0.4 0.03 140);
     --color-primary: oklch(0.78 0.105 140);
     --color-primary-foreground: oklch(0.16 0.022 145);
-    --color-primary-soft: oklch(0.30 0.06 140);
+    --color-primary-soft: oklch(0.3 0.06 140);
     --color-accent: oklch(0.78 0.12 80);
     --color-accent-foreground: oklch(0.16 0.022 145);
-    --color-accent-soft: oklch(0.30 0.05 80);
+    --color-accent-soft: oklch(0.3 0.05 80);
     --color-mystery: oklch(0.5 0.14 25);
     --color-mystery-foreground: oklch(0.96 0.04 25);
     --color-wood: oklch(0.62 0.06 55);
-    --color-wood-soft: oklch(0.30 0.04 55);
+    --color-wood-soft: oklch(0.3 0.04 55);
     --color-muted: oklch(0.24 0.018 140);
     --color-muted-foreground: oklch(0.68 0.025 130);
     --color-subtle: oklch(0.56 0.022 130);
@@ -101,7 +101,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-feature-settings: 'ss01', 'cv11';
+    font-feature-settings: "ss01", "cv11";
     overscroll-behavior-y: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -112,13 +112,12 @@
 
   /* Subtle grain texture — applied to entire viewport (very low opacity) */
   body::before {
-    content: '';
+    content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    background-image:
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.18 0 0 0 0 0.10 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.18 0 0 0 0 0.10 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)'/%3E%3C/svg%3E");
     opacity: var(--grain-opacity);
     mix-blend-mode: multiply;
   }
@@ -135,14 +134,14 @@
   /* Display fonts default styles */
   .font-display {
     font-family: var(--font-display);
-    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
     letter-spacing: -0.022em;
   }
 
   .font-display-italic {
     font-family: var(--font-display);
     font-style: italic;
-    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
   }
 }
 
@@ -151,7 +150,7 @@
   .drop-cap::first-letter {
     font-family: var(--font-display);
     font-weight: 500;
-    font-variation-settings: 'opsz' 144, 'SOFT' 30;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
     float: left;
     font-size: 4.5em;
     line-height: 0.8;
@@ -175,18 +174,14 @@
   /* Soft inner shadow on cards — clean elevation, hint of green */
   .surface-warmth {
     background: var(--color-surface);
-    box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.6),
-      0 1px 2px oklch(0.2 0.025 145 / 0.04),
-      0 8px 20px -10px oklch(0.2 0.025 145 / 0.08);
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.6), 0 1px 2px oklch(0.2 0.025 145 / 0.04), 0 8px 20px
+      -10px oklch(0.2 0.025 145 / 0.08);
   }
 
   .dark .surface-warmth {
     background: var(--color-surface);
-    box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.04),
-      0 1px 2px oklch(0 0 0 / 0.4),
-      0 8px 20px -8px oklch(0 0 0 / 0.5);
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.4), 0 8px 20px -8px
+      oklch(0 0 0 / 0.5);
   }
 
   /* Gold leaf gradient — for revelation moments */

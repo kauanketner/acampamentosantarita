@@ -5,11 +5,7 @@ import type { RecordCashPayment } from './schemas.ts';
 
 export class FinanceError extends Error {
   constructor(
-    public code:
-      | 'NOT_FOUND'
-      | 'NOT_OWNED'
-      | 'OVERPAID'
-      | 'INVOICE_CANCELED',
+    public code: 'NOT_FOUND' | 'NOT_OWNED' | 'OVERPAID' | 'INVOICE_CANCELED',
     message: string,
   ) {
     super(message);
@@ -89,10 +85,7 @@ export const financeService = {
       .where(eq(schema.payments.invoiceId, invoiceId))
       .orderBy(asc(schema.payments.paidAt));
 
-    const paidAmount = payments.reduce(
-      (acc, p) => acc + Number(p.amount),
-      0,
-    );
+    const paidAmount = payments.reduce((acc, p) => acc + Number(p.amount), 0);
 
     return {
       ...invoice,
@@ -114,10 +107,7 @@ export const financeService = {
         },
       })
       .from(schema.invoices)
-      .innerJoin(
-        schema.persons,
-        eq(schema.invoices.personId, schema.persons.id),
-      )
+      .innerJoin(schema.persons, eq(schema.invoices.personId, schema.persons.id))
       .orderBy(desc(schema.invoices.createdAt));
 
     if (rows.length === 0) return [];
@@ -156,10 +146,7 @@ export const financeService = {
         },
       })
       .from(schema.invoices)
-      .innerJoin(
-        schema.persons,
-        eq(schema.invoices.personId, schema.persons.id),
-      )
+      .innerJoin(schema.persons, eq(schema.invoices.personId, schema.persons.id))
       .where(eq(schema.invoices.id, invoiceId))
       .limit(1);
     if (!row) throw new FinanceError('NOT_FOUND', 'Fatura não encontrada.');
@@ -177,10 +164,7 @@ export const financeService = {
       .where(eq(schema.payments.invoiceId, invoiceId))
       .orderBy(asc(schema.payments.paidAt));
 
-    const paidAmount = payments.reduce(
-      (acc, p) => acc + Number(p.amount),
-      0,
-    );
+    const paidAmount = payments.reduce((acc, p) => acc + Number(p.amount), 0);
 
     return {
       ...row.invoice,
@@ -263,15 +247,8 @@ export const financeService = {
         .select({ amount: schema.payments.amount })
         .from(schema.payments)
         .where(eq(schema.payments.invoiceId, payment.invoiceId));
-      const remainingPaid = remainingRows.reduce(
-        (acc, p) => acc + Number(p.amount),
-        0,
-      );
-      const nextStatus = deriveStatus(
-        Number(invoice.amount),
-        remainingPaid,
-        invoice.status,
-      );
+      const remainingPaid = remainingRows.reduce((acc, p) => acc + Number(p.amount), 0);
+      const nextStatus = deriveStatus(Number(invoice.amount), remainingPaid, invoice.status);
       if (nextStatus !== invoice.status) {
         await tx
           .update(schema.invoices)

@@ -130,11 +130,7 @@ export const eventsController = {
     const { id } = req.params as { id: string };
     const parsed = createCustomQuestionSchema.parse(req.body);
     try {
-      const created = await eventsService.createCustomQuestion(
-        req.server.db,
-        id,
-        parsed,
-      );
+      const created = await eventsService.createCustomQuestion(req.server.db, id, parsed);
       reply.code(201);
       return created;
     } catch (e) {

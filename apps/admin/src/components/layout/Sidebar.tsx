@@ -1,6 +1,6 @@
-import { Link } from '@tanstack/react-router';
 import { Logomark } from '@/components/ui/Logo';
 import { cn } from '@/lib/cn';
+import { Link } from '@tanstack/react-router';
 
 type NavItem = { to: string; label: string };
 type NavGroup = { title: string; items: NavItem[] };
@@ -113,10 +113,7 @@ export function Sidebar() {
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-(color:--color-subtle)">
                 {g.title}
               </span>
-              <span
-                aria-hidden
-                className="flex-1 h-px bg-(color:--color-border)"
-              />
+              <span aria-hidden className="flex-1 h-px bg-(color:--color-border)" />
             </div>
             <ul className="space-y-0.5">
               {g.items.map((i) => (

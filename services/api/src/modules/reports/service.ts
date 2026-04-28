@@ -1,6 +1,6 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
-import { and, count, desc, eq, gte, inArray, isNotNull, isNull, lte, sql, sum } from 'drizzle-orm';
+import { and, count, desc, eq, gte, inArray, isNull, sql, sum } from 'drizzle-orm';
 
 export const reportsService = {
   // KPIs do topo: contagens gerais.
@@ -36,9 +36,7 @@ export const reportsService = {
         sum: sum(schema.invoices.amount).as('sum'),
       })
       .from(schema.invoices)
-      .where(
-        inArray(schema.invoices.status, ['pendente', 'parcial', 'vencido'] as const),
-      );
+      .where(inArray(schema.invoices.status, ['pendente', 'parcial', 'vencido'] as const));
 
     return {
       personsTotal: Number(persons?.total ?? 0),
@@ -121,14 +119,8 @@ export const reportsService = {
         personName: schema.persons.fullName,
       })
       .from(schema.payments)
-      .innerJoin(
-        schema.invoices,
-        eq(schema.payments.invoiceId, schema.invoices.id),
-      )
-      .innerJoin(
-        schema.persons,
-        eq(schema.invoices.personId, schema.persons.id),
-      )
+      .innerJoin(schema.invoices, eq(schema.payments.invoiceId, schema.invoices.id))
+      .innerJoin(schema.persons, eq(schema.invoices.personId, schema.persons.id))
       .where(gte(schema.payments.paidAt, since))
       .orderBy(desc(schema.payments.paidAt))
       .limit(50);
@@ -156,14 +148,8 @@ export const reportsService = {
         },
       })
       .from(schema.payments)
-      .innerJoin(
-        schema.invoices,
-        eq(schema.payments.invoiceId, schema.invoices.id),
-      )
-      .innerJoin(
-        schema.persons,
-        eq(schema.invoices.personId, schema.persons.id),
-      )
+      .innerJoin(schema.invoices, eq(schema.payments.invoiceId, schema.invoices.id))
+      .innerJoin(schema.persons, eq(schema.invoices.personId, schema.persons.id))
       .orderBy(desc(schema.payments.paidAt))
       .limit(limit);
   },
@@ -186,18 +172,9 @@ export const reportsService = {
         },
       })
       .from(schema.refunds)
-      .innerJoin(
-        schema.payments,
-        eq(schema.refunds.paymentId, schema.payments.id),
-      )
-      .innerJoin(
-        schema.invoices,
-        eq(schema.payments.invoiceId, schema.invoices.id),
-      )
-      .innerJoin(
-        schema.persons,
-        eq(schema.invoices.personId, schema.persons.id),
-      )
+      .innerJoin(schema.payments, eq(schema.refunds.paymentId, schema.payments.id))
+      .innerJoin(schema.invoices, eq(schema.payments.invoiceId, schema.invoices.id))
+      .innerJoin(schema.persons, eq(schema.invoices.personId, schema.persons.id))
       .orderBy(desc(schema.refunds.refundedAt))
       .limit(limit);
   },
@@ -224,17 +201,9 @@ export const reportsService = {
           ),
       })
       .from(schema.events)
-      .leftJoin(
-        schema.registrations,
-        eq(schema.registrations.eventId, schema.events.id),
-      )
+      .leftJoin(schema.registrations, eq(schema.registrations.eventId, schema.events.id))
       .where(isNull(schema.events.deletedAt))
-      .groupBy(
-        schema.events.id,
-        schema.events.name,
-        schema.events.startDate,
-        schema.events.type,
-      )
+      .groupBy(schema.events.id, schema.events.name, schema.events.startDate, schema.events.type)
       .orderBy(desc(schema.events.startDate));
   },
 

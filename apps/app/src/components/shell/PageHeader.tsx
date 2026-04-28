@@ -1,5 +1,5 @@
-import type * as React from 'react';
 import { cn } from '@/lib/cn';
+import type * as React from 'react';
 
 type Props = {
   eyebrow?: string;
@@ -21,13 +21,7 @@ export function PageHeader({
   trailing,
 }: Props) {
   return (
-    <div
-      className={cn(
-        'px-5 pt-5 pb-3',
-        align === 'center' && 'text-center',
-        className,
-      )}
-    >
+    <div className={cn('px-5 pt-5 pb-3', align === 'center' && 'text-center', className)}>
       <div className={cn('flex items-start gap-3', align === 'center' && 'flex-col items-center')}>
         <div className="flex-1 min-w-0">
           {eyebrow && (
@@ -41,9 +35,7 @@ export function PageHeader({
               italic && 'font-display-italic',
             )}
             style={{
-              fontVariationSettings: italic
-                ? "'opsz' 144, 'SOFT' 100"
-                : "'opsz' 144, 'SOFT' 50",
+              fontVariationSettings: italic ? "'opsz' 144, 'SOFT' 100" : "'opsz' 144, 'SOFT' 50",
             }}
           >
             {title}

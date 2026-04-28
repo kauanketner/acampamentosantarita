@@ -1,11 +1,10 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { Heart, Loader2 } from 'lucide-react';
 import { ArchGlyph } from '@/components/motif/arch';
 import { Page } from '@/components/shell/Page';
 import { PageHeader } from '@/components/shell/PageHeader';
 import { SectionTitle } from '@/components/shell/SectionTitle';
 import { Badge } from '@/components/ui/badge';
 import { EmptyState } from '@/components/ui/empty-state';
+import { cn } from '@/lib/cn';
 import { brl, formatDateRange } from '@/lib/format';
 import {
   type RegistrationListItem,
@@ -13,7 +12,8 @@ import {
   type RegistrationStatus,
   useMyRegistrations,
 } from '@/lib/queries/registrations';
-import { cn } from '@/lib/cn';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { Heart, Loader2 } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/minhas-inscricoes/')({
   component: MinhasInscricoes,

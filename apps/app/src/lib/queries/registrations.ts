@@ -12,12 +12,7 @@ export type RegistrationStatus =
   | 'confirmada'
   | 'cancelada';
 
-export type RegistrationPaymentStatus =
-  | 'isento'
-  | 'pendente'
-  | 'pago'
-  | 'parcial'
-  | 'reembolsado';
+export type RegistrationPaymentStatus = 'isento' | 'pendente' | 'pago' | 'parcial' | 'reembolsado';
 
 export type Registration = {
   id: string;

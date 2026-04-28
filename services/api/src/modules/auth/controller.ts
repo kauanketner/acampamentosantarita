@@ -10,8 +10,8 @@ import { maskPhone } from '../../lib/whatsapp.ts';
 import {
   firstTimerSignupSchema,
   requestCodeSchema,
-  veteranSignupSchema,
   verifyCodeSchema,
+  veteranSignupSchema,
 } from './schemas.ts';
 import { AuthError, authService } from './service.ts';
 

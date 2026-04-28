@@ -13,17 +13,9 @@ import { users } from './auth.ts';
 import { events } from './events.ts';
 import { persons } from './persons.ts';
 
-export const posItemCategoryEnum = pgEnum('pos_item_category', [
-  'cantina',
-  'lojinha',
-  'outros',
-]);
+export const posItemCategoryEnum = pgEnum('pos_item_category', ['cantina', 'lojinha', 'outros']);
 
-export const posAccountStatusEnum = pgEnum('pos_account_status', [
-  'aberta',
-  'fechada',
-  'paga',
-]);
+export const posAccountStatusEnum = pgEnum('pos_account_status', ['aberta', 'fechada', 'paga']);
 
 export const posAccounts = pgTable('pos_accounts', {
   id: uuid('id').primaryKey().defaultRandom(),

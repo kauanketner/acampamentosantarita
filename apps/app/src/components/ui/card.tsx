@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { cn } from '@/lib/cn';
+import * as React from 'react';
 
 export const Card = React.forwardRef<
   HTMLDivElement,
@@ -11,7 +11,8 @@ export const Card = React.forwardRef<
       className={cn(
         'rounded-(--radius-lg) overflow-hidden',
         variant === 'warmth' && 'surface-warmth border border-(color:--color-border)',
-        variant === 'outline' && 'border border-(color:--color-border-strong) bg-(color:--color-surface)',
+        variant === 'outline' &&
+          'border border-(color:--color-border-strong) bg-(color:--color-surface)',
         variant === 'plain' && 'bg-(color:--color-surface)',
         className,
       )}

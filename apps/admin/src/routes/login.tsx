@@ -1,18 +1,12 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
-import { Logomark } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
 import { Field, Input } from '@/components/ui/Input';
+import { Logomark } from '@/components/ui/Logo';
 import { ApiError } from '@/lib/api';
-import {
-  isAdminRole,
-  useLogout,
-  useRequestCode,
-  useSession,
-  useVerifyCode,
-} from '@/lib/auth';
-import { maskPhoneDisplay, maskPhoneInput } from '@/lib/format';
+import { isAdminRole, useLogout, useRequestCode, useSession, useVerifyCode } from '@/lib/auth';
 import { cn } from '@/lib/cn';
+import { maskPhoneDisplay, maskPhoneInput } from '@/lib/format';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
@@ -55,17 +49,13 @@ function LoginPage() {
     try {
       const res = await requestCode.mutateAsync({ phone: phoneRaw });
       if (!res.exists) {
-        setError(
-          'Não há cadastro com este número. Peça pra coordenação te dar acesso.',
-        );
+        setError('Não há cadastro com este número. Peça pra coordenação te dar acesso.');
         return;
       }
       setPhoneMasked(res.phoneMasked);
       setStep('code');
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não conseguimos enviar o código.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não conseguimos enviar o código.');
     }
   };
 
@@ -182,9 +172,7 @@ function LoginPage() {
                 maxLength={6}
                 placeholder="000000"
                 value={code}
-                onChange={(e) =>
-                  setCode(e.target.value.replace(/\D/g, '').slice(0, 6))
-                }
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                 className={cn(
                   'w-full rounded-(--radius-md)',
                   'border border-(color:--color-border-strong) bg-(color:--color-surface)',
@@ -246,8 +234,7 @@ function BrandPanel() {
         aria-hidden
         className="absolute inset-0 opacity-[0.06] mix-blend-overlay pointer-events-none"
         style={{
-          backgroundImage:
-            'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)',
           backgroundSize: '14px 14px',
         }}
       />
@@ -292,8 +279,8 @@ function BrandPanel() {
           <span className="h-px flex-1 bg-current" />
         </div>
         <p className="text-sm text-white/80 leading-relaxed">
-          O painel onde a coordenação cuida das inscrições, das tribos, das
-          equipes e do financeiro — com calma, com rito, com cuidado.
+          O painel onde a coordenação cuida das inscrições, das tribos, das equipes e do financeiro
+          — com calma, com rito, com cuidado.
         </p>
       </div>
 
@@ -347,8 +334,8 @@ function ForbiddenView({ onRetry }: { onRetry: () => void }) {
         </h1>
       </header>
       <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) p-4 text-sm text-(color:--color-danger) leading-relaxed">
-        Esta conta é de participante. Pra entrar no painel, peça pra coordenação
-        atualizar sua função.
+        Esta conta é de participante. Pra entrar no painel, peça pra coordenação atualizar sua
+        função.
       </div>
       <Button variant="secondary" block onClick={onRetry}>
         Tentar com outro número

@@ -41,9 +41,7 @@ export function useAdminAnnouncements() {
   return useQuery<Announcement[]>({
     queryKey: ADMIN_ANNOUNCEMENTS_KEY,
     queryFn: async () => {
-      const res = await api<{ items: Announcement[] }>(
-        '/v1/communication/announcements/admin',
-      );
+      const res = await api<{ items: Announcement[] }>('/v1/communication/announcements/admin');
       return res.items;
     },
     staleTime: 15_000,

@@ -10,12 +10,7 @@ export type RegistrationStatus =
   | 'confirmada'
   | 'cancelada';
 
-export type RegistrationPaymentStatus =
-  | 'isento'
-  | 'pendente'
-  | 'pago'
-  | 'parcial'
-  | 'reembolsado';
+export type RegistrationPaymentStatus = 'isento' | 'pendente' | 'pago' | 'parcial' | 'reembolsado';
 
 export type RegistrationRoleIntent = 'campista' | 'equipista';
 
@@ -63,17 +58,14 @@ export type PendingRegistration = EventRegistration & {
 };
 
 const REG_KEY = ['admin', 'registrations'] as const;
-const eventRegsKey = (eventId: string) =>
-  [...REG_KEY, 'by-event', eventId] as const;
+const eventRegsKey = (eventId: string) => [...REG_KEY, 'by-event', eventId] as const;
 const pendingKey = [...REG_KEY, 'pending'] as const;
 
 export function useEventRegistrations(eventId: string | undefined) {
   return useQuery<EventRegistration[]>({
     queryKey: eventId ? eventRegsKey(eventId) : ([...REG_KEY, '__none__'] as const),
     queryFn: async () => {
-      const res = await api<{ items: EventRegistration[] }>(
-        `/v1/registrations/event/${eventId}`,
-      );
+      const res = await api<{ items: EventRegistration[] }>(`/v1/registrations/event/${eventId}`);
       return res.items;
     },
     enabled: !!eventId,
@@ -85,9 +77,7 @@ export function usePendingRegistrations() {
   return useQuery<PendingRegistration[]>({
     queryKey: pendingKey,
     queryFn: async () => {
-      const res = await api<{ items: PendingRegistration[] }>(
-        '/v1/registrations/pending',
-      );
+      const res = await api<{ items: PendingRegistration[] }>('/v1/registrations/pending');
       return res.items;
     },
     staleTime: 15_000,

@@ -1,10 +1,10 @@
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import { roleLabel, useLogout, useSession } from '@/lib/auth';
+import { cn } from '@/lib/cn';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
-import { roleLabel, useLogout, useSession } from '@/lib/auth';
 import { ThemeToggle } from './ThemeToggle';
-import { cn } from '@/lib/cn';
 
 export function Topbar() {
   const navigate = useNavigate();
@@ -45,8 +45,7 @@ export function Topbar() {
               type="button"
               onClick={() => setOpen((v) => !v)}
               onBlur={(e) => {
-                if (!e.currentTarget.contains(e.relatedTarget as Node))
-                  setOpen(false);
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false);
               }}
               className={cn(
                 'flex items-center gap-2.5 pl-1 pr-2 h-9 rounded-full',
@@ -98,9 +97,7 @@ export function Topbar() {
                 )}
               >
                 <div className="p-4 border-b border-(color:--color-border)">
-                  <p className="font-display text-base leading-tight tracking-tight">
-                    {fullName}
-                  </p>
+                  <p className="font-display text-base leading-tight tracking-tight">{fullName}</p>
                   <p className="text-[11px] text-(color:--color-muted-foreground) mt-1">
                     {session.user.email ?? session.user.phone}
                   </p>

@@ -254,10 +254,7 @@ export const registrationsService = {
         },
       })
       .from(schema.registrations)
-      .innerJoin(
-        schema.persons,
-        eq(schema.registrations.personId, schema.persons.id),
-      )
+      .innerJoin(schema.persons, eq(schema.registrations.personId, schema.persons.id))
       .where(eq(schema.registrations.eventId, eventId))
       .orderBy(desc(schema.registrations.registeredAt));
 
@@ -286,14 +283,8 @@ export const registrationsService = {
         },
       })
       .from(schema.registrations)
-      .innerJoin(
-        schema.persons,
-        eq(schema.registrations.personId, schema.persons.id),
-      )
-      .innerJoin(
-        schema.events,
-        eq(schema.registrations.eventId, schema.events.id),
-      )
+      .innerJoin(schema.persons, eq(schema.registrations.personId, schema.persons.id))
+      .innerJoin(schema.events, eq(schema.registrations.eventId, schema.events.id))
       .where(eq(schema.registrations.status, 'pendente'))
       .orderBy(desc(schema.registrations.registeredAt));
 
@@ -314,10 +305,7 @@ export const registrationsService = {
       })
       .from(schema.registrations)
       .innerJoin(schema.events, eq(schema.registrations.eventId, schema.events.id))
-      .innerJoin(
-        schema.persons,
-        eq(schema.registrations.personId, schema.persons.id),
-      )
+      .innerJoin(schema.persons, eq(schema.registrations.personId, schema.persons.id))
       .where(eq(schema.registrations.id, registrationId))
       .limit(1);
     if (!row) {
@@ -375,11 +363,7 @@ export const registrationsService = {
     return updated!;
   },
 
-  async reject(
-    db: Database,
-    registrationId: string,
-    payload: RejectRegistration,
-  ) {
+  async reject(db: Database, registrationId: string, payload: RejectRegistration) {
     const [existing] = await db
       .select()
       .from(schema.registrations)
@@ -411,11 +395,7 @@ export const registrationsService = {
   },
 
   // Admin pode cancelar a qualquer momento (inclusive confirmadas).
-  async adminCancel(
-    db: Database,
-    registrationId: string,
-    payload: AdminCancelRegistration,
-  ) {
+  async adminCancel(db: Database, registrationId: string, payload: AdminCancelRegistration) {
     const [existing] = await db
       .select()
       .from(schema.registrations)

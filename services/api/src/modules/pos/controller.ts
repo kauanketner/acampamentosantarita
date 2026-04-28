@@ -17,9 +17,7 @@ const ERROR_TO_STATUS: Record<PosError['code'], number> = {
 };
 
 function sendError(reply: FastifyReply, e: PosError) {
-  reply
-    .code(ERROR_TO_STATUS[e.code] ?? 400)
-    .send({ error: e.code, message: e.message });
+  reply.code(ERROR_TO_STATUS[e.code] ?? 400).send({ error: e.code, message: e.message });
 }
 
 function requireAdmin(req: FastifyRequest, reply: FastifyReply): boolean {
@@ -120,12 +118,7 @@ export const posController = {
     const { id } = req.params as { id: string };
     const parsed = addTransactionSchema.parse(req.body);
     try {
-      const created = await posService.addTransaction(
-        req.server.db,
-        id,
-        parsed,
-        req.user!.id,
-      );
+      const created = await posService.addTransaction(req.server.db, id, parsed, req.user!.id);
       reply.code(201);
       return created;
     } catch (e) {

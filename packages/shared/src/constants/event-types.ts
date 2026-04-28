@@ -1,10 +1,4 @@
-export const EVENT_TYPES = [
-  'acampamento',
-  'retiro',
-  'encontro',
-  'formacao',
-  'outro',
-] as const;
+export const EVENT_TYPES = ['acampamento', 'retiro', 'encontro', 'formacao', 'outro'] as const;
 export type EventType = (typeof EVENT_TYPES)[number];
 
 export const EVENT_STATUSES = [

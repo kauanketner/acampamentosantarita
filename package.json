@@ -3,11 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "workspaces": [
-    "apps/*",
-    "services/*",
-    "packages/*"
-  ],
+  "workspaces": ["apps/*", "services/*", "packages/*"],
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",

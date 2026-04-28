@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import {
   type CustomQuestion,
@@ -10,6 +9,7 @@ import {
   useDeleteCustomQuestion,
   useUpdateCustomQuestion,
 } from '@/lib/queries/events';
+import { useState } from 'react';
 
 const TYPES: { value: CustomQuestionType; label: string; needsOptions?: boolean }[] = [
   { value: 'text', label: 'Texto curto' },
@@ -57,11 +57,7 @@ export function CustomQuestionsManager({ eventId }: { eventId: string }) {
             try {
               await update.mutateAsync({ id: q.id, input });
             } catch (err) {
-              alert(
-                err instanceof ApiError
-                  ? err.message
-                  : 'Não foi possível atualizar.',
-              );
+              alert(err instanceof ApiError ? err.message : 'Não foi possível atualizar.');
             }
           }}
           onDelete={async () => {
@@ -69,11 +65,7 @@ export function CustomQuestionsManager({ eventId }: { eventId: string }) {
             try {
               await remove.mutateAsync(q.id);
             } catch (err) {
-              alert(
-                err instanceof ApiError
-                  ? err.message
-                  : 'Não foi possível excluir.',
-              );
+              alert(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
             }
           }}
         />
@@ -89,9 +81,7 @@ export function CustomQuestionsManager({ eventId }: { eventId: string }) {
               await add.mutateAsync(input);
               setCreating(false);
             } catch (err) {
-              alert(
-                err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-              );
+              alert(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
             }
           }}
         />
@@ -141,9 +131,7 @@ function QuestionRow({
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium leading-snug">
           {question.question}
-          {question.required && (
-            <span className="text-destructive ml-1">*</span>
-          )}
+          {question.required && <span className="text-destructive ml-1">*</span>}
         </p>
         <p className="text-xs text-muted-foreground mt-1">
           {typeLabel} · {audienceLabel}
@@ -160,11 +148,7 @@ function QuestionRow({
         >
           Editar
         </button>
-        <button
-          type="button"
-          onClick={onDelete}
-          className="text-xs text-destructive underline"
-        >
+        <button type="button" onClick={onDelete} className="text-xs text-destructive underline">
           Excluir
         </button>
       </div>
@@ -187,14 +171,10 @@ function NewQuestionForm({
 }) {
   const [question, setQuestion] = useState(initial?.question ?? '');
   const [type, setType] = useState<CustomQuestionType>(initial?.type ?? 'text');
-  const [appliesTo, setAppliesTo] = useState<CustomQuestionAudience>(
-    initial?.appliesTo ?? 'ambos',
-  );
+  const [appliesTo, setAppliesTo] = useState<CustomQuestionAudience>(initial?.appliesTo ?? 'ambos');
   const [required, setRequired] = useState(initial?.required ?? false);
   const [optionsText, setOptionsText] = useState(
-    initial?.options?.options
-      ?.map((o) => `${o.value}|${o.label}`)
-      .join('\n') ?? '',
+    initial?.options?.options?.map((o) => `${o.value}|${o.label}`).join('\n') ?? '',
   );
 
   const needsOptions = type === 'select' || type === 'multi_select';
@@ -211,11 +191,7 @@ function NewQuestionForm({
         .filter(Boolean)
         .map((line) => {
           const [value, label] = line.split('|').map((s) => s.trim());
-          return value && label
-            ? { value, label }
-            : value
-              ? { value, label: value }
-              : null;
+          return value && label ? { value, label } : value ? { value, label: value } : null;
         })
         .filter((x): x is { value: string; label: string } => x !== null);
       if (parsed.length === 0) {
@@ -236,10 +212,7 @@ function NewQuestionForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rounded-md border bg-secondary/20 p-4 space-y-3"
-    >
+    <form onSubmit={handleSubmit} className="rounded-md border bg-secondary/20 p-4 space-y-3">
       <label className="block">
         <span className="text-sm font-medium">Pergunta</span>
         <input
@@ -271,9 +244,7 @@ function NewQuestionForm({
           <span className="text-sm font-medium">Quem responde</span>
           <select
             value={appliesTo}
-            onChange={(e) =>
-              setAppliesTo(e.target.value as CustomQuestionAudience)
-            }
+            onChange={(e) => setAppliesTo(e.target.value as CustomQuestionAudience)}
             className={`mt-1 ${inputClass}`}
           >
             {AUDIENCES.map((a) => (
@@ -288,8 +259,7 @@ function NewQuestionForm({
         <label className="block">
           <span className="text-sm font-medium">Opções</span>
           <span className="block text-xs text-muted-foreground mt-0.5">
-            Uma por linha, no formato <code>valor|rótulo</code>. Ex:{' '}
-            <code>cozinha|Cozinha</code>
+            Uma por linha, no formato <code>valor|rótulo</code>. Ex: <code>cozinha|Cozinha</code>
           </span>
           <textarea
             value={optionsText}
@@ -301,11 +271,7 @@ function NewQuestionForm({
         </label>
       )}
       <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={required}
-          onChange={(e) => setRequired(e.target.checked)}
-        />
+        <input type="checkbox" checked={required} onChange={(e) => setRequired(e.target.checked)} />
         Resposta obrigatória
       </label>
       <div className="flex items-center gap-2 pt-2">

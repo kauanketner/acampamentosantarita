@@ -1,22 +1,17 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { Loader2, Plus, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Page } from '@/components/shell/Page';
-import { TopBar } from '@/components/shell/TopBar';
-import { SectionTitle } from '@/components/shell/SectionTitle';
 import { Field, FieldRow } from '@/components/form/Field';
+import { Page } from '@/components/shell/Page';
+import { SectionTitle } from '@/components/shell/SectionTitle';
+import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MaskedInput } from '@/components/ui/masked-input';
 import { PhotoUpload } from '@/components/ui/photo-upload';
 import { ApiError } from '@/lib/api';
-import {
-  mediaUrl,
-  useFullProfile,
-  useUpdateProfile,
-  useUploadAvatar,
-} from '@/lib/queries/profile';
+import { mediaUrl, useFullProfile, useUpdateProfile, useUploadAvatar } from '@/lib/queries/profile';
+import { createFileRoute } from '@tanstack/react-router';
+import { Loader2, Plus, Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export const Route = createFileRoute('/_auth/perfil/editar')({
   component: PerfilEditar,
@@ -120,9 +115,7 @@ function PerfilEditar() {
 
   const removeContact = (id: string) =>
     setForm((s) =>
-      s && s.contacts.length > 2
-        ? { ...s, contacts: s.contacts.filter((c) => c.id !== id) }
-        : s,
+      s && s.contacts.length > 2 ? { ...s, contacts: s.contacts.filter((c) => c.id !== id) } : s,
     );
 
   const handleAvatar = async (file: File | null) => {
@@ -131,9 +124,7 @@ function PerfilEditar() {
     try {
       await uploadAvatar.mutateAsync(file);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível atualizar a foto.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível atualizar a foto.');
     }
   };
 
@@ -143,9 +134,7 @@ function PerfilEditar() {
     setError(null);
     setSavedNotice(false);
 
-    const validContacts = form.contacts.filter(
-      (c) => c.name.trim() && c.phone.length >= 10,
-    );
+    const validContacts = form.contacts.filter((c) => c.name.trim() && c.phone.length >= 10);
     if (validContacts.length < 2) {
       setError('Mantenha pelo menos 2 contatos de emergência preenchidos.');
       return;
@@ -155,8 +144,7 @@ function PerfilEditar() {
       await update.mutateAsync({
         fullName: form.fullName.trim(),
         cpf: form.cpf || null,
-        shirtSize:
-          (form.shirtSize as 'PP' | 'P' | 'M' | 'G' | 'GG' | 'XGG' | '') || null,
+        shirtSize: (form.shirtSize as 'PP' | 'P' | 'M' | 'G' | 'GG' | 'XGG' | '') || null,
         city: form.city.trim() || null,
         state: form.state ? form.state.toUpperCase() : null,
         mobilePhone: form.mobilePhone,
@@ -201,10 +189,7 @@ function PerfilEditar() {
         <SectionTitle>Pessoa</SectionTitle>
         <div className="px-5 grid gap-4">
           <Field label={<Label>Nome completo</Label>}>
-            <Input
-              value={form.fullName}
-              onChange={(e) => setField('fullName', e.target.value)}
-            />
+            <Input value={form.fullName} onChange={(e) => setField('fullName', e.target.value)} />
           </Field>
           <FieldRow>
             <Field label={<Label>CPF</Label>}>
@@ -217,9 +202,7 @@ function PerfilEditar() {
             <Field label={<Label>Camiseta</Label>}>
               <Input
                 value={form.shirtSize}
-                onChange={(e) =>
-                  setField('shirtSize', e.target.value.toUpperCase().slice(0, 3))
-                }
+                onChange={(e) => setField('shirtSize', e.target.value.toUpperCase().slice(0, 3))}
                 maxLength={3}
               />
             </Field>
@@ -244,10 +227,7 @@ function PerfilEditar() {
             </Field>
           </FieldRow>
           <Field label={<Label>Rua</Label>}>
-            <Input
-              value={form.street}
-              onChange={(e) => setField('street', e.target.value)}
-            />
+            <Input value={form.street} onChange={(e) => setField('street', e.target.value)} />
           </Field>
           <Field label={<Label>Bairro</Label>}>
             <Input
@@ -263,10 +243,7 @@ function PerfilEditar() {
           </Field>
           <FieldRow>
             <Field label={<Label>Cidade</Label>}>
-              <Input
-                value={form.city}
-                onChange={(e) => setField('city', e.target.value)}
-              />
+              <Input value={form.city} onChange={(e) => setField('city', e.target.value)} />
             </Field>
             <Field label={<Label>Estado</Label>}>
               <Input
@@ -319,9 +296,7 @@ function PerfilEditar() {
                   <Field label={<Label>Parentesco</Label>}>
                     <Input
                       value={c.relationship}
-                      onChange={(e) =>
-                        updateContact(c.id, { relationship: e.target.value })
-                      }
+                      onChange={(e) => updateContact(c.id, { relationship: e.target.value })}
                     />
                   </Field>
                   <Field label={<Label>Telefone</Label>}>
@@ -348,14 +323,10 @@ function PerfilEditar() {
         </div>
 
         {error && (
-          <p className="px-5 pb-3 text-sm text-(color:--color-destructive) text-center">
-            {error}
-          </p>
+          <p className="px-5 pb-3 text-sm text-(color:--color-destructive) text-center">{error}</p>
         )}
         {savedNotice && !error && (
-          <p className="px-5 pb-3 text-sm text-(color:--color-primary) text-center">
-            Salvo.
-          </p>
+          <p className="px-5 pb-3 text-sm text-(color:--color-primary) text-center">Salvo.</p>
         )}
 
         <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+72px)] z-20 px-5 pt-3 pb-2 bg-gradient-to-t from-(color:--color-background) via-(color:--color-background)/90 to-transparent">

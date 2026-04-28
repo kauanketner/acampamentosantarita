@@ -1,5 +1,3 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { ArrowUpRight, Loader2, ShoppingBag, Wallet } from 'lucide-react';
 import { ArchGlyph } from '@/components/motif/arch';
 import { Page } from '@/components/shell/Page';
 import { PageHeader } from '@/components/shell/PageHeader';
@@ -9,12 +7,10 @@ import { Card, CardBody } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Progress } from '@/components/ui/progress';
 import { brl } from '@/lib/format';
-import {
-  type Invoice,
-  type InvoiceStatus,
-  useMyInvoices,
-} from '@/lib/queries/finance';
+import { type Invoice, type InvoiceStatus, useMyInvoices } from '@/lib/queries/finance';
 import { useMyPosAccount } from '@/lib/queries/pos';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { ArrowUpRight, Loader2, ShoppingBag, Wallet } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/financeiro/')({
   component: FinanceiroIndex,
@@ -57,9 +53,7 @@ function FinanceiroIndex() {
         </div>
       )}
 
-      {!isLoading && invoices && (
-        <Content invoices={invoices} posAccount={posAccount ?? null} />
-      )}
+      {!isLoading && invoices && <Content invoices={invoices} posAccount={posAccount ?? null} />}
 
       <div className="px-5 pb-4 flex flex-col items-center text-(color:--color-muted-foreground)">
         <ArchGlyph className="size-6 opacity-30" />
@@ -76,21 +70,14 @@ function Content({
   posAccount: ReturnType<typeof useMyPosAccount>['data'];
 }) {
   const open = invoices.filter(
-    (i) =>
-      i.status === 'pendente' || i.status === 'parcial' || i.status === 'vencido',
+    (i) => i.status === 'pendente' || i.status === 'parcial' || i.status === 'vencido',
   );
   const paid = invoices.filter((i) => i.status === 'pago');
-  const totalOpen = open.reduce(
-    (acc, i) => acc + (Number(i.amount) - Number(i.paidAmount)),
-    0,
-  );
+  const totalOpen = open.reduce((acc, i) => acc + (Number(i.amount) - Number(i.paidAmount)), 0);
   const posTotal = posAccount ? Number(posAccount.totalAmount) : 0;
   const posOpen = posAccount && posAccount.status === 'aberta' && posTotal > 0;
 
-  if (
-    invoices.length === 0 &&
-    (!posAccount || posAccount.status !== 'aberta' || posTotal === 0)
-  ) {
+  if (invoices.length === 0 && (!posAccount || posAccount.status !== 'aberta' || posTotal === 0)) {
     return (
       <EmptyState
         className="py-16"
@@ -137,8 +124,7 @@ function Content({
                   Conta no evento atual
                 </p>
                 <p className="font-medium text-[15px]">
-                  {posAccount.event.name} ·{' '}
-                  {posAccount.transactions.length} lançamento
+                  {posAccount.event.name} · {posAccount.transactions.length} lançamento
                   {posAccount.transactions.length !== 1 ? 's' : ''}
                 </p>
                 <p
@@ -211,9 +197,7 @@ function InvoiceRow({ inv }: { inv: Invoice }) {
         </p>
         <Badge tone={status.tone}>{status.label}</Badge>
       </div>
-      <p className="font-medium text-[15px] leading-snug">
-        {inv.description ?? 'Sem descrição'}
-      </p>
+      <p className="font-medium text-[15px] leading-snug">{inv.description ?? 'Sem descrição'}</p>
       <div className="mt-3">
         <div className="flex items-baseline justify-between mb-1.5">
           <p className="font-mono text-xs text-(color:--color-muted-foreground)">

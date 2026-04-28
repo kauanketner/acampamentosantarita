@@ -1,11 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { Loader2, ShieldCheck } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Page } from '@/components/shell/Page';
-import { TopBar } from '@/components/shell/TopBar';
-import { SectionTitle } from '@/components/shell/SectionTitle';
 import { Field } from '@/components/form/Field';
 import { HealthQuestion } from '@/components/form/HealthQuestion';
+import { Page } from '@/components/shell/Page';
+import { SectionTitle } from '@/components/shell/SectionTitle';
+import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,6 +14,9 @@ import {
   useHealth,
   useUpdateHealth,
 } from '@/lib/queries/health';
+import { createFileRoute } from '@tanstack/react-router';
+import { Loader2, ShieldCheck } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export const Route = createFileRoute('/_auth/perfil/saude')({
   component: PerfilSaude,
@@ -110,9 +110,7 @@ function toServer(f: Form): HealthUpsertInput {
     hasAllergy: f.hasAllergy,
     allergyDetail: f.hasAllergy ? trim(f.allergyDetail) : null,
     hasDietaryRestriction: f.hasDietaryRestriction,
-    dietaryRestrictionDetail: f.hasDietaryRestriction
-      ? trim(f.dietaryRestrictionDetail)
-      : null,
+    dietaryRestrictionDetail: f.hasDietaryRestriction ? trim(f.dietaryRestrictionDetail) : null,
     hasAddiction: f.hasAddiction,
     addictionDetail: f.hasAddiction ? trim(f.addictionDetail) : null,
     hasAsthma: f.hasAsthma,
@@ -332,9 +330,7 @@ function PerfilSaude() {
         </div>
 
         {error && (
-          <p className="px-5 pb-3 text-sm text-(color:--color-destructive) text-center">
-            {error}
-          </p>
+          <p className="px-5 pb-3 text-sm text-(color:--color-destructive) text-center">{error}</p>
         )}
         {saved && !error && (
           <p className="px-5 pb-3 text-sm text-(color:--color-primary) text-center">
@@ -377,9 +373,7 @@ function ConditionCard({
       </label>
       {secondary && (
         <label className="flex items-center justify-between px-4 py-3 cursor-pointer border-t border-(color:--color-border) bg-(color:--color-primary-soft)/40">
-          <span className="text-sm text-(color:--color-muted-foreground)">
-            {secondary.label}
-          </span>
+          <span className="text-sm text-(color:--color-muted-foreground)">{secondary.label}</span>
           <Switch checked={secondary.value} onCheckedChange={secondary.onChange} />
         </label>
       )}

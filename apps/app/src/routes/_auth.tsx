@@ -1,7 +1,7 @@
-import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useEffect } from 'react';
 import { BottomNav } from '@/components/shell/BottomNav';
 import { useSession } from '@/lib/auth';
+import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 
 export const Route = createFileRoute('/_auth')({
   component: AuthLayout,

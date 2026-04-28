@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-const moneyString = z
-  .string()
-  .regex(/^\d+(\.\d{1,2})?$/, 'Valor inválido (use ponto, ex: 49.90)');
+const moneyString = z.string().regex(/^\d+(\.\d{1,2})?$/, 'Valor inválido (use ponto, ex: 49.90)');
 
 const optionalText = z
   .union([z.string(), z.null(), z.literal('')])

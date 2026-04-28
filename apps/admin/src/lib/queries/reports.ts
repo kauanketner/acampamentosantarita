@@ -129,9 +129,7 @@ export function useLegacyHistory() {
   return useQuery<LegacyHistoryRow[]>({
     queryKey: ['reports', 'legacy-history'] as const,
     queryFn: async () => {
-      const res = await api<{ items: LegacyHistoryRow[] }>(
-        '/v1/reports/legacy-history',
-      );
+      const res = await api<{ items: LegacyHistoryRow[] }>('/v1/reports/legacy-history');
       return res.items;
     },
     staleTime: 60_000,

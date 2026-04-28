@@ -1,5 +1,3 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { Loader2, ShoppingBag } from 'lucide-react';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { brl } from '@/lib/format';
 import { type PosTransaction, useMyPosAccount } from '@/lib/queries/pos';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { Loader2, ShoppingBag } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/financeiro/pdv-evento/')({
   component: PdvEventoConta,
@@ -122,8 +122,8 @@ function PdvEventoConta() {
         <div className="px-5 pb-12">
           <div className="rounded-(--radius-md) border border-(color:--color-border) bg-(color:--color-surface) p-4">
             <p className="text-sm text-(color:--color-muted-foreground) leading-relaxed mb-3">
-              O pagamento online da cantina vai ficar disponível em breve. Por enquanto,
-              o time da cantina recebe na hora.
+              O pagamento online da cantina vai ficar disponível em breve. Por enquanto, o time da
+              cantina recebe na hora.
             </p>
             <Button asChild block size="md" variant="ghost">
               <Link to="/financeiro">Voltar</Link>

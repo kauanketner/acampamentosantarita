@@ -16,8 +16,7 @@ const integrations: Array<{
     name: 'WTS Chat (WhatsApp OTP)',
     status: 'live',
     description: 'Envio do código de 6 dígitos pelo WhatsApp.',
-    details:
-      'Endpoint /v1/send/otp do WTS, template autenticação. Número de envio (11) 5107-3435.',
+    details: 'Endpoint /v1/send/otp do WTS, template autenticação. Número de envio (11) 5107-3435.',
   },
   {
     name: 'Postgres + Drizzle',
@@ -26,11 +25,10 @@ const integrations: Array<{
     details: 'Postgres 16 em Docker no VPS, schema gerenciado por Drizzle.',
   },
   {
-    name: 'Caddy + Let\'s Encrypt',
+    name: "Caddy + Let's Encrypt",
     status: 'live',
     description: 'Reverse proxy, HTTPS automático.',
-    details:
-      'Subdomínios api/app2/admin emitem certificado a cada 60 dias automaticamente.',
+    details: 'Subdomínios api/app2/admin emitem certificado a cada 60 dias automaticamente.',
   },
   {
     name: 'Asaas (cobranças PIX/cartão)',
@@ -63,8 +61,7 @@ const integrations: Array<{
 ];
 
 const toneClass: Record<IntegrationStatus, string> = {
-  live:
-    'bg-emerald-100 text-emerald-900 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-200 dark:border-emerald-800',
+  live: 'bg-emerald-100 text-emerald-900 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-200 dark:border-emerald-800',
   configured:
     'bg-amber-100 text-amber-900 border-amber-200 dark:bg-amber-900/30 dark:text-amber-200 dark:border-amber-800',
   pending: 'bg-secondary text-secondary-foreground border-border',
@@ -88,10 +85,7 @@ function ConfiguracoesIntegracoes() {
 
       <ul className="space-y-3">
         {integrations.map((i) => (
-          <li
-            key={i.name}
-            className="rounded-lg border bg-card p-4 flex items-start gap-3"
-          >
+          <li key={i.name} className="rounded-lg border bg-card p-4 flex items-start gap-3">
             <span
               className={`shrink-0 inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wider font-medium ${toneClass[i.status]}`}
             >
@@ -99,9 +93,7 @@ function ConfiguracoesIntegracoes() {
             </span>
             <div className="min-w-0 flex-1">
               <p className="font-medium leading-tight">{i.name}</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                {i.description}
-              </p>
+              <p className="text-sm text-muted-foreground mt-1">{i.description}</p>
               <p className="text-[11px] text-muted-foreground/70 mt-1.5 leading-relaxed">
                 {i.details}
               </p>
@@ -111,9 +103,8 @@ function ConfiguracoesIntegracoes() {
       </ul>
 
       <p className="text-xs text-muted-foreground">
-        Mudanças de configuração rodam no <span className="font-mono">.env</span>{' '}
-        do API. Use <span className="font-mono">/srv/apps/santarita/scripts/redeploy.sh</span>{' '}
-        depois de mexer.
+        Mudanças de configuração rodam no <span className="font-mono">.env</span> do API. Use{' '}
+        <span className="font-mono">/srv/apps/santarita/scripts/redeploy.sh</span> depois de mexer.
       </p>
     </div>
   );

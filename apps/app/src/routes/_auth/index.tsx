@@ -1,6 +1,3 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { ArrowUpRight, Bell, CalendarDays, Heart, Sparkles, Wallet } from 'lucide-react';
-import { motion } from 'motion/react';
 import { EventCover } from '@/components/EventCover';
 import { ArchGlyph } from '@/components/motif/arch';
 import { Page } from '@/components/shell/Page';
@@ -9,13 +6,16 @@ import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardBody } from '@/components/ui/card';
 import { useSession } from '@/lib/auth';
+import { cn } from '@/lib/cn';
 import { brl, eventGradient, formatDateRange } from '@/lib/format';
 import { useAnnouncements } from '@/lib/queries/communication';
 import { useUpcomingEvents } from '@/lib/queries/events';
 import { useMyInvoices } from '@/lib/queries/finance';
 import { useMyPosAccount } from '@/lib/queries/pos';
 import { mediaUrl, useFullProfile } from '@/lib/queries/profile';
-import { cn } from '@/lib/cn';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { ArrowUpRight, Bell, CalendarDays, Heart, Sparkles, Wallet } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export const Route = createFileRoute('/_auth/')({
   component: HomePage,
@@ -27,9 +27,7 @@ function HomePage() {
 
   const fullName = profile?.person.fullName ?? session?.person?.fullName ?? '';
   const firstName = fullName.split(' ').filter(Boolean)[0] ?? '';
-  const avatarSrc = mediaUrl(
-    profile?.person.avatarUrl ?? session?.person?.avatarUrl ?? null,
-  );
+  const avatarSrc = mediaUrl(profile?.person.avatarUrl ?? session?.person?.avatarUrl ?? null);
   const city = profile?.person.city ?? session?.person?.city ?? null;
   const state = profile?.person.state ?? session?.person?.state ?? null;
   const campCount = profile?.participations.length ?? 0;
@@ -142,11 +140,7 @@ function HomePage() {
           to="/financeiro"
           icon={<Wallet className="size-5" strokeWidth={1.5} />}
           label="Financeiro"
-          subtitle={
-            pendingInvoice
-              ? `${brl(pendingInvoiceRemaining)} aberto`
-              : 'Em dia'
-          }
+          subtitle={pendingInvoice ? `${brl(pendingInvoiceRemaining)} aberto` : 'Em dia'}
           highlight={!!pendingInvoice}
         />
         <ShortcutCard
@@ -210,9 +204,7 @@ function HomePage() {
                     <Bell className="size-4" strokeWidth={1.5} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-[15px] leading-snug">
-                      {lastAnnouncement.title}
-                    </p>
+                    <p className="font-medium text-[15px] leading-snug">{lastAnnouncement.title}</p>
                     <p className="text-sm text-(color:--color-muted-foreground) mt-1 line-clamp-2 leading-relaxed">
                       {lastAnnouncement.body}
                     </p>

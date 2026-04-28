@@ -38,8 +38,7 @@ export function useAdminFaq() {
 export function useCreateFaq() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: FaqInput) =>
-      api<FaqItem>('/v1/cms/faq', { method: 'POST', json: input }),
+    mutationFn: (input: FaqInput) => api<FaqItem>('/v1/cms/faq', { method: 'POST', json: input }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: FAQ_KEY });
     },
@@ -60,8 +59,7 @@ export function useUpdateFaq() {
 export function useDeleteFaq() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/cms/faq/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/cms/faq/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: FAQ_KEY });
     },
@@ -177,8 +175,7 @@ export function useUpdateAlbum() {
 export function useDeleteAlbum() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/cms/gallery-albums/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/cms/gallery-albums/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: GALLERY_KEY });
     },
@@ -208,8 +205,7 @@ export function useAddGalleryPhoto() {
 export function useDeleteGalleryPhoto() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/cms/gallery-photos/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/cms/gallery-photos/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: GALLERY_KEY });
     },
@@ -258,8 +254,7 @@ export function useAdminPosts() {
 export function useCreatePost() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: PostInput) =>
-      api<Post>('/v1/cms/posts', { method: 'POST', json: input }),
+    mutationFn: (input: PostInput) => api<Post>('/v1/cms/posts', { method: 'POST', json: input }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: POSTS_KEY });
     },
@@ -280,8 +275,7 @@ export function useUpdatePost() {
 export function useDeletePost() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/cms/posts/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/cms/posts/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: POSTS_KEY });
     },
@@ -356,8 +350,7 @@ export function useUpdateHomeBlock() {
 export function useDeleteHomeBlock() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/cms/home-blocks/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/cms/home-blocks/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: HOMEBLOCKS_KEY });
     },

@@ -1,14 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import {
-  type FaqItem,
   type FaqInput,
+  type FaqItem,
   useAdminFaq,
   useCreateFaq,
   useDeleteFaq,
   useUpdateFaq,
 } from '@/lib/queries/cms';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/site/faq')({
   component: SiteFaq,
@@ -22,8 +22,7 @@ function SiteFaq() {
   const [creating, setCreating] = useState(false);
 
   const grouped = (data ?? []).reduce<Record<string, FaqItem[]>>((acc, item) => {
-    const cat =
-      item.category && item.category.trim() ? item.category : 'Sem categoria';
+    const cat = item.category?.trim() ? item.category : 'Sem categoria';
     if (!acc[cat]) acc[cat] = [];
     acc[cat]!.push(item);
     return acc;
@@ -114,9 +113,7 @@ function FaqRow({ item }: { item: FaqItem }) {
         input: { published: !item.published },
       });
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
@@ -125,9 +122,7 @@ function FaqRow({ item }: { item: FaqItem }) {
     try {
       await remove.mutateAsync(item.id);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível excluir.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   };
 
@@ -240,16 +235,12 @@ function FaqForm({
       }
       onSaved();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
   const canSubmit =
-    form.question.trim().length >= 2 &&
-    form.answer.trim().length >= 2 &&
-    !isPending;
+    form.question.trim().length >= 2 && form.answer.trim().length >= 2 && !isPending;
 
   return (
     <form onSubmit={onSubmit} className="rounded-lg border bg-card p-5 space-y-4">

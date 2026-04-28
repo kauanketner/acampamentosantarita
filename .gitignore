@@ -13,6 +13,11 @@ out/
 .cache/
 *.tsbuildinfo
 
+# Generated config artifacts (tsc emits when included via tsconfig)
+**/vite.config.d.ts
+**/vite.config.js
+**/next-env.d.ts
+
 # Local-only uploads (avatares, capas) — em prod vão pra R2
 services/api/uploads/
 

@@ -1,7 +1,7 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
+import { Link, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_auth/eventos/$slug/inscricao/pagamento')({
   component: InscricaoPagamento,
@@ -26,8 +26,8 @@ function InscricaoPagamento() {
           O pagamento online vem em breve.
         </h1>
         <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-(color:--color-muted-foreground)">
-          Por enquanto, sua inscrição fica registrada e a coordenação envia as
-          instruções de pagamento por fora do app.
+          Por enquanto, sua inscrição fica registrada e a coordenação envia as instruções de
+          pagamento por fora do app.
         </p>
         <div className="mt-8 grid gap-2.5 w-full max-w-xs">
           <Button asChild block size="lg">

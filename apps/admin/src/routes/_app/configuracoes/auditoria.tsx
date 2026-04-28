@@ -1,5 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { useAuditLog } from '@/lib/queries/reports';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/configuracoes/auditoria')({
   component: ConfiguracoesAuditoria,
@@ -13,8 +13,8 @@ function ConfiguracoesAuditoria() {
       <header>
         <h1 className="font-serif text-2xl">Auditoria</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Histórico de ações administrativas. Útil pra rastrear mudanças
-          relevantes em cobranças, aprovações e configurações.
+          Histórico de ações administrativas. Útil pra rastrear mudanças relevantes em cobranças,
+          aprovações e configurações.
         </p>
       </header>
 
@@ -24,8 +24,7 @@ function ConfiguracoesAuditoria() {
         <div className="rounded-md border border-dashed bg-card p-10 text-center">
           <p className="font-serif text-xl">Sem registros</p>
           <p className="text-sm text-muted-foreground mt-1.5">
-            O audit log começa a registrar quando houver ações administrativas
-            sensíveis.
+            O audit log começa a registrar quando houver ações administrativas sensíveis.
           </p>
         </div>
       )}
@@ -44,10 +43,7 @@ function ConfiguracoesAuditoria() {
             </thead>
             <tbody>
               {data.map((row) => (
-                <tr
-                  key={row.id}
-                  className="border-b last:border-b-0 hover:bg-secondary/30"
-                >
+                <tr key={row.id} className="border-b last:border-b-0 hover:bg-secondary/30">
                   <td className="px-4 py-2 text-xs text-muted-foreground whitespace-nowrap">
                     {new Date(row.createdAt).toLocaleString('pt-BR', {
                       day: '2-digit',
@@ -58,9 +54,7 @@ function ConfiguracoesAuditoria() {
                     })}
                   </td>
                   <td className="px-4 py-2">
-                    <p className="text-sm">
-                      {row.userEmail ?? row.userPhone ?? '—'}
-                    </p>
+                    <p className="text-sm">{row.userEmail ?? row.userPhone ?? '—'}</p>
                   </td>
                   <td className="px-4 py-2 font-mono text-xs">{row.action}</td>
                   <td className="px-4 py-2 text-xs">

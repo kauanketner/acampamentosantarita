@@ -1,7 +1,7 @@
+import { cn } from '@/lib/cn';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { Plus } from 'lucide-react';
 import * as React from 'react';
-import { cn } from '@/lib/cn';
 
 export const Accordion = AccordionPrimitive.Root;
 

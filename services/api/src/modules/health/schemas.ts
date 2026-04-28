@@ -9,10 +9,7 @@ export const healthUpsertSchema = z
     hasSenseDisability: z.boolean().optional(),
     senseDisabilityDetail: z.string().nullable().optional(),
     hasDisability: z.boolean().optional(),
-    disabilityType: z
-      .enum(['fisica', 'visual', 'auditiva', 'intelectual'])
-      .nullable()
-      .optional(),
+    disabilityType: z.enum(['fisica', 'visual', 'auditiva', 'intelectual']).nullable().optional(),
     hasAllergy: z.boolean().optional(),
     allergyDetail: z.string().nullable().optional(),
     hasAsthma: z.boolean().optional(),

@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MaskedInput } from '@/components/ui/masked-input';
 import { useCadastroStore } from '@/lib/cadastro-store';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/cadastro/primeira-vez/passo-2')({
   component: PassoDois,
@@ -18,7 +18,11 @@ function PassoDois() {
       total={5}
       variant="primeira-vez"
       eyebrow="Passo 2 — Onde você mora"
-      title={<>Para onde mandamos as <span className="font-display-italic">notícias</span>.</>}
+      title={
+        <>
+          Para onde mandamos as <span className="font-display-italic">notícias</span>.
+        </>
+      }
       description="Endereço para casos administrativos e correspondências da comunidade."
       ctaTo="/cadastro/primeira-vez/passo-3"
     >

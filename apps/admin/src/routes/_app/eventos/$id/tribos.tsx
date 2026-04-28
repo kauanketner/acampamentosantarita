@@ -1,5 +1,3 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { useMemo, useState } from 'react';
 import { ApiError } from '@/lib/api';
 import { useAdminEvent } from '@/lib/queries/events';
 import { useEventRegistrations } from '@/lib/queries/registrations';
@@ -14,6 +12,8 @@ import {
   useRevealTribesForEvent,
   useUpdateTribe,
 } from '@/lib/queries/tribes';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { useMemo, useState } from 'react';
 
 export const Route = createFileRoute('/_app/eventos/$id/tribos')({
   component: EventoTribos,
@@ -43,18 +43,15 @@ function EventoTribos() {
   );
   const unrevealed = useMemo(
     () =>
-      tribes?.reduce(
-        (acc, t) => acc + t.members.filter((m) => !m.isRevealedToMember).length,
-        0,
-      ) ?? 0,
+      tribes?.reduce((acc, t) => acc + t.members.filter((m) => !m.isRevealedToMember).length, 0) ??
+      0,
     [tribes],
   );
 
   const onReveal = async () => {
     setRevealError(null);
     setRevealMessage(null);
-    if (!confirm('Liberar a tribo pra todos os membros? Eles vão ver no app.'))
-      return;
+    if (!confirm('Liberar a tribo pra todos os membros? Eles vão ver no app.')) return;
     try {
       const res = await reveal.mutateAsync(id);
       setRevealMessage(
@@ -63,9 +60,7 @@ function EventoTribos() {
           : `${res.revealed} ${res.revealed === 1 ? 'membro liberado' : 'membros liberados'}.`,
       );
     } catch (err) {
-      setRevealError(
-        err instanceof ApiError ? err.message : 'Não foi possível revelar agora.',
-      );
+      setRevealError(err instanceof ApiError ? err.message : 'Não foi possível revelar agora.');
     }
   };
 
@@ -83,8 +78,8 @@ function EventoTribos() {
           <div>
             <h1 className="font-serif text-2xl">Tribos</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              {tribes?.length ?? 0} {tribes?.length === 1 ? 'tribo' : 'tribos'} ·{' '}
-              {totalMembers} {totalMembers === 1 ? 'membro' : 'membros'}
+              {tribes?.length ?? 0} {tribes?.length === 1 ? 'tribo' : 'tribos'} · {totalMembers}{' '}
+              {totalMembers === 1 ? 'membro' : 'membros'}
               {unrevealed > 0 && ` · ${unrevealed} não revelado(s)`}
             </p>
           </div>
@@ -107,13 +102,9 @@ function EventoTribos() {
           </div>
         </div>
         {revealMessage && (
-          <p className="text-sm text-emerald-700 dark:text-emerald-400">
-            {revealMessage}
-          </p>
+          <p className="text-sm text-emerald-700 dark:text-emerald-400">{revealMessage}</p>
         )}
-        {revealError && (
-          <p className="text-sm text-destructive">{revealError}</p>
-        )}
+        {revealError && <p className="text-sm text-destructive">{revealError}</p>}
       </header>
 
       {creating && (
@@ -189,17 +180,12 @@ function NewTribeForm({
       });
       onCreated();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível criar a tribo.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível criar a tribo.');
     }
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="rounded-lg border bg-card p-5 space-y-4"
-    >
+    <form onSubmit={onSubmit} className="rounded-lg border bg-card p-5 space-y-4">
       <h2 className="font-serif text-lg">Nova tribo</h2>
       <label className="block">
         <span className="text-sm font-medium">Nome</span>
@@ -217,8 +203,7 @@ function NewTribeForm({
         <label className="block">
           <span className="text-sm font-medium">Cor</span>
           <span className="block text-xs text-muted-foreground mt-0.5">
-            CSS válido (ex: <code>#3D5A40</code> ou{' '}
-            <code>oklch(0.5 0.1 145)</code>)
+            CSS válido (ex: <code>#3D5A40</code> ou <code>oklch(0.5 0.1 145)</code>)
           </span>
           <input
             type="text"
@@ -243,9 +228,7 @@ function NewTribeForm({
         <span className="text-sm font-medium">Descrição</span>
         <textarea
           value={form.description}
-          onChange={(e) =>
-            setForm((s) => ({ ...s, description: e.target.value }))
-          }
+          onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
           rows={3}
           className={`mt-1 ${inputClass}`}
         />
@@ -318,9 +301,7 @@ function TribeCard({
       });
       setEditing(false);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
@@ -329,9 +310,7 @@ function TribeCard({
     try {
       await remove.mutateAsync(tribe.id);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível excluir.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   };
 
@@ -340,9 +319,7 @@ function TribeCard({
     try {
       await removeMember.mutateAsync({ tribeId: tribe.id, personId });
     } catch (err) {
-      alert(
-        err instanceof ApiError ? err.message : 'Não foi possível remover.',
-      );
+      alert(err instanceof ApiError ? err.message : 'Não foi possível remover.');
     }
   };
 
@@ -352,10 +329,7 @@ function TribeCard({
 
   if (editing) {
     return (
-      <form
-        onSubmit={onSave}
-        className="rounded-lg border bg-card p-5 space-y-4"
-      >
+      <form onSubmit={onSave} className="rounded-lg border bg-card p-5 space-y-4">
         <h2 className="font-serif text-lg">Editar tribo</h2>
         <label className="block">
           <span className="text-sm font-medium">Nome</span>
@@ -391,9 +365,7 @@ function TribeCard({
           <span className="text-sm font-medium">Descrição</span>
           <textarea
             value={form.description}
-            onChange={(e) =>
-              setForm((s) => ({ ...s, description: e.target.value }))
-            }
+            onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
             rows={3}
             className={`mt-1 ${inputClass}`}
           />
@@ -446,14 +418,10 @@ function TribeCard({
             <h2 className="font-serif text-xl tracking-tight">{tribe.name}</h2>
           </div>
           {tribe.motto && (
-            <p className="text-sm italic text-muted-foreground mt-1">
-              "{tribe.motto}"
-            </p>
+            <p className="text-sm italic text-muted-foreground mt-1">"{tribe.motto}"</p>
           )}
           {tribe.description && (
-            <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
-              {tribe.description}
-            </p>
+            <p className="text-sm text-muted-foreground mt-2 max-w-2xl">{tribe.description}</p>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -509,9 +477,7 @@ function TribeCard({
                   className="flex items-center justify-between rounded-md border bg-background px-3 py-2 text-sm"
                 >
                   <div className="min-w-0">
-                    <p className="font-medium leading-tight">
-                      {m.person.fullName}
-                    </p>
+                    <p className="font-medium leading-tight">{m.person.fullName}</p>
                     <p className="text-[11px] text-muted-foreground mt-0.5">
                       {roleLabel[m.role]}
                       {!m.isRevealedToMember && ' · não revelado'}
@@ -559,12 +525,8 @@ function AddMemberPicker({
     const q = search.trim().toLowerCase();
     return registrations
       .filter((r) => !existingPersonIds.has(r.person.id))
-      .filter(
-        (r) => r.status === 'aprovada' || r.status === 'confirmada',
-      )
-      .filter((r) =>
-        q ? r.person.fullName.toLowerCase().includes(q) : true,
-      )
+      .filter((r) => r.status === 'aprovada' || r.status === 'confirmada')
+      .filter((r) => (q ? r.person.fullName.toLowerCase().includes(q) : true))
       .slice(0, 8);
   }, [registrations, existingPersonIds, search]);
 
@@ -577,9 +539,7 @@ function AddMemberPicker({
       });
       setSearch('');
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível adicionar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível adicionar.');
     }
   };
 
@@ -613,10 +573,7 @@ function AddMemberPicker({
       ) : (
         <ul className="space-y-1">
           {candidates.map((r) => (
-            <li
-              key={r.id}
-              className="flex items-center justify-between text-xs"
-            >
+            <li key={r.id} className="flex items-center justify-between text-xs">
               <span>{r.person.fullName}</span>
               <button
                 type="button"

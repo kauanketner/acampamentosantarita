@@ -1,5 +1,3 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import { useAdminEvent } from '@/lib/queries/events';
 import { useEventRegistrations } from '@/lib/queries/registrations';
@@ -9,6 +7,8 @@ import {
   useEventServiceTeams,
   useRemoveTeamAssignment,
 } from '@/lib/queries/service-teams';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/eventos/$id/equipes')({
   component: EventoEquipes,
@@ -31,8 +31,7 @@ function EventoEquipes() {
         </Link>
         <h1 className="font-serif text-2xl">Equipes de Serviço</h1>
         <p className="text-sm text-muted-foreground">
-          Aloca equipistas inscritos do evento em cada equipe. Cadastra equipes
-          novas em{' '}
+          Aloca equipistas inscritos do evento em cada equipe. Cadastra equipes novas em{' '}
           <Link to="/equipes-servico" className="text-primary underline">
             Equipes de Serviço
           </Link>
@@ -94,12 +93,7 @@ function TeamCard({
       {team.members.length > 0 ? (
         <ul className="space-y-1.5">
           {team.members.map((m) => (
-            <MemberRow
-              key={m.id}
-              eventId={eventId}
-              teamId={team.id}
-              member={m}
-            />
+            <MemberRow key={m.id} eventId={eventId} teamId={team.id} member={m} />
           ))}
         </ul>
       ) : (
@@ -168,14 +162,10 @@ function AssignmentPicker({
   const [error, setError] = useState<string | null>(null);
 
   const candidates = (registrations ?? [])
-    .filter(
-      (r) => !existingPersonIds.has(r.person.id) && r.roleIntent === 'equipista',
-    )
+    .filter((r) => !existingPersonIds.has(r.person.id) && r.roleIntent === 'equipista')
     .filter((r) => r.status === 'aprovada' || r.status === 'confirmada')
     .filter((r) =>
-      search.trim()
-        ? r.person.fullName.toLowerCase().includes(search.trim().toLowerCase())
-        : true,
+      search.trim() ? r.person.fullName.toLowerCase().includes(search.trim().toLowerCase()) : true,
     )
     .slice(0, 8);
 
@@ -192,9 +182,7 @@ function AssignmentPicker({
       });
       setSearch('');
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível adicionar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível adicionar.');
     }
   };
 
@@ -228,10 +216,7 @@ function AssignmentPicker({
       ) : (
         <ul className="space-y-1">
           {candidates.map((r) => (
-            <li
-              key={r.id}
-              className="flex items-center justify-between text-xs"
-            >
+            <li key={r.id} className="flex items-center justify-between text-xs">
               <span>{r.person.fullName}</span>
               <button
                 type="button"

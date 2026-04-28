@@ -1,6 +1,6 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
-import { and, asc, desc, eq, isNotNull, ne } from 'drizzle-orm';
+import { and, asc, desc, eq, ne } from 'drizzle-orm';
 import type {
   AddGalleryPhoto,
   CreateFaqItem,
@@ -14,7 +14,10 @@ import type {
 } from './schemas.ts';
 
 export class CmsError extends Error {
-  constructor(public code: 'NOT_FOUND' | 'SLUG_TAKEN', message: string) {
+  constructor(
+    public code: 'NOT_FOUND' | 'SLUG_TAKEN',
+    message: string,
+  ) {
     super(message);
   }
 }
@@ -88,10 +91,7 @@ export const cmsService = {
         },
       })
       .from(schema.galleryAlbums)
-      .leftJoin(
-        schema.events,
-        eq(schema.galleryAlbums.eventId, schema.events.id),
-      )
+      .leftJoin(schema.events, eq(schema.galleryAlbums.eventId, schema.events.id))
       .orderBy(
         desc(schema.galleryAlbums.published),
         asc(schema.galleryAlbums.sortOrder),
@@ -129,10 +129,7 @@ export const cmsService = {
         },
       })
       .from(schema.galleryAlbums)
-      .leftJoin(
-        schema.events,
-        eq(schema.galleryAlbums.eventId, schema.events.id),
-      )
+      .leftJoin(schema.events, eq(schema.galleryAlbums.eventId, schema.events.id))
       .where(eq(schema.galleryAlbums.id, albumId))
       .limit(1);
     if (!row) return null;
@@ -141,10 +138,7 @@ export const cmsService = {
       .select()
       .from(schema.galleryPhotos)
       .where(eq(schema.galleryPhotos.albumId, albumId))
-      .orderBy(
-        asc(schema.galleryPhotos.sortOrder),
-        asc(schema.galleryPhotos.createdAt),
-      );
+      .orderBy(asc(schema.galleryPhotos.sortOrder), asc(schema.galleryPhotos.createdAt));
 
     return {
       ...row.album,
@@ -188,12 +182,7 @@ export const cmsService = {
       const [other] = await db
         .select({ id: schema.galleryAlbums.id })
         .from(schema.galleryAlbums)
-        .where(
-          and(
-            eq(schema.galleryAlbums.slug, payload.slug),
-            ne(schema.galleryAlbums.id, id),
-          ),
-        )
+        .where(and(eq(schema.galleryAlbums.slug, payload.slug), ne(schema.galleryAlbums.id, id)))
         .limit(1);
       if (other) throw new CmsError('SLUG_TAKEN', 'Slug já em uso.');
     }
@@ -261,11 +250,7 @@ export const cmsService = {
       .orderBy(desc(schema.posts.publishedAt), desc(schema.posts.createdAt));
   },
 
-  async createPost(
-    db: Database,
-    payload: CreatePost,
-    authorUserId: string,
-  ) {
+  async createPost(db: Database, payload: CreatePost, authorUserId: string) {
     const [existing] = await db
       .select({ id: schema.posts.id })
       .from(schema.posts)
@@ -290,11 +275,7 @@ export const cmsService = {
   },
 
   async updatePost(db: Database, id: string, payload: UpdatePost) {
-    const [existing] = await db
-      .select()
-      .from(schema.posts)
-      .where(eq(schema.posts.id, id))
-      .limit(1);
+    const [existing] = await db.select().from(schema.posts).where(eq(schema.posts.id, id)).limit(1);
     if (!existing) throw new CmsError('NOT_FOUND', 'Post não encontrado.');
 
     if (payload.slug && payload.slug !== existing.slug) {

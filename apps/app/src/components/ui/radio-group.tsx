@@ -1,6 +1,6 @@
+import { cn } from '@/lib/cn';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import * as React from 'react';
-import { cn } from '@/lib/cn';
 
 export const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
@@ -60,10 +60,7 @@ export const RadioCard = React.forwardRef<
       )}
       {...props}
     >
-      <RadioGroupItem
-        value={value}
-        className={layout === 'row' ? 'mt-0.5' : 'shrink-0'}
-      />
+      <RadioGroupItem value={value} className={layout === 'row' ? 'mt-0.5' : 'shrink-0'} />
       <div className={cn(layout === 'row' && 'flex-1 min-w-0')}>{children}</div>
     </label>
   );

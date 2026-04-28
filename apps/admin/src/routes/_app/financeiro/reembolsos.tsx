@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
 import { brl } from '@/lib/format';
 import { useAdminRefunds } from '@/lib/queries/reports';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/financeiro/reembolsos')({
   component: Reembolsos,
@@ -14,8 +14,8 @@ function Reembolsos() {
       <header>
         <h1 className="font-serif text-2xl">Reembolsos</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Estornos de pagamentos. Fluxo Asaas será habilitado quando a
-          integração estiver pronta — por enquanto, os estornos são manuais.
+          Estornos de pagamentos. Fluxo Asaas será habilitado quando a integração estiver pronta —
+          por enquanto, os estornos são manuais.
         </p>
       </header>
 
@@ -44,10 +44,7 @@ function Reembolsos() {
             </thead>
             <tbody>
               {data.map((r) => (
-                <tr
-                  key={r.id}
-                  className="border-b last:border-b-0 hover:bg-secondary/30"
-                >
+                <tr key={r.id} className="border-b last:border-b-0 hover:bg-secondary/30">
                   <td className="px-4 py-2 font-medium">{r.person.fullName}</td>
                   <td className="px-4 py-2 text-muted-foreground text-xs">
                     {r.invoice.description ?? '—'}
@@ -60,9 +57,7 @@ function Reembolsos() {
                       year: 'numeric',
                     })}
                   </td>
-                  <td className="px-4 py-2 text-right font-mono">
-                    {brl(Number(r.amount))}
-                  </td>
+                  <td className="px-4 py-2 text-right font-mono">{brl(Number(r.amount))}</td>
                 </tr>
               ))}
             </tbody>

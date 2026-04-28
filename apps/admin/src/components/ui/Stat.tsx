@@ -1,5 +1,5 @@
-import type * as React from 'react';
 import { cn } from '@/lib/cn';
+import type * as React from 'react';
 
 type Tone = 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
 
@@ -22,15 +22,7 @@ type Props = {
   icon?: React.ReactNode;
 };
 
-export function Stat({
-  label,
-  value,
-  hint,
-  tone = 'neutral',
-  className,
-  onClick,
-  icon,
-}: Props) {
+export function Stat({ label, value, hint, tone = 'neutral', className, onClick, icon }: Props) {
   const interactive = !!onClick;
   const Wrapper = interactive ? 'button' : 'div';
 
@@ -64,9 +56,7 @@ export function Stat({
             {value}
           </p>
           {hint && (
-            <p className="text-[11px] text-(color:--color-muted-foreground) mt-1.5">
-              {hint}
-            </p>
+            <p className="text-[11px] text-(color:--color-muted-foreground) mt-1.5">{hint}</p>
           )}
         </div>
         {icon && (

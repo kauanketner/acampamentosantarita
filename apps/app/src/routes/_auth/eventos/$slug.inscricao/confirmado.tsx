@@ -1,8 +1,8 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { motion } from 'motion/react';
 import { ArchMotif } from '@/components/motif/arch';
 import { Page } from '@/components/shell/Page';
 import { Button } from '@/components/ui/button';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { motion } from 'motion/react';
 
 export const Route = createFileRoute('/_auth/eventos/$slug/inscricao/confirmado')({
   component: InscricaoConfirmado,
@@ -45,8 +45,7 @@ function InscricaoConfirmado() {
           transition={{ delay: 1.1, duration: 0.7 }}
           className="mt-6 max-w-sm text-center text-[15px] leading-relaxed text-(color:--color-muted-foreground)"
         >
-          A coordenação confirma sua presença em até 3 dias. Avisamos por aqui e por
-          e-mail.
+          A coordenação confirma sua presença em até 3 dias. Avisamos por aqui e por e-mail.
         </motion.p>
       </div>
 

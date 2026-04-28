@@ -12,19 +12,16 @@ function FluxoCaixa() {
       <h1 className="font-serif text-2xl">Fluxo de caixa</h1>
       <div className="rounded-lg border bg-card p-5 space-y-2">
         <p className="text-sm">
-          O relatório consolidado (receita mensal, saldo por status de fatura,
-          movimentação dos últimos 30 dias) está em{' '}
-          <Link
-            to="/relatorios/financeiro"
-            className="text-primary underline"
-          >
+          O relatório consolidado (receita mensal, saldo por status de fatura, movimentação dos
+          últimos 30 dias) está em{' '}
+          <Link to="/relatorios/financeiro" className="text-primary underline">
             Relatórios → Financeiro
           </Link>
           .
         </p>
         <p className="text-xs text-muted-foreground">
-          Quando a integração com Asaas estiver ativa, esta tela vai consolidar
-          também as taxas e saldos em conta.
+          Quando a integração com Asaas estiver ativa, esta tela vai consolidar também as taxas e
+          saldos em conta.
         </p>
       </div>
     </div>

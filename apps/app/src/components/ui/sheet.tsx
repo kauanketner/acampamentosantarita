@@ -1,6 +1,6 @@
+import { cn } from '@/lib/cn';
 import * as React from 'react';
 import { Drawer } from 'vaul';
-import { cn } from '@/lib/cn';
 
 export const Sheet = Drawer.Root;
 export const SheetTrigger = Drawer.Trigger;
@@ -13,7 +13,10 @@ export const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <Drawer.Overlay
     ref={ref}
-    className={cn('fixed inset-0 z-50 bg-(color:--color-foreground)/40 backdrop-blur-sm', className)}
+    className={cn(
+      'fixed inset-0 z-50 bg-(color:--color-foreground)/40 backdrop-blur-sm',
+      className,
+    )}
     {...props}
   />
 ));

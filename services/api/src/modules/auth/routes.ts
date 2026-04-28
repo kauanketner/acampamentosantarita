@@ -8,11 +8,7 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
     { schema: { tags: ['auth'] } },
     authController.registerFirstTimer,
   );
-  app.post(
-    '/register-veteran',
-    { schema: { tags: ['auth'] } },
-    authController.registerVeteran,
-  );
+  app.post('/register-veteran', { schema: { tags: ['auth'] } }, authController.registerVeteran);
 
   // OTP via WhatsApp
   app.post('/request-code', { schema: { tags: ['auth'] } }, authController.requestCode);

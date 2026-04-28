@@ -93,9 +93,7 @@ export function useEventCustomQuestions(eventId: string | undefined) {
       ? customQuestionsKey(eventId)
       : ([...EVENTS_KEY, '__none__', 'custom-questions'] as const),
     queryFn: async () => {
-      const res = await api<{ items: CustomQuestion[] }>(
-        `/v1/events/${eventId}/custom-questions`,
-      );
+      const res = await api<{ items: CustomQuestion[] }>(`/v1/events/${eventId}/custom-questions`);
       return res.items;
     },
     enabled: !!eventId,

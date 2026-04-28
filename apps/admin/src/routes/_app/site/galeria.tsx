@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import {
   type AddPhotoInput,
@@ -15,6 +13,8 @@ import {
   useUpdateAlbum,
 } from '@/lib/queries/cms';
 import { useAdminEvents } from '@/lib/queries/events';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/site/galeria')({
   component: SiteGaleria,
@@ -27,7 +27,7 @@ function slugify(s: string): string {
   return s
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/\p{Mn}/gu, '')
     .replace(/[^a-z0-9\s-]/g, '')
     .trim()
     .replace(/\s+/g, '-')
@@ -123,9 +123,7 @@ function AlbumCard({
         input: { published: !album.published },
       });
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
@@ -134,9 +132,7 @@ function AlbumCard({
     try {
       await remove.mutateAsync(album.id);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível excluir.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   };
 
@@ -171,9 +167,7 @@ function AlbumCard({
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <p className="font-medium leading-tight">{album.name}</p>
-            <p className="text-xs text-muted-foreground mt-0.5 font-mono">
-              {album.slug}
-            </p>
+            <p className="text-xs text-muted-foreground mt-0.5 font-mono">{album.slug}</p>
           </div>
           <span
             className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${
@@ -186,9 +180,7 @@ function AlbumCard({
           </span>
         </div>
         {album.description && (
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            {album.description}
-          </p>
+          <p className="text-xs text-muted-foreground leading-relaxed">{album.description}</p>
         )}
         <p className="text-xs text-muted-foreground">
           {album.photoCount} {album.photoCount === 1 ? 'foto' : 'fotos'}
@@ -198,11 +190,7 @@ function AlbumCard({
         {error && <p className="text-xs text-destructive">{error}</p>}
 
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t">
-          <button
-            type="button"
-            onClick={onToggle}
-            className="text-xs text-primary underline"
-          >
+          <button type="button" onClick={onToggle} className="text-xs text-primary underline">
             {open ? 'Fechar fotos' : 'Gerenciar fotos'}
           </button>
           <button
@@ -249,13 +237,11 @@ function AlbumCard({
           )}
         </div>
 
-        {open && album.published && (
-          <PhotosManager albumId={album.id} albumSlug={album.slug} />
-        )}
+        {open && album.published && <PhotosManager albumId={album.id} albumSlug={album.slug} />}
         {open && !album.published && (
           <p className="text-xs text-amber-700 dark:text-amber-400 pt-2">
-            Publique o álbum pra gerenciar fotos. (As fotos só ficam visíveis
-            quando o álbum está publicado.)
+            Publique o álbum pra gerenciar fotos. (As fotos só ficam visíveis quando o álbum está
+            publicado.)
           </p>
         )}
       </div>
@@ -295,9 +281,7 @@ function PhotosManager({
       });
       setForm({ imageUrl: '', caption: '', sortOrder: form.sortOrder });
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível adicionar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível adicionar.');
     }
   };
 
@@ -306,18 +290,14 @@ function PhotosManager({
     try {
       await removePhoto.mutateAsync(photoId);
     } catch (err) {
-      alert(
-        err instanceof ApiError ? err.message : 'Não foi possível excluir.',
-      );
+      alert(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   };
 
   return (
     <div className="pt-3 border-t space-y-3">
       <form onSubmit={onAdd} className="space-y-2">
-        <p className="text-xs uppercase tracking-wider text-muted-foreground">
-          Adicionar foto
-        </p>
+        <p className="text-xs uppercase tracking-wider text-muted-foreground">Adicionar foto</p>
         <input
           type="url"
           value={form.imageUrl}
@@ -372,11 +352,7 @@ function PhotoTile({
 }) {
   return (
     <div className="relative aspect-square rounded-sm overflow-hidden bg-secondary">
-      <img
-        src={photo.imageUrl}
-        alt={photo.caption ?? ''}
-        className="size-full object-cover"
-      />
+      <img src={photo.imageUrl} alt={photo.caption ?? ''} className="size-full object-cover" />
       <button
         type="button"
         onClick={() => onRemove(photo.id)}
@@ -417,11 +393,7 @@ function AlbumForm({
   const [error, setError] = useState<string | null>(null);
 
   const onNameChange = (v: string) => {
-    setForm((s) =>
-      slugTouched
-        ? { ...s, name: v }
-        : { ...s, name: v, slug: slugify(v) },
-    );
+    setForm((s) => (slugTouched ? { ...s, name: v } : { ...s, name: v, slug: slugify(v) }));
   };
 
   const isPending = create.isPending || update.isPending;
@@ -446,20 +418,15 @@ function AlbumForm({
       }
       onSaved();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
-  const canSubmit =
-    form.name.trim().length >= 2 && form.slug.trim().length >= 2 && !isPending;
+  const canSubmit = form.name.trim().length >= 2 && form.slug.trim().length >= 2 && !isPending;
 
   return (
     <form onSubmit={onSubmit} className="rounded-lg border bg-card p-5 space-y-4">
-      <h2 className="font-serif text-lg">
-        {mode === 'create' ? 'Novo álbum' : 'Editar álbum'}
-      </h2>
+      <h2 className="font-serif text-lg">{mode === 'create' ? 'Novo álbum' : 'Editar álbum'}</h2>
 
       <label className="block">
         <span className="text-sm font-medium">Nome</span>
@@ -490,9 +457,7 @@ function AlbumForm({
         <span className="text-sm font-medium">Descrição</span>
         <textarea
           value={form.description}
-          onChange={(e) =>
-            setForm((s) => ({ ...s, description: e.target.value }))
-          }
+          onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
           rows={3}
           className={`mt-1 ${inputClass}`}
         />
@@ -539,9 +504,7 @@ function AlbumForm({
           <input
             type="checkbox"
             checked={form.published}
-            onChange={(e) =>
-              setForm((s) => ({ ...s, published: e.target.checked }))
-            }
+            onChange={(e) => setForm((s) => ({ ...s, published: e.target.checked }))}
           />
           Publicado
         </label>

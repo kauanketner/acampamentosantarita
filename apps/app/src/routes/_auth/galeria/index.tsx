@@ -1,11 +1,11 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { Camera, Loader2 } from 'lucide-react';
 import { Page } from '@/components/shell/Page';
 import { PageHeader } from '@/components/shell/PageHeader';
 import { EmptyState } from '@/components/ui/empty-state';
 import { eventGradient } from '@/lib/format';
 import { type GalleryAlbumLite, useGalleryAlbums } from '@/lib/queries/cms';
 import { mediaUrl } from '@/lib/queries/profile';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { Camera, Loader2 } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/galeria/')({
   component: GaleriaIndex,
@@ -19,11 +19,7 @@ function GaleriaIndex() {
       <div className="safe-top" />
       <PageHeader
         eyebrow="Memória"
-        title={
-          <>
-            <span className="font-display-italic">Galeria.</span>
-          </>
-        }
+        title=<span className="font-display-italic">Galeria.</span>
         description="Fotos dos retiros, encontros e acampamentos passados."
         className="pt-12"
       />
@@ -92,11 +88,7 @@ function AlbumTile({ album }: { album: GalleryAlbumLite }) {
   const cover = mediaUrl(album.coverUrl);
   const grad = eventGradient(album.id);
   return (
-    <Link
-      to="/galeria/$slug"
-      params={{ slug: album.slug }}
-      className="group block"
-    >
+    <Link to="/galeria/$slug" params={{ slug: album.slug }} className="group block">
       <div
         className="aspect-[4/5] rounded-(--radius-md) overflow-hidden relative"
         style={{

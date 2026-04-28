@@ -37,26 +37,18 @@ export async function api<T>(path: string, init?: Init): Promise<T> {
   }
 
   const contentType = res.headers.get('content-type') ?? '';
-  const data = contentType.includes('application/json')
-    ? await res.json().catch(() => null)
-    : null;
+  const data = contentType.includes('application/json') ? await res.json().catch(() => null) : null;
 
   if (!res.ok) {
     const code = (data as { error?: string } | null)?.error ?? 'HTTP_ERROR';
-    const msg =
-      (data as { message?: string } | null)?.message ??
-      `Erro ${res.status} em ${path}`;
+    const msg = (data as { message?: string } | null)?.message ?? `Erro ${res.status} em ${path}`;
     throw new ApiError(res.status, code, msg, data);
   }
 
   return data as T;
 }
 
-export async function apiUpload<T>(
-  path: string,
-  file: File,
-  fieldName = 'file',
-): Promise<T> {
+export async function apiUpload<T>(path: string, file: File, fieldName = 'file'): Promise<T> {
   const fd = new FormData();
   fd.append(fieldName, file);
   const res = await fetch(`${API_URL}${path}`, {
@@ -65,14 +57,10 @@ export async function apiUpload<T>(
     body: fd,
   });
   const contentType = res.headers.get('content-type') ?? '';
-  const data = contentType.includes('application/json')
-    ? await res.json().catch(() => null)
-    : null;
+  const data = contentType.includes('application/json') ? await res.json().catch(() => null) : null;
   if (!res.ok) {
     const code = (data as { error?: string } | null)?.error ?? 'HTTP_ERROR';
-    const msg =
-      (data as { message?: string } | null)?.message ??
-      `Erro ${res.status} em ${path}`;
+    const msg = (data as { message?: string } | null)?.message ?? `Erro ${res.status} em ${path}`;
     throw new ApiError(res.status, code, msg, data);
   }
   return data as T;

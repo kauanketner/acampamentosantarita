@@ -11,12 +11,7 @@ export type InvoiceStatus =
 
 export type InvoiceType = 'registration' | 'pos' | 'shop' | 'other';
 
-export type PaymentMethod =
-  | 'pix'
-  | 'cartao'
-  | 'boleto'
-  | 'dinheiro'
-  | 'transferencia';
+export type PaymentMethod = 'pix' | 'cartao' | 'boleto' | 'dinheiro' | 'transferencia';
 
 export type AdminInvoice = {
   id: string;
@@ -110,8 +105,7 @@ export function useRecordCashPayment() {
 export function useDeletePayment() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/finance/payments/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/finance/payments/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: FINANCE_KEY });
     },

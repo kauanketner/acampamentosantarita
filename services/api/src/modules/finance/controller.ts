@@ -14,9 +14,7 @@ const ERROR_TO_STATUS: Record<FinanceError['code'], number> = {
 };
 
 function sendError(reply: FastifyReply, e: FinanceError) {
-  reply
-    .code(ERROR_TO_STATUS[e.code] ?? 400)
-    .send({ error: e.code, message: e.message });
+  reply.code(ERROR_TO_STATUS[e.code] ?? 400).send({ error: e.code, message: e.message });
 }
 
 function requirePerson(req: FastifyRequest, reply: FastifyReply): string | null {
@@ -64,12 +62,7 @@ export const financeController = {
     const { id } = req.params as { id: string };
     const parsed = recordCashPaymentSchema.parse(req.body);
     try {
-      const created = await financeService.recordPayment(
-        req.server.db,
-        id,
-        parsed,
-        req.user!.id,
-      );
+      const created = await financeService.recordPayment(req.server.db, id, parsed, req.user!.id);
       reply.code(201);
       return created;
     } catch (e) {

@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import { brl } from '@/lib/format';
 import {
@@ -10,6 +8,8 @@ import {
   useDeleteShopProduct,
   useUpdateShopProduct,
 } from '@/lib/queries/shop';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/lojinha-site/')({
   component: LojinhaSite,
@@ -28,8 +28,8 @@ function LojinhaSite() {
         <div>
           <h1 className="font-serif text-2xl">Lojinha do site</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Catálogo público. O comprador clica e abre WhatsApp com mensagem
-            pré-formatada — sem checkout.
+            Catálogo público. O comprador clica e abre WhatsApp com mensagem pré-formatada — sem
+            checkout.
           </p>
         </div>
         {!creating && (
@@ -78,7 +78,7 @@ function ProductCard({ product }: { product: ShopProduct }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const remove = useDeleteShopProduct();
   const update = useUpdateShopProduct();
-  const cover = (product.photos && product.photos[0]?.url) || null;
+  const cover = product.photos?.[0]?.url || null;
 
   if (editing) {
     return (
@@ -134,9 +134,7 @@ function ProductCard({ product }: { product: ShopProduct }) {
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t">
           <button
             type="button"
-            onClick={() =>
-              update.mutate({ id: product.id, input: { active: !product.active } })
-            }
+            onClick={() => update.mutate({ id: product.id, input: { active: !product.active } })}
             className="text-xs text-muted-foreground hover:text-foreground underline"
           >
             {product.active ? 'Desativar' : 'Ativar'}
@@ -195,10 +193,7 @@ function ProductForm({
   const create = useCreateShopProduct();
   const update = useUpdateShopProduct();
 
-  const initialPhotos =
-    (product?.photos ?? [])
-      .map((p) => p.url)
-      .join('\n');
+  const initialPhotos = (product?.photos ?? []).map((p) => p.url).join('\n');
 
   const [form, setForm] = useState({
     name: product?.name ?? '',
@@ -243,9 +238,7 @@ function ProductForm({
       }
       onSaved();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
@@ -285,9 +278,7 @@ function ProductForm({
         <span className="text-sm font-medium">Descrição</span>
         <textarea
           value={form.description}
-          onChange={(e) =>
-            setForm((s) => ({ ...s, description: e.target.value }))
-          }
+          onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
           rows={3}
           className={`mt-1 ${inputClass}`}
         />
@@ -298,9 +289,7 @@ function ProductForm({
           <input
             type="text"
             value={form.category}
-            onChange={(e) =>
-              setForm((s) => ({ ...s, category: e.target.value }))
-            }
+            onChange={(e) => setForm((s) => ({ ...s, category: e.target.value }))}
             className={`mt-1 ${inputClass}`}
             placeholder="Camisetas, Acessórios…"
           />
@@ -311,9 +300,7 @@ function ProductForm({
             type="number"
             min={0}
             value={form.sortOrder}
-            onChange={(e) =>
-              setForm((s) => ({ ...s, sortOrder: e.target.value }))
-            }
+            onChange={(e) => setForm((s) => ({ ...s, sortOrder: e.target.value }))}
             className={`mt-1 ${inputClass}`}
           />
         </label>
@@ -331,14 +318,11 @@ function ProductForm({
       <label className="block">
         <span className="text-sm font-medium">Mensagem WhatsApp</span>
         <span className="block text-xs text-muted-foreground mt-0.5">
-          Use <code>{'{{nome}}'}</code> e <code>{'{{preco}}'}</code> como
-          placeholders.
+          Use <code>{'{{nome}}'}</code> e <code>{'{{preco}}'}</code> como placeholders.
         </span>
         <textarea
           value={form.whatsappMessageTemplate}
-          onChange={(e) =>
-            setForm((s) => ({ ...s, whatsappMessageTemplate: e.target.value }))
-          }
+          onChange={(e) => setForm((s) => ({ ...s, whatsappMessageTemplate: e.target.value }))}
           rows={2}
           className={`mt-1 ${inputClass}`}
         />

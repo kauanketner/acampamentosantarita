@@ -1,18 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { CheckCircle2, Loader2 } from 'lucide-react';
 import { Page } from '@/components/shell/Page';
-import { TopBar } from '@/components/shell/TopBar';
 import { SectionTitle } from '@/components/shell/SectionTitle';
+import { TopBar } from '@/components/shell/TopBar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardBody } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { brl } from '@/lib/format';
-import {
-  type InvoiceStatus,
-  type PaymentMethod,
-  useMyInvoice,
-} from '@/lib/queries/finance';
+import { type InvoiceStatus, type PaymentMethod, useMyInvoice } from '@/lib/queries/finance';
+import { createFileRoute } from '@tanstack/react-router';
+import { CheckCircle2, Loader2 } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/financeiro/$invoiceId')({
   component: FaturaDetalhe,
@@ -157,9 +153,8 @@ function FaturaDetalhe() {
           <Card variant="outline">
             <CardBody>
               <p className="text-sm text-(color:--color-muted-foreground) leading-relaxed">
-                Pagamento online vai ficar disponível quando a coordenação ligar a
-                integração com Asaas. Por enquanto, eles enviam as instruções por fora
-                do app.
+                Pagamento online vai ficar disponível quando a coordenação ligar a integração com
+                Asaas. Por enquanto, eles enviam as instruções por fora do app.
               </p>
             </CardBody>
           </Card>

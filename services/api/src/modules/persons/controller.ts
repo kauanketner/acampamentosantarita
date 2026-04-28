@@ -6,14 +6,16 @@ import { personsService } from './service.ts';
 const notImplemented = (_req: FastifyRequest, reply: FastifyReply) =>
   reply.code(501).send({ error: 'NOT_IMPLEMENTED' });
 
-function resolveTargetId(req: FastifyRequest): {
-  ok: true;
-  id: string;
-} | {
-  ok: false;
-  status: number;
-  error: string;
-} {
+function resolveTargetId(req: FastifyRequest):
+  | {
+      ok: true;
+      id: string;
+    }
+  | {
+      ok: false;
+      status: number;
+      error: string;
+    } {
   const { id } = req.params as { id: string };
   if (!req.user?.personId && id === 'me') {
     return { ok: false, status: 401, error: 'UNAUTHORIZED' };
@@ -90,9 +92,7 @@ export const personsController = {
   async updateRole(req: FastifyRequest, reply: FastifyReply) {
     if (!requireAdmin(req, reply)) return;
     if (req.user!.role !== 'admin') {
-      reply
-        .code(403)
-        .send({ error: 'FORBIDDEN', message: 'Apenas admins podem alterar funções.' });
+      reply.code(403).send({ error: 'FORBIDDEN', message: 'Apenas admins podem alterar funções.' });
       return;
     }
     const { id } = req.params as { id: string };

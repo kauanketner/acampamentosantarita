@@ -1,10 +1,10 @@
+import { cn } from '@/lib/cn';
 import * as Popover from '@radix-ui/react-popover';
 import { format, parse, subYears } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Calendar as CalendarIcon, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as React from 'react';
 import { DayPicker } from 'react-day-picker';
-import { cn } from '@/lib/cn';
 
 import 'react-day-picker/style.css';
 
@@ -81,12 +81,7 @@ export function DatePicker({
             className="size-4 text-(color:--color-muted-foreground) shrink-0"
             strokeWidth={1.5}
           />
-          <span
-            className={cn(
-              'flex-1 truncate',
-              !selected && 'text-(color:--color-subtle)',
-            )}
-          >
+          <span className={cn('flex-1 truncate', !selected && 'text-(color:--color-subtle)')}>
             {selected ? format(selected, "dd 'de' MMMM 'de' yyyy", { locale: ptBR }) : placeholder}
           </span>
         </button>
@@ -143,8 +138,7 @@ const dayPickerClassNames: React.ComponentProps<typeof DayPicker>['classNames'] 
   months: 'flex flex-col',
   month: 'flex flex-col gap-2',
   // header com dropdowns no centro e nav em volta
-  month_caption:
-    'flex items-center justify-center gap-2 mb-2 mt-0 pt-0.5 px-9 min-h-9',
+  month_caption: 'flex items-center justify-center gap-2 mb-2 mt-0 pt-0.5 px-9 min-h-9',
   // esconde o caption_label (dropdowns já mostram mês e ano)
   caption_label: 'sr-only',
   nav: 'absolute top-1 inset-x-1 flex items-center justify-between pointer-events-none',
@@ -159,8 +153,7 @@ const dayPickerClassNames: React.ComponentProps<typeof DayPicker>['classNames'] 
   week: 'grid grid-cols-7 gap-0.5',
   day: 'size-9 inline-flex items-center justify-center text-sm rounded-full transition-colors hover:bg-(color:--color-muted)',
   day_button: 'size-9 inline-flex items-center justify-center cursor-pointer',
-  selected:
-    '!bg-(color:--color-primary) !text-(color:--color-primary-foreground) font-medium',
+  selected: '!bg-(color:--color-primary) !text-(color:--color-primary-foreground) font-medium',
   today: 'font-semibold text-(color:--color-primary)',
   outside: 'text-(color:--color-subtle) opacity-50',
   disabled: 'opacity-30 cursor-not-allowed',

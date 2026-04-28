@@ -1,10 +1,5 @@
+import type { AdminEventBase, EventInput, EventStatus, EventType } from '@/lib/queries/events';
 import { useEffect, useMemo, useState } from 'react';
-import type {
-  AdminEventBase,
-  EventInput,
-  EventStatus,
-  EventType,
-} from '@/lib/queries/events';
 
 type Props = {
   initial?: AdminEventBase | null;
@@ -58,7 +53,7 @@ function slugify(s: string): string {
   return s
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/\p{Mn}/gu, '')
     .replace(/[^a-z0-9\s-]/g, '')
     .trim()
     .replace(/\s+/g, '-')
@@ -105,9 +100,7 @@ function fromInitial(e: AdminEventBase | null | undefined): FormState {
     isPaid: e.isPaid,
     priceCampista: e.priceCampista ?? '',
     priceEquipista: e.priceEquipista ?? '',
-    registrationDeadline: e.registrationDeadline
-      ? e.registrationDeadline.slice(0, 16)
-      : '',
+    registrationDeadline: e.registrationDeadline ? e.registrationDeadline.slice(0, 16) : '',
     allowRegistrationViaApp: e.allowRegistrationViaApp,
     allowRegistrationViaSite: e.allowRegistrationViaSite,
     requiresAdminApproval: e.requiresAdminApproval,
@@ -160,24 +153,18 @@ export function EventForm({
       name: form.name.trim(),
       slug: form.slug.trim(),
       type: form.type,
-      editionNumber: form.editionNumber
-        ? Number.parseInt(form.editionNumber, 10)
-        : null,
+      editionNumber: form.editionNumber ? Number.parseInt(form.editionNumber, 10) : null,
       startDate: form.startDate,
       endDate: form.endDate,
       location: form.location.trim() || null,
       description: form.description.trim() || null,
       coverImageUrl: form.coverImageUrl.trim() || null,
       status: form.status,
-      maxParticipants: form.maxParticipants
-        ? Number.parseInt(form.maxParticipants, 10)
-        : null,
+      maxParticipants: form.maxParticipants ? Number.parseInt(form.maxParticipants, 10) : null,
       allowFirstTimer: isAcampamento ? form.allowFirstTimer : false,
       isPaid: form.isPaid,
       priceCampista:
-        form.isPaid && form.priceCampista
-          ? Number.parseFloat(form.priceCampista).toFixed(2)
-          : null,
+        form.isPaid && form.priceCampista ? Number.parseFloat(form.priceCampista).toFixed(2) : null,
       priceEquipista:
         form.isPaid && form.priceEquipista
           ? Number.parseFloat(form.priceEquipista).toFixed(2)

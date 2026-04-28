@@ -43,8 +43,7 @@ export type AddAssignmentInput = {
 };
 
 const TEAMS_KEY = ['admin', 'service-teams'] as const;
-const eventTeamsKey = (eventId: string) =>
-  [...TEAMS_KEY, 'by-event', eventId] as const;
+const eventTeamsKey = (eventId: string) => [...TEAMS_KEY, 'by-event', eventId] as const;
 
 export function useServiceTeams() {
   return useQuery<ServiceTeam[]>({
@@ -59,9 +58,7 @@ export function useServiceTeams() {
 
 export function useEventServiceTeams(eventId: string | undefined) {
   return useQuery<ServiceTeamWithMembers[]>({
-    queryKey: eventId
-      ? eventTeamsKey(eventId)
-      : ([...TEAMS_KEY, '__none__'] as const),
+    queryKey: eventId ? eventTeamsKey(eventId) : ([...TEAMS_KEY, '__none__'] as const),
     queryFn: async () => {
       const res = await api<{ items: ServiceTeamWithMembers[] }>(
         `/v1/events/${eventId}/service-teams`,
@@ -104,8 +101,7 @@ export function useUpdateServiceTeam() {
 export function useDeleteServiceTeam() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/service-teams/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/service-teams/${id}`, { method: 'DELETE' }),
     onSuccess: () => invalidate(qc),
   });
 }
@@ -140,10 +136,9 @@ export function useRemoveTeamAssignment() {
       eventId: string;
       personId: string;
     }) =>
-      api<void>(
-        `/v1/service-teams/${teamId}/assignments/${personId}?eventId=${eventId}`,
-        { method: 'DELETE' },
-      ),
+      api<void>(`/v1/service-teams/${teamId}/assignments/${personId}?eventId=${eventId}`, {
+        method: 'DELETE',
+      }),
     onSuccess: () => invalidate(qc),
   });
 }

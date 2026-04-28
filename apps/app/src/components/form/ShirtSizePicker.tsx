@@ -1,7 +1,7 @@
-import { Ruler } from 'lucide-react';
-import { useState } from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { cn } from '@/lib/cn';
+import { Ruler } from 'lucide-react';
+import { useState } from 'react';
 
 const SIZES = ['PP', 'P', 'M', 'G', 'GG', 'XGG'] as const;
 type Size = (typeof SIZES)[number];
@@ -92,10 +92,7 @@ export function ShirtSizePicker({ value, onChange, name = 'shirt' }: Props) {
               </thead>
               <tbody>
                 {(['chest', 'waist', 'length'] as const).map((row) => (
-                  <tr
-                    key={row}
-                    className="border-t border-(color:--color-border) first:border-t-0"
-                  >
+                  <tr key={row} className="border-t border-(color:--color-border) first:border-t-0">
                     <td className="py-3 pr-3 text-(color:--color-muted-foreground) text-[13px]">
                       {row === 'chest' ? 'Peito' : row === 'waist' ? 'Cintura' : 'Comprimento'}
                     </td>
@@ -122,8 +119,8 @@ export function ShirtSizePicker({ value, onChange, name = 'shirt' }: Props) {
 
             <p className="mt-6 text-xs text-(color:--color-muted-foreground) leading-relaxed">
               <strong className="text-(color:--color-foreground) font-medium">Como medir:</strong>{' '}
-              passe a fita em volta da parte mais larga do peito (sem apertar) e da cintura
-              (na altura do umbigo). Comprimento é do ombro até onde quer que a barra termine.
+              passe a fita em volta da parte mais larga do peito (sem apertar) e da cintura (na
+              altura do umbigo). Comprimento é do ombro até onde quer que a barra termine.
             </p>
           </div>
         </SheetContent>

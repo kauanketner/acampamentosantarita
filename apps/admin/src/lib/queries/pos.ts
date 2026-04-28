@@ -91,10 +91,12 @@ export function usePosItems() {
   });
 }
 
-export function usePosAccounts(params: {
-  eventId?: string;
-  status?: PosAccountStatus;
-} = {}) {
+export function usePosAccounts(
+  params: {
+    eventId?: string;
+    status?: PosAccountStatus;
+  } = {},
+) {
   return useQuery<PosAccountRow[]>({
     queryKey: accountsKey(params),
     queryFn: async () => {
@@ -143,8 +145,7 @@ export function useUpdatePosItem() {
 export function useDeletePosItem() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/pos/items/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/pos/items/${id}`, { method: 'DELETE' }),
     onSuccess: () => invalidate(qc),
   });
 }
@@ -194,8 +195,7 @@ export function useAddPosTransaction() {
 export function useDeletePosTransaction() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) =>
-      api<void>(`/v1/pos/transactions/${id}`, { method: 'DELETE' }),
+    mutationFn: (id: string) => api<void>(`/v1/pos/transactions/${id}`, { method: 'DELETE' }),
     onSuccess: () => invalidate(qc),
   });
 }

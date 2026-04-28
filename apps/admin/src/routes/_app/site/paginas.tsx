@@ -13,15 +13,13 @@ function SitePaginas() {
       <h1 className="font-serif text-2xl">Páginas estáticas</h1>
       <div className="rounded-lg border bg-card p-5 space-y-2">
         <p className="text-sm">
-          Páginas como <em>Sobre</em>, <em>Política de privacidade</em> e{' '}
-          <em>Termos de uso</em> ficam direto no código do site público{' '}
-          (<span className="font-mono">apps/web</span>). O editor visual com
-          blocos é um item futuro do roadmap.
+          Páginas como <em>Sobre</em>, <em>Política de privacidade</em> e <em>Termos de uso</em>{' '}
+          ficam direto no código do site público (<span className="font-mono">apps/web</span>). O
+          editor visual com blocos é um item futuro do roadmap.
         </p>
         <p className="text-sm text-muted-foreground">
-          Pra conteúdo dinâmico que muda com frequência (avisos, promoções,
-          galeria, FAQ, posts), use os blocos da home, posts e os outros
-          módulos:
+          Pra conteúdo dinâmico que muda com frequência (avisos, promoções, galeria, FAQ, posts),
+          use os blocos da home, posts e os outros módulos:
         </p>
         <ul className="text-sm text-muted-foreground list-disc list-inside ml-2 space-y-1">
           <li>

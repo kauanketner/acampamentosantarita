@@ -1,6 +1,6 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
 import { formatDate } from '@/lib/format';
 import { useParticipantsByEvent } from '@/lib/queries/reports';
+import { Link, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/relatorios/participantes')({
   component: RelatoriosParticipantes,
@@ -19,9 +19,7 @@ function RelatoriosParticipantes() {
 
       {isLoading && <p className="text-sm text-muted-foreground">Carregando…</p>}
 
-      {data && data.length === 0 && (
-        <p className="text-sm text-muted-foreground">Nenhum evento.</p>
-      )}
+      {data && data.length === 0 && <p className="text-sm text-muted-foreground">Nenhum evento.</p>}
 
       {data && data.length > 0 && (
         <div className="rounded-lg border bg-card overflow-hidden">

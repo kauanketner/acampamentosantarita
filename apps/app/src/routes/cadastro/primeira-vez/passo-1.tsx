@@ -1,6 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { format, parse } from 'date-fns';
-import { useEffect } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { ShirtSizePicker } from '@/components/form/ShirtSizePicker';
@@ -18,6 +15,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useCadastroStore } from '@/lib/cadastro-store';
+import { createFileRoute } from '@tanstack/react-router';
+import { format, parse } from 'date-fns';
+import { useEffect } from 'react';
 
 export const Route = createFileRoute('/cadastro/primeira-vez/passo-1')({
   component: PassoUm,
@@ -31,9 +31,7 @@ function PassoUm() {
     if (s.variant !== 'primeira-vez') s.setVariant('primeira-vez');
   }, [s.variant, s.setVariant]);
 
-  const birthDate = s.birthDate
-    ? parse(s.birthDate, 'yyyy-MM-dd', new Date())
-    : undefined;
+  const birthDate = s.birthDate ? parse(s.birthDate, 'yyyy-MM-dd', new Date()) : undefined;
 
   const canContinue = s.fullName.trim().length >= 2 && s.phone.length >= 10;
 

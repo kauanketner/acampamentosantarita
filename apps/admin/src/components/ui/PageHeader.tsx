@@ -1,6 +1,6 @@
-import type * as React from 'react';
-import { Link, type LinkProps } from '@tanstack/react-router';
 import { cn } from '@/lib/cn';
+import { Link, type LinkProps } from '@tanstack/react-router';
+import type * as React from 'react';
 
 type BackTo =
   | React.ReactNode
@@ -54,9 +54,7 @@ export function PageHeader({
             </p>
           )}
         </div>
-        {actions && (
-          <div className="flex items-center gap-2 shrink-0">{actions}</div>
-        )}
+        {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
       </div>
     </header>
   );

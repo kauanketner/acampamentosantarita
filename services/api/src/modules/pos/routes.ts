@@ -11,11 +11,7 @@ export const posRoutes: FastifyPluginAsync = async (app) => {
     { schema: { tags: ['pos'] } },
     posController.addTransaction,
   );
-  app.delete(
-    '/transactions/:id',
-    { schema: { tags: ['pos'] } },
-    posController.deleteTransaction,
-  );
+  app.delete('/transactions/:id', { schema: { tags: ['pos'] } }, posController.deleteTransaction);
 
   app.get('/items', { schema: { tags: ['pos'] } }, posController.listItems);
   app.post('/items', { schema: { tags: ['pos'] } }, posController.createItem);

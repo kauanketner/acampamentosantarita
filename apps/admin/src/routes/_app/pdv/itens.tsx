@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import { brl } from '@/lib/format';
 import {
@@ -11,6 +9,8 @@ import {
   usePosItems,
   useUpdatePosItem,
 } from '@/lib/queries/pos';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/pdv/itens')({
   component: PdvItens,
@@ -135,19 +135,13 @@ function ItemRow({ item }: { item: PosItem }) {
   return (
     <tr className="border-b last:border-b-0 hover:bg-secondary/30 transition">
       <td className="px-4 py-2 font-medium">{item.name}</td>
-      <td className="px-4 py-2 text-muted-foreground font-mono text-xs">
-        {item.sku ?? '—'}
-      </td>
+      <td className="px-4 py-2 text-muted-foreground font-mono text-xs">{item.sku ?? '—'}</td>
       <td className="px-4 py-2 text-right font-mono">{brl(Number(item.price))}</td>
-      <td className="px-4 py-2 text-right text-muted-foreground">
-        {item.stock ?? '∞'}
-      </td>
+      <td className="px-4 py-2 text-right text-muted-foreground">{item.stock ?? '∞'}</td>
       <td className="px-4 py-2">
         <button
           type="button"
-          onClick={() =>
-            update.mutate({ id: item.id, input: { active: !item.active } })
-          }
+          onClick={() => update.mutate({ id: item.id, input: { active: !item.active } })}
           className={`rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wider ${
             item.active
               ? 'border-emerald-300 bg-emerald-100 text-emerald-900 dark:bg-emerald-900/30 dark:text-emerald-200 dark:border-emerald-800'
@@ -241,9 +235,7 @@ function ItemForm({
       }
       onSaved();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
@@ -251,9 +243,7 @@ function ItemForm({
 
   return (
     <form onSubmit={onSubmit} className="rounded-lg border bg-card p-5 space-y-3">
-      <h2 className="font-serif text-lg">
-        {mode === 'create' ? 'Novo item' : 'Editar item'}
-      </h2>
+      <h2 className="font-serif text-lg">{mode === 'create' ? 'Novo item' : 'Editar item'}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <label className="block md:col-span-2">
           <span className="text-sm font-medium">Nome</span>
@@ -283,9 +273,7 @@ function ItemForm({
           <span className="text-sm font-medium">Categoria</span>
           <select
             value={form.category}
-            onChange={(e) =>
-              setForm((s) => ({ ...s, category: e.target.value as PosCategory }))
-            }
+            onChange={(e) => setForm((s) => ({ ...s, category: e.target.value as PosCategory }))}
             className={`mt-1 ${inputClass}`}
           >
             <option value="cantina">Cantina</option>

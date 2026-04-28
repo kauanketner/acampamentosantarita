@@ -1,12 +1,9 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
-import { CheckCircle2, ChevronDown, Loader2, Pencil } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { Field } from '@/components/form/Field';
 import { Page } from '@/components/shell/Page';
-import { TopBar } from '@/components/shell/TopBar';
 import { SectionTitle } from '@/components/shell/SectionTitle';
+import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
-import { Field } from '@/components/form/Field';
 import { Input, Textarea } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioCard, RadioGroup } from '@/components/ui/radio-group';
@@ -20,16 +17,16 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { ApiError } from '@/lib/api';
+import { cn } from '@/lib/cn';
 import { brl } from '@/lib/format';
 import { useEventBySlug, useEventCustomQuestions } from '@/lib/queries/events';
 import type { CustomQuestion } from '@/lib/queries/events';
 import { useHealth } from '@/lib/queries/health';
 import { useFullProfile } from '@/lib/queries/profile';
-import {
-  type CreateRegistrationInput,
-  useCreateRegistration,
-} from '@/lib/queries/registrations';
-import { cn } from '@/lib/cn';
+import { type CreateRegistrationInput, useCreateRegistration } from '@/lib/queries/registrations';
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
+import { CheckCircle2, ChevronDown, Loader2, Pencil } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 export const Route = createFileRoute('/_auth/eventos/$slug/inscricao/')({
   component: InscricaoForm,
@@ -42,9 +39,7 @@ function InscricaoForm() {
   const navigate = useNavigate();
 
   const { data: event, isLoading: loadingEvent } = useEventBySlug(slug);
-  const { data: questions, isLoading: loadingQuestions } = useEventCustomQuestions(
-    event?.id,
-  );
+  const { data: questions, isLoading: loadingQuestions } = useEventCustomQuestions(event?.id);
   const { data: profile } = useFullProfile();
   const { data: health } = useHealth();
   const createReg = useCreateRegistration();
@@ -56,9 +51,7 @@ function InscricaoForm() {
 
   const visibleQuestions = useMemo<CustomQuestion[]>(() => {
     if (!questions || !role) return [];
-    return questions.filter(
-      (q) => q.appliesTo === 'ambos' || q.appliesTo === role,
-    );
+    return questions.filter((q) => q.appliesTo === 'ambos' || q.appliesTo === role);
   }, [questions, role]);
 
   if (loadingEvent || !event) {
@@ -96,8 +89,7 @@ function InscricaoForm() {
 
   const isPaid = event.isPaid && price > 0;
 
-  const setAnswer = (id: string, value: unknown) =>
-    setAnswers((s) => ({ ...s, [id]: value }));
+  const setAnswer = (id: string, value: unknown) => setAnswers((s) => ({ ...s, [id]: value }));
 
   const allRequiredAnswered = visibleQuestions.every((q) => {
     if (!q.required) return true;
@@ -215,9 +207,7 @@ function InscricaoForm() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-[15px]">
-                  {health
-                    ? 'Confirme se nada mudou'
-                    : 'Você ainda não preencheu o perfil de saúde'}
+                  {health ? 'Confirme se nada mudou' : 'Você ainda não preencheu o perfil de saúde'}
                 </p>
                 <p className="text-xs text-(color:--color-muted-foreground) mt-0.5 leading-snug">
                   {health?.lastReviewedAt
@@ -238,18 +228,12 @@ function InscricaoForm() {
                 <ul className="grid gap-2.5">
                   <ReviewRow
                     label="Doença crônica"
-                    value={
-                      health?.hasChronicDisease
-                        ? health.chronicDiseaseDetail || 'Sim'
-                        : 'Não'
-                    }
+                    value={health?.hasChronicDisease ? health.chronicDiseaseDetail || 'Sim' : 'Não'}
                     highlight={!!health?.hasChronicDisease}
                   />
                   <ReviewRow
                     label="Alergia"
-                    value={
-                      health?.hasAllergy ? health.allergyDetail || 'Sim' : 'Não'
-                    }
+                    value={health?.hasAllergy ? health.allergyDetail || 'Sim' : 'Não'}
                     highlight={!!health?.hasAllergy}
                   />
                   <ReviewRow
@@ -325,9 +309,7 @@ function InscricaoForm() {
           )}
 
           {error && (
-            <p className="text-sm text-(color:--color-destructive) text-center mb-3">
-              {error}
-            </p>
+            <p className="text-sm text-(color:--color-destructive) text-center mb-3">{error}</p>
           )}
 
           <Button type="submit" block size="lg" disabled={!canSubmit}>
@@ -370,10 +352,7 @@ function QuestionField({
     case 'text':
       return (
         <Field label={labelEl}>
-          <Input
-            value={(value as string) ?? ''}
-            onChange={(e) => onChange(e.target.value)}
-          />
+          <Input value={(value as string) ?? ''} onChange={(e) => onChange(e.target.value)} />
         </Field>
       );
     case 'textarea':
@@ -393,9 +372,7 @@ function QuestionField({
             type="number"
             inputMode="numeric"
             value={(value as number | string) ?? ''}
-            onChange={(e) =>
-              onChange(e.target.value === '' ? undefined : Number(e.target.value))
-            }
+            onChange={(e) => onChange(e.target.value === '' ? undefined : Number(e.target.value))}
           />
         </Field>
       );
@@ -416,10 +393,7 @@ function QuestionField({
             <span className="text-[15px] text-(color:--color-muted-foreground)">
               {value === true ? 'Sim' : value === false ? 'Não' : 'Toque para responder'}
             </span>
-            <Switch
-              checked={value === true}
-              onCheckedChange={(v) => onChange(v)}
-            />
+            <Switch checked={value === true} onCheckedChange={(v) => onChange(v)} />
           </label>
         </Field>
       );
@@ -427,10 +401,7 @@ function QuestionField({
       const options = question.options?.options ?? [];
       return (
         <Field label={labelEl}>
-          <Select
-            value={(value as string) ?? ''}
-            onValueChange={(v) => onChange(v)}
-          >
+          <Select value={(value as string) ?? ''} onValueChange={(v) => onChange(v)}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione" />
             </SelectTrigger>
@@ -465,11 +436,7 @@ function QuestionField({
                       : 'border-(color:--color-border) bg-(color:--color-surface) hover:bg-(color:--color-muted)',
                   )}
                 >
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={() => toggle(o.value)}
-                  />
+                  <input type="checkbox" checked={checked} onChange={() => toggle(o.value)} />
                   {o.label}
                 </label>
               );

@@ -1,6 +1,6 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { brl, formatDate, maskPhoneDisplay } from '@/lib/format';
+import { formatDate, maskPhoneDisplay } from '@/lib/format';
 import { useAdminPersonFull } from '@/lib/queries/persons';
+import { Link, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/pessoas/$id')({
   component: PessoaDetalhe,
@@ -44,10 +44,7 @@ function PessoaDetalhe() {
 
       <Section title="Dados pessoais">
         <Field label="CPF" value={person.cpf ?? '—'} mono />
-        <Field
-          label="Nascimento"
-          value={person.birthDate ? formatDate(person.birthDate) : '—'}
-        />
+        <Field label="Nascimento" value={person.birthDate ? formatDate(person.birthDate) : '—'} />
         <Field
           label="Gênero"
           value={
@@ -64,20 +61,13 @@ function PessoaDetalhe() {
       <Section title="Endereço">
         <Field
           label="Logradouro"
-          value={
-            [person.street, person.addressNumber].filter(Boolean).join(', ') ||
-            '—'
-          }
+          value={[person.street, person.addressNumber].filter(Boolean).join(', ') || '—'}
         />
         <Field label="Bairro" value={person.neighborhood ?? '—'} />
         <Field label="CEP" value={person.zipCode ?? '—'} mono />
         <Field
           label="Cidade/UF"
-          value={
-            person.city
-              ? `${person.city}${person.state ? `/${person.state}` : ''}`
-              : '—'
-          }
+          value={person.city ? `${person.city}${person.state ? `/${person.state}` : ''}` : '—'}
         />
       </Section>
 
@@ -87,10 +77,7 @@ function PessoaDetalhe() {
         ) : (
           <ul className="grid gap-2">
             {contacts.map((c) => (
-              <li
-                key={c.id}
-                className="rounded-md border bg-background p-3 text-sm"
-              >
+              <li key={c.id} className="rounded-md border bg-background p-3 text-sm">
                 <p className="font-medium">{c.name}</p>
                 <p className="text-xs text-muted-foreground">
                   {c.relationship} · {maskPhoneDisplay(c.phone)}
@@ -110,7 +97,7 @@ function PessoaDetalhe() {
             label="Doença crônica"
             value={
               (health.hasChronicDisease as boolean | undefined)
-                ? (health.chronicDiseaseDetail as string | null) ?? 'Sim'
+                ? ((health.chronicDiseaseDetail as string | null) ?? 'Sim')
                 : 'Não'
             }
           />
@@ -118,7 +105,7 @@ function PessoaDetalhe() {
             label="Alergia"
             value={
               (health.hasAllergy as boolean | undefined)
-                ? (health.allergyDetail as string | null) ?? 'Sim'
+                ? ((health.allergyDetail as string | null) ?? 'Sim')
                 : 'Não'
             }
           />
@@ -126,7 +113,7 @@ function PessoaDetalhe() {
             label="Restrição alimentar"
             value={
               (health.hasDietaryRestriction as boolean | undefined)
-                ? (health.dietaryRestrictionDetail as string | null) ?? 'Sim'
+                ? ((health.dietaryRestrictionDetail as string | null) ?? 'Sim')
                 : 'Não'
             }
           />
@@ -140,11 +127,7 @@ function PessoaDetalhe() {
           />
           <Field
             label="Última revisão"
-            value={
-              health.lastReviewedAt
-                ? formatDate(health.lastReviewedAt as string)
-                : '—'
-            }
+            value={health.lastReviewedAt ? formatDate(health.lastReviewedAt as string) : '—'}
           />
         </Section>
       )}
@@ -153,18 +136,13 @@ function PessoaDetalhe() {
         <Section title="Vida de fé">
           <Field label="Religião" value={(faith?.religion as string | null) ?? '—'} />
           <Field label="Paróquia" value={(faith?.parish as string | null) ?? '—'} />
-          <Field
-            label="Grupo / pastoral"
-            value={(faith?.groupName as string | null) ?? '—'}
-          />
+          <Field label="Grupo / pastoral" value={(faith?.groupName as string | null) ?? '—'} />
           <Field
             label="Sacramentos"
             value={
               sacraments.length > 0
                 ? sacraments
-                    .map((s) =>
-                      s === 'uncao_enfermos' ? 'Unção dos enfermos' : s,
-                    )
+                    .map((s) => (s === 'uncao_enfermos' ? 'Unção dos enfermos' : s))
                     .join(', ')
                 : '—'
             }
@@ -183,8 +161,7 @@ function PessoaDetalhe() {
               >
                 <div>
                   <p className="font-medium">
-                    {p.campEdition}º acampamento{' '}
-                    {p.campYear ? `· ${p.campYear}` : ''}
+                    {p.campEdition}º acampamento {p.campYear ? `· ${p.campYear}` : ''}
                   </p>
                   <p className="text-xs text-muted-foreground capitalize">
                     {p.role === 'lider'
@@ -206,8 +183,7 @@ function PessoaDetalhe() {
       )}
 
       <p className="text-xs text-muted-foreground pt-2">
-        Cadastro:{' '}
-        {formatDate(person.createdAt)}
+        Cadastro: {formatDate(person.createdAt)}
         {' · Última atualização: '}
         {formatDate(person.updatedAt)}
       </p>
@@ -225,9 +201,7 @@ function Section({
   return (
     <section className="rounded-lg border bg-card p-5">
       <h2 className="font-serif text-lg mb-4">{title}</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
-        {children}
-      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">{children}</div>
     </section>
   );
 }
@@ -245,9 +219,7 @@ function Field({
 }) {
   return (
     <div className={wide ? 'col-span-full' : ''}>
-      <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
-        {label}
-      </p>
+      <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</p>
       <p className={`text-sm mt-0.5 ${mono ? 'font-mono' : ''}`}>{value}</p>
     </div>
   );

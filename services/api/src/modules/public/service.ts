@@ -50,15 +50,9 @@ export const publicService = {
         },
       })
       .from(schema.galleryAlbums)
-      .leftJoin(
-        schema.events,
-        eq(schema.galleryAlbums.eventId, schema.events.id),
-      )
+      .leftJoin(schema.events, eq(schema.galleryAlbums.eventId, schema.events.id))
       .where(eq(schema.galleryAlbums.published, true))
-      .orderBy(
-        asc(schema.galleryAlbums.sortOrder),
-        asc(schema.galleryAlbums.name),
-      );
+      .orderBy(asc(schema.galleryAlbums.sortOrder), asc(schema.galleryAlbums.name));
 
     if (rows.length === 0) return [];
 
@@ -91,16 +85,8 @@ export const publicService = {
         },
       })
       .from(schema.galleryAlbums)
-      .leftJoin(
-        schema.events,
-        eq(schema.galleryAlbums.eventId, schema.events.id),
-      )
-      .where(
-        and(
-          eq(schema.galleryAlbums.slug, slug),
-          eq(schema.galleryAlbums.published, true),
-        ),
-      )
+      .leftJoin(schema.events, eq(schema.galleryAlbums.eventId, schema.events.id))
+      .where(and(eq(schema.galleryAlbums.slug, slug), eq(schema.galleryAlbums.published, true)))
       .limit(1);
     if (!row) return null;
 
@@ -108,10 +94,7 @@ export const publicService = {
       .select()
       .from(schema.galleryPhotos)
       .where(eq(schema.galleryPhotos.albumId, row.album.id))
-      .orderBy(
-        asc(schema.galleryPhotos.sortOrder),
-        asc(schema.galleryPhotos.createdAt),
-      );
+      .orderBy(asc(schema.galleryPhotos.sortOrder), asc(schema.galleryPhotos.createdAt));
 
     return {
       ...row.album,

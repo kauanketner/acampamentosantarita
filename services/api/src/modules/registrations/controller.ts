@@ -51,11 +51,7 @@ export const registrationsController = {
     if (!personId) return;
     const parsed = createRegistrationSchema.parse(req.body);
     try {
-      const registration = await registrationsService.create(
-        req.server.db,
-        personId,
-        parsed,
-      );
+      const registration = await registrationsService.create(req.server.db, personId, parsed);
       reply.code(201);
       return registration;
     } catch (e) {
@@ -87,11 +83,7 @@ export const registrationsController = {
         reply.code(401).send({ error: 'UNAUTHORIZED' });
         return;
       }
-      return await registrationsService.getById(
-        req.server.db,
-        id,
-        req.user.personId,
-      );
+      return await registrationsService.getById(req.server.db, id, req.user.personId);
     } catch (e) {
       if (e instanceof RegistrationError) return sendError(reply, e);
       throw e;
@@ -115,12 +107,7 @@ export const registrationsController = {
         return;
       }
       const parsed = cancelRegistrationSchema.parse(req.body ?? {});
-      return await registrationsService.cancel(
-        req.server.db,
-        id,
-        req.user.personId,
-        parsed,
-      );
+      return await registrationsService.cancel(req.server.db, id, req.user.personId, parsed);
     } catch (e) {
       if (e instanceof RegistrationError) return sendError(reply, e);
       throw e;
@@ -131,11 +118,7 @@ export const registrationsController = {
     if (!requireAdmin(req, reply)) return;
     const { id } = req.params as { id: string };
     try {
-      return await registrationsService.approve(
-        req.server.db,
-        id,
-        req.user!.id,
-      );
+      return await registrationsService.approve(req.server.db, id, req.user!.id);
     } catch (e) {
       if (e instanceof RegistrationError) return sendError(reply, e);
       throw e;

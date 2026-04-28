@@ -1,16 +1,12 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { Badge, type Tone } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { TBody, TD, TH, THead, TR, Table } from '@/components/ui/Table';
 import { Toolbar, ToolbarSearch } from '@/components/ui/Toolbar';
-import { Table, THead, TH, TBody, TR, TD } from '@/components/ui/Table';
 import { maskPhoneDisplay } from '@/lib/format';
-import {
-  type AdminPersonRow,
-  type AdminRole,
-  useAdminPersons,
-} from '@/lib/queries/persons';
+import { type AdminPersonRow, type AdminRole, useAdminPersons } from '@/lib/queries/persons';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/pessoas/')({
   component: PessoasIndex,
@@ -26,9 +22,7 @@ const roleInfo: Record<AdminRole, { label: string; tone: Tone }> = {
 
 function PessoasIndex() {
   const [search, setSearch] = useState('');
-  const { data, isLoading, isError } = useAdminPersons(
-    search.length >= 2 ? search : undefined,
-  );
+  const { data, isLoading, isError } = useAdminPersons(search.length >= 2 ? search : undefined);
 
   return (
     <div className="px-8 py-8 max-w-7xl space-y-6">
@@ -46,11 +40,7 @@ function PessoasIndex() {
         />
       </Toolbar>
 
-      {isLoading && (
-        <p className="text-sm text-(color:--color-muted-foreground)">
-          Carregando…
-        </p>
-      )}
+      {isLoading && <p className="text-sm text-(color:--color-muted-foreground)">Carregando…</p>}
 
       {isError && (
         <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) px-4 py-3 text-sm text-(color:--color-danger)">
@@ -132,16 +122,12 @@ function PersonRow({ person }: { person: AdminPersonRow }) {
           {person.mobilePhone ? maskPhoneDisplay(person.mobilePhone) : '—'}
         </p>
         {person.user?.email && (
-          <p className="text-[11px] text-(color:--color-subtle) mt-0.5">
-            {person.user.email}
-          </p>
+          <p className="text-[11px] text-(color:--color-subtle) mt-0.5">{person.user.email}</p>
         )}
       </TD>
       <TD className="text-(color:--color-muted-foreground)">
         {person.city ?? '—'}
-        {person.state && (
-          <span className="text-(color:--color-subtle)">/{person.state}</span>
-        )}
+        {person.state && <span className="text-(color:--color-subtle)">/{person.state}</span>}
       </TD>
       <TD>
         {role ? (

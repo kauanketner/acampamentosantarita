@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { cn } from '@/lib/cn';
+import { useState } from 'react';
 
 type Props = {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';

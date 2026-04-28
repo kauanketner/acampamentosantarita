@@ -1,5 +1,3 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody } from '@/components/ui/Card';
@@ -14,6 +12,8 @@ import {
   usePendingRegistrations,
   useRejectRegistration,
 } from '@/lib/queries/registrations';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/inscricoes/')({
   component: InscricoesIndex,
@@ -30,11 +30,7 @@ function InscricoesIndex() {
         description="Aprovações aguardando coordenação. Cuide com calma — cada nome é uma alma."
       />
 
-      {isLoading && (
-        <p className="text-sm text-(color:--color-muted-foreground)">
-          Carregando…
-        </p>
-      )}
+      {isLoading && <p className="text-sm text-(color:--color-muted-foreground)">Carregando…</p>}
 
       {isError && (
         <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) px-4 py-3 text-sm text-(color:--color-danger)">
@@ -110,8 +106,10 @@ function PendingCard({ reg }: { reg: PendingRegistration }) {
       <CardBody className="flex flex-wrap items-start gap-5">
         <div className="flex-1 min-w-[260px] space-y-1.5">
           <div className="flex items-baseline gap-2 flex-wrap">
-            <p className="font-display text-lg leading-tight tracking-tight"
-               style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}>
+            <p
+              className="font-display text-lg leading-tight tracking-tight"
+              style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}
+            >
               {reg.person.fullName}
             </p>
             <Badge tone={reg.roleIntent === 'campista' ? 'primary' : 'accent'} size="sm">
@@ -121,9 +119,7 @@ function PendingCard({ reg }: { reg: PendingRegistration }) {
 
           <p className="text-[12px] text-(color:--color-muted-foreground) flex items-center gap-2 flex-wrap">
             <span className="font-mono tabular-nums">
-              {reg.person.mobilePhone
-                ? maskPhoneDisplay(reg.person.mobilePhone)
-                : '—'}
+              {reg.person.mobilePhone ? maskPhoneDisplay(reg.person.mobilePhone) : '—'}
             </span>
             {reg.priceAmount && (
               <>
@@ -155,9 +151,7 @@ function PendingCard({ reg }: { reg: PendingRegistration }) {
               year: 'numeric',
             })}
           </p>
-          {error && (
-            <p className="text-xs text-(color:--color-danger) mt-1.5">{error}</p>
-          )}
+          {error && <p className="text-xs text-(color:--color-danger) mt-1.5">{error}</p>}
         </div>
 
         <div className="flex flex-col gap-2 items-end">
@@ -174,12 +168,7 @@ function PendingCard({ reg }: { reg: PendingRegistration }) {
                 className="text-xs"
               />
               <div className="flex items-center gap-2">
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={onReject}
-                  disabled={reject.isPending}
-                >
+                <Button variant="danger" size="sm" onClick={onReject} disabled={reject.isPending}>
                   {reject.isPending ? '…' : 'Confirmar'}
                 </Button>
                 <button
@@ -213,10 +202,7 @@ function PendingCard({ reg }: { reg: PendingRegistration }) {
                 Rejeitar
               </Button>
               <Button variant="secondary" size="sm" asChild>
-                <Link
-                  to="/eventos/$id/inscricoes"
-                  params={{ id: reg.event.id }}
-                >
+                <Link to="/eventos/$id/inscricoes" params={{ id: reg.event.id }}>
                   Abrir no evento →
                 </Link>
               </Button>

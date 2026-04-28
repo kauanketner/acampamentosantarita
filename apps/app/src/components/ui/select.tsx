@@ -1,7 +1,7 @@
+import { cn } from '@/lib/cn';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { Check, ChevronDown } from 'lucide-react';
 import * as React from 'react';
-import { cn } from '@/lib/cn';
 
 export const Select = SelectPrimitive.Root;
 export const SelectValue = SelectPrimitive.Value;
@@ -55,8 +55,7 @@ export const SelectContent = React.forwardRef<
       <SelectPrimitive.Viewport
         className={cn(
           'p-1.5 max-h-[inherit] overflow-y-auto',
-          position === 'popper' &&
-            'w-full min-w-[var(--radix-select-trigger-width)]',
+          position === 'popper' && 'w-full min-w-[var(--radix-select-trigger-width)]',
         )}
       >
         {children}

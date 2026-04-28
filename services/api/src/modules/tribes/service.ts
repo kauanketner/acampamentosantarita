@@ -265,18 +265,13 @@ export const tribesService = {
       .select({ id: schema.tribeMembers.id })
       .from(schema.tribeMembers)
       .where(
-        and(
-          eq(schema.tribeMembers.tribeId, tribeId),
-          eq(schema.tribeMembers.personId, personId),
-        ),
+        and(eq(schema.tribeMembers.tribeId, tribeId), eq(schema.tribeMembers.personId, personId)),
       )
       .limit(1);
     if (!existing) {
       throw new TribeError('NOT_MEMBER', 'Pessoa não está nesta tribo.');
     }
-    await db
-      .delete(schema.tribeMembers)
-      .where(eq(schema.tribeMembers.id, existing.id));
+    await db.delete(schema.tribeMembers).where(eq(schema.tribeMembers.id, existing.id));
   },
 
   // Admin libera a revelação pra todos os membros das tribos do evento.

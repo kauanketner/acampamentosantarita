@@ -26,13 +26,7 @@ export type Person = {
   gender: 'masculino' | 'feminino' | null;
   birthDate: string | null;
   cpf: string | null;
-  maritalStatus:
-    | 'solteiro'
-    | 'casado'
-    | 'divorciado'
-    | 'viuvo'
-    | 'uniao_estavel'
-    | null;
+  maritalStatus: 'solteiro' | 'casado' | 'divorciado' | 'viuvo' | 'uniao_estavel' | null;
   heightCm: number | null;
   weightKg: string | null;
   shirtSize: 'PP' | 'P' | 'M' | 'G' | 'GG' | 'XGG' | null;
@@ -87,13 +81,7 @@ export type UpdateProfileInput = {
   gender?: 'masculino' | 'feminino' | null;
   birthDate?: string | null;
   cpf?: string | null;
-  maritalStatus?:
-    | 'solteiro'
-    | 'casado'
-    | 'divorciado'
-    | 'viuvo'
-    | 'uniao_estavel'
-    | null;
+  maritalStatus?: 'solteiro' | 'casado' | 'divorciado' | 'viuvo' | 'uniao_estavel' | null;
   heightCm?: number | null;
   weightKg?: number | null;
   shirtSize?: 'PP' | 'P' | 'M' | 'G' | 'GG' | 'XGG' | null;
@@ -131,7 +119,7 @@ export function useUploadAvatar() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (file: File) =>
-      apiUpload<{ avatarUrl: string }>(`/v1/persons/me/avatar`, file, 'file'),
+      apiUpload<{ avatarUrl: string }>('/v1/persons/me/avatar', file, 'file'),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: PROFILE_KEY });
       qc.invalidateQueries({ queryKey: authQueryKey });

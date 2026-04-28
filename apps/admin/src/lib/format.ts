@@ -35,8 +35,18 @@ export function brl(value: number | string | null | undefined): string {
 }
 
 const MONTHS_SHORT = [
-  'jan', 'fev', 'mar', 'abr', 'mai', 'jun',
-  'jul', 'ago', 'set', 'out', 'nov', 'dez',
+  'jan',
+  'fev',
+  'mar',
+  'abr',
+  'mai',
+  'jun',
+  'jul',
+  'ago',
+  'set',
+  'out',
+  'nov',
+  'dez',
 ];
 
 function parseDate(iso: string): Date {
@@ -56,8 +66,7 @@ export function formatDateRange(startIso: string, endIso: string): string {
   const start = parseDate(startIso);
   const end = parseDate(endIso);
   const sameMonth =
-    start.getFullYear() === end.getFullYear() &&
-    start.getMonth() === end.getMonth();
+    start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth();
   const year = end.getFullYear();
   if (sameMonth) {
     return `${start.getDate()}–${end.getDate()} de ${MONTHS_SHORT[start.getMonth()]} · ${year}`;

@@ -1,13 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useMemo, useState } from 'react';
 import { Badge, type Tone } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Field, Input, Select } from '@/components/ui/Input';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Stat } from '@/components/ui/Stat';
+import { TBody, TD, TH, THead, TR, Table } from '@/components/ui/Table';
 import { Toolbar, ToolbarSearch } from '@/components/ui/Toolbar';
-import { Table, THead, TH, TBody, TR, TD } from '@/components/ui/Table';
 import { ApiError } from '@/lib/api';
 import { brl, formatDate, maskPhoneDisplay } from '@/lib/format';
 import {
@@ -20,6 +18,8 @@ import {
   useDeletePayment,
   useRecordCashPayment,
 } from '@/lib/queries/finance';
+import { createFileRoute } from '@tanstack/react-router';
+import { useMemo, useState } from 'react';
 
 export const Route = createFileRoute('/_app/financeiro/faturas')({
   component: Faturas,
@@ -43,9 +43,7 @@ const typeLabel: Record<AdminInvoice['type'], string> = {
 
 function Faturas() {
   const { data, isLoading, isError } = useAdminInvoices();
-  const [statusFilter, setStatusFilter] = useState<'all' | InvoiceStatus>(
-    'all',
-  );
+  const [statusFilter, setStatusFilter] = useState<'all' | InvoiceStatus>('all');
   const [search, setSearch] = useState('');
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -94,16 +92,10 @@ function Faturas() {
       </section>
 
       <Toolbar>
-        <ToolbarSearch
-          value={search}
-          onChange={setSearch}
-          placeholder="Buscar por nome…"
-        />
+        <ToolbarSearch value={search} onChange={setSearch} placeholder="Buscar por nome…" />
         <Select
           value={statusFilter}
-          onChange={(e) =>
-            setStatusFilter(e.target.value as 'all' | InvoiceStatus)
-          }
+          onChange={(e) => setStatusFilter(e.target.value as 'all' | InvoiceStatus)}
           className="w-48"
         >
           <option value="all">Todos status</option>
@@ -115,11 +107,7 @@ function Faturas() {
         </Select>
       </Toolbar>
 
-      {isLoading && (
-        <p className="text-sm text-(color:--color-muted-foreground)">
-          Carregando…
-        </p>
-      )}
+      {isLoading && <p className="text-sm text-(color:--color-muted-foreground)">Carregando…</p>}
 
       {isError && (
         <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) px-4 py-3 text-sm text-(color:--color-danger)">
@@ -148,11 +136,7 @@ function Faturas() {
               />
             </svg>
           }
-          title={
-            data.length === 0
-              ? 'Sem faturas ainda'
-              : 'Nenhuma fatura corresponde ao filtro'
-          }
+          title={data.length === 0 ? 'Sem faturas ainda' : 'Nenhuma fatura corresponde ao filtro'}
           description={
             data.length === 0
               ? 'Faturas são criadas automaticamente quando alguém se inscreve com pagamento ou compra no PDV.'
@@ -178,9 +162,7 @@ function Faturas() {
                 key={inv.id}
                 invoice={inv}
                 open={openId === inv.id}
-                onToggle={() =>
-                  setOpenId(openId === inv.id ? null : inv.id)
-                }
+                onToggle={() => setOpenId(openId === inv.id ? null : inv.id)}
               />
             ))}
           </TBody>
@@ -210,9 +192,7 @@ function InvoiceRow({
         <TD>
           <p className="font-medium leading-tight">{invoice.person.fullName}</p>
           <p className="text-[11px] text-(color:--color-muted-foreground) mt-0.5 font-mono tabular-nums">
-            {invoice.person.mobilePhone
-              ? maskPhoneDisplay(invoice.person.mobilePhone)
-              : '—'}
+            {invoice.person.mobilePhone ? maskPhoneDisplay(invoice.person.mobilePhone) : '—'}
           </p>
           {invoice.description && (
             <p className="text-[11px] text-(color:--color-muted-foreground) mt-1 max-w-md">
@@ -220,9 +200,7 @@ function InvoiceRow({
             </p>
           )}
         </TD>
-        <TD className="text-(color:--color-muted-foreground)">
-          {typeLabel[invoice.type]}
-        </TD>
+        <TD className="text-(color:--color-muted-foreground)">{typeLabel[invoice.type]}</TD>
         <TD align="right" className="whitespace-nowrap font-mono tabular-nums">
           <p>{brl(total)}</p>
           <p className="text-[11px] text-(color:--color-muted-foreground) mt-0.5">
@@ -272,18 +250,13 @@ function InvoiceDetail({ invoiceId }: { invoiceId: string }) {
   });
 
   if (isLoading || !data) {
-    return (
-      <p className="text-xs text-(color:--color-muted-foreground)">
-        Carregando…
-      </p>
-    );
+    return <p className="text-xs text-(color:--color-muted-foreground)">Carregando…</p>;
   }
 
   const total = Number(data.amount);
   const paid = Number(data.paidAmount);
   const remaining = Math.max(0, total - paid);
-  const canRegister =
-    remaining > 0 && data.status !== 'cancelado' && data.status !== 'reembolsado';
+  const canRegister = remaining > 0 && data.status !== 'cancelado' && data.status !== 'reembolsado';
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -300,22 +273,17 @@ function InvoiceDetail({ invoiceId }: { invoiceId: string }) {
       });
       setForm({ amount: '', method: form.method ?? 'pix', notes: '' });
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível registrar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível registrar.');
     }
   };
 
   const onDeletePayment = async (paymentId: string) => {
-    if (!confirm('Excluir este pagamento? O saldo da fatura é recalculado.'))
-      return;
+    if (!confirm('Excluir este pagamento? O saldo da fatura é recalculado.')) return;
     setError(null);
     try {
       await remove.mutateAsync(paymentId);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível excluir.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   };
 
@@ -380,9 +348,7 @@ function InvoiceDetail({ invoiceId }: { invoiceId: string }) {
                 min={0}
                 max={remaining}
                 value={form.amount}
-                onChange={(e) =>
-                  setForm((s) => ({ ...s, amount: e.target.value }))
-                }
+                onChange={(e) => setForm((s) => ({ ...s, amount: e.target.value }))}
                 placeholder={remaining.toFixed(2)}
                 required
               />
@@ -409,18 +375,12 @@ function InvoiceDetail({ invoiceId }: { invoiceId: string }) {
             <Input
               type="text"
               value={form.notes ?? ''}
-              onChange={(e) =>
-                setForm((s) => ({ ...s, notes: e.target.value }))
-              }
+              onChange={(e) => setForm((s) => ({ ...s, notes: e.target.value }))}
               placeholder="Quem recebeu, comprovante etc."
             />
           </Field>
           {error && <p className="text-xs text-(color:--color-danger)">{error}</p>}
-          <Button
-            type="submit"
-            size="sm"
-            disabled={record.isPending || !form.amount}
-          >
+          <Button type="submit" size="sm" disabled={record.isPending || !form.amount}>
             {record.isPending ? 'Registrando…' : 'Registrar pagamento'}
           </Button>
         </form>

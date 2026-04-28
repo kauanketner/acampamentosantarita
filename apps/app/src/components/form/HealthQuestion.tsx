@@ -1,6 +1,5 @@
-import type * as React from 'react';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/cn';
 
 type Props = {

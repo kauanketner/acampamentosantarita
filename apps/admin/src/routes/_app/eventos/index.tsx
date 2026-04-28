@@ -1,14 +1,14 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { useMemo, useState } from 'react';
 import { Badge, type Tone } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageHeader } from '@/components/ui/PageHeader';
-import { Toolbar, ToolbarSearch } from '@/components/ui/Toolbar';
-import { Table, THead, TH, TBody, TR, TD } from '@/components/ui/Table';
 import { Select } from '@/components/ui/Input';
-import { type AdminEvent, type EventStatus, useAdminEvents } from '@/lib/queries/events';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { TBody, TD, TH, THead, TR, Table } from '@/components/ui/Table';
+import { Toolbar, ToolbarSearch } from '@/components/ui/Toolbar';
 import { formatDateRange } from '@/lib/format';
+import { type AdminEvent, type EventStatus, useAdminEvents } from '@/lib/queries/events';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { useMemo, useState } from 'react';
 
 export const Route = createFileRoute('/_app/eventos/')({
   component: EventosIndex,
@@ -56,12 +56,7 @@ function EventosIndex() {
         actions={
           <Button asChild>
             <Link to="/eventos/novo">
-              <svg
-                viewBox="0 0 12 12"
-                fill="none"
-                aria-hidden
-                className="size-3"
-              >
+              <svg viewBox="0 0 12 12" fill="none" aria-hidden className="size-3">
                 <path
                   d="M6 1.5V10.5M1.5 6H10.5"
                   stroke="currentColor"
@@ -95,11 +90,7 @@ function EventosIndex() {
         </Select>
       </Toolbar>
 
-      {isLoading && (
-        <p className="text-sm text-(color:--color-muted-foreground)">
-          Carregando…
-        </p>
-      )}
+      {isLoading && <p className="text-sm text-(color:--color-muted-foreground)">Carregando…</p>}
 
       {isError && (
         <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) px-4 py-3 text-sm text-(color:--color-danger)">
@@ -129,9 +120,7 @@ function EventosIndex() {
             </svg>
           }
           title={
-            events.length === 0
-              ? 'Nenhum evento ainda'
-              : 'Nenhum evento corresponde ao filtro'
+            events.length === 0 ? 'Nenhum evento ainda' : 'Nenhum evento corresponde ao filtro'
           }
           description={
             events.length === 0

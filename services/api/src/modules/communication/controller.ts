@@ -1,8 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import {
-  createAnnouncementSchema,
-  updateAnnouncementSchema,
-} from './schemas.ts';
+import { createAnnouncementSchema, updateAnnouncementSchema } from './schemas.ts';
 import { AnnouncementError, communicationService } from './service.ts';
 
 const notImplemented = (_req: FastifyRequest, reply: FastifyReply) =>
@@ -13,9 +10,7 @@ const ERROR_TO_STATUS: Record<AnnouncementError['code'], number> = {
 };
 
 function sendError(reply: FastifyReply, e: AnnouncementError) {
-  reply
-    .code(ERROR_TO_STATUS[e.code] ?? 400)
-    .send({ error: e.code, message: e.message });
+  reply.code(ERROR_TO_STATUS[e.code] ?? 400).send({ error: e.code, message: e.message });
 }
 
 function requireAdmin(req: FastifyRequest, reply: FastifyReply): boolean {
@@ -33,9 +28,7 @@ function requireAdmin(req: FastifyRequest, reply: FastifyReply): boolean {
 export const communicationController = {
   // GET /v1/communication/announcements — lista publicados (visível pro app).
   async listAnnouncements(req: FastifyRequest) {
-    const items = await communicationService.listPublishedAnnouncements(
-      req.server.db,
-    );
+    const items = await communicationService.listPublishedAnnouncements(req.server.db);
     return { items };
   },
 
@@ -48,11 +41,7 @@ export const communicationController = {
   async createAnnouncement(req: FastifyRequest, reply: FastifyReply) {
     if (!requireAdmin(req, reply)) return;
     const parsed = createAnnouncementSchema.parse(req.body);
-    const created = await communicationService.create(
-      req.server.db,
-      parsed,
-      req.user!.id,
-    );
+    const created = await communicationService.create(req.server.db, parsed, req.user!.id);
     reply.code(201);
     return created;
   },
@@ -62,12 +51,7 @@ export const communicationController = {
     const { id } = req.params as { id: string };
     const parsed = updateAnnouncementSchema.parse(req.body);
     try {
-      return await communicationService.update(
-        req.server.db,
-        id,
-        parsed,
-        req.user!.id,
-      );
+      return await communicationService.update(req.server.db, id, parsed, req.user!.id);
     } catch (e) {
       if (e instanceof AnnouncementError) return sendError(reply, e);
       throw e;

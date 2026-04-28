@@ -1,12 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { Plus, Trash2 } from 'lucide-react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
+import { Card, CardBody } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardBody } from '@/components/ui/card';
 import { MaskedInput } from '@/components/ui/masked-input';
 import { useCadastroStore } from '@/lib/cadastro-store';
+import { createFileRoute } from '@tanstack/react-router';
+import { Plus, Trash2 } from 'lucide-react';
 
 export const Route = createFileRoute('/cadastro/veterano/passo-3')({
   component: PassoTres,
@@ -17,9 +17,15 @@ function PassoTres() {
   const set = useCadastroStore((s) => s.set);
 
   const updateContact = (id: string, patch: Partial<(typeof contacts)[number]>) =>
-    set('emergencyContacts', contacts.map((c) => (c.id === id ? { ...c, ...patch } : c)));
+    set(
+      'emergencyContacts',
+      contacts.map((c) => (c.id === id ? { ...c, ...patch } : c)),
+    );
   const remove = (id: string) =>
-    set('emergencyContacts', contacts.filter((c) => c.id !== id));
+    set(
+      'emergencyContacts',
+      contacts.filter((c) => c.id !== id),
+    );
   const add = () =>
     set('emergencyContacts', [
       ...contacts,
@@ -71,9 +77,7 @@ function PassoTres() {
                   <Field label={<Label>Parentesco</Label>}>
                     <Input
                       value={c.relationship}
-                      onChange={(e) =>
-                        updateContact(c.id, { relationship: e.target.value })
-                      }
+                      onChange={(e) => updateContact(c.id, { relationship: e.target.value })}
                       placeholder="mãe"
                     />
                   </Field>

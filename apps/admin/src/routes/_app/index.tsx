@@ -1,13 +1,13 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardBody } from '@/components/ui/Card';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Stat } from '@/components/ui/Stat';
 import { useSession } from '@/lib/auth';
-import { useDashboardKPIs } from '@/lib/queries/reports';
-import { useAdminEvents } from '@/lib/queries/events';
 import { brl, formatDateRange } from '@/lib/format';
+import { useAdminEvents } from '@/lib/queries/events';
 import { usePendingRegistrations } from '@/lib/queries/registrations';
+import { useDashboardKPIs } from '@/lib/queries/reports';
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/')({
   component: DashboardPage,
@@ -20,8 +20,7 @@ function DashboardPage() {
   const { data: pending } = usePendingRegistrations();
   const navigate = useNavigate();
 
-  const firstName =
-    session?.person?.fullName.split(' ').filter(Boolean)[0] ?? '';
+  const firstName = session?.person?.fullName.split(' ').filter(Boolean)[0] ?? '';
 
   const next = events?.find(
     (e) =>
@@ -83,18 +82,14 @@ function DashboardPage() {
         <Stat
           label="Inscrições pendentes"
           value={kpis?.pendingRegistrations ?? '—'}
-          tone={
-            kpis && kpis.pendingRegistrations > 0 ? 'warning' : 'neutral'
-          }
+          tone={kpis && kpis.pendingRegistrations > 0 ? 'warning' : 'neutral'}
           onClick={() => navigate({ to: '/inscricoes' })}
         />
         <Stat
           label="Faturas em aberto"
           value={brl(Number(kpis?.openInvoicesAmount ?? 0))}
           hint={`${kpis?.openInvoicesCount ?? '—'} ${kpis?.openInvoicesCount === 1 ? 'fatura' : 'faturas'}`}
-          tone={
-            kpis && Number(kpis.openInvoicesAmount) > 0 ? 'warning' : 'success'
-          }
+          tone={kpis && Number(kpis.openInvoicesAmount) > 0 ? 'warning' : 'success'}
           onClick={() => navigate({ to: '/financeiro/faturas' })}
         />
       </section>
@@ -111,10 +106,7 @@ function DashboardPage() {
                 </p>
                 <p className="text-sm text-(color:--color-muted-foreground) mt-3">
                   Nenhum evento ativo agora. Crie um em{' '}
-                  <Link
-                    to="/eventos/novo"
-                    className="text-(color:--color-primary) underline"
-                  >
+                  <Link to="/eventos/novo" className="text-(color:--color-primary) underline">
                     Eventos → Novo
                   </Link>
                   .
@@ -139,9 +131,7 @@ function DashboardPage() {
                 </Link>
               </div>
               {pending && pending.length === 0 ? (
-                <p className="text-sm text-(color:--color-muted-foreground)">
-                  Nenhuma pendente 🌿
-                </p>
+                <p className="text-sm text-(color:--color-muted-foreground)">Nenhuma pendente 🌿</p>
               ) : (
                 <ul className="space-y-2.5">
                   {(pending ?? []).slice(0, 4).map((r) => (
@@ -151,9 +141,7 @@ function DashboardPage() {
                         params={{ id: r.event.id }}
                         className="block hover:bg-(color:--color-surface-2)/40 -mx-2 px-2 py-1.5 rounded-(--radius-sm) transition-colors"
                       >
-                        <p className="font-medium leading-tight">
-                          {r.person.fullName}
-                        </p>
+                        <p className="font-medium leading-tight">{r.person.fullName}</p>
                         <p className="text-[11px] text-(color:--color-muted-foreground) mt-0.5">
                           {r.event.name} · {r.roleIntent}
                         </p>
@@ -175,7 +163,10 @@ function NextEventCard({
 }: {
   event: NonNullable<ReturnType<typeof useAdminEvents>['data']>[number];
 }) {
-  const statusInfo: Record<typeof event.status, { label: string; tone: 'success' | 'warning' | 'info' | 'neutral' }> = {
+  const statusInfo: Record<
+    typeof event.status,
+    { label: string; tone: 'success' | 'warning' | 'info' | 'neutral' }
+  > = {
     rascunho: { label: 'Rascunho', tone: 'neutral' },
     inscricoes_abertas: { label: 'Inscrições abertas', tone: 'success' },
     inscricoes_fechadas: { label: 'Inscrições fechadas', tone: 'warning' },
@@ -187,21 +178,14 @@ function NextEventCard({
 
   return (
     <Card className="relative">
-      <span
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-1 bg-(color:--color-primary)"
-      />
+      <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-(color:--color-primary)" />
       <CardBody className="space-y-4">
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div className="min-w-0">
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-(color:--color-muted-foreground)">
               Próximo evento
             </p>
-            <Link
-              to="/eventos/$id"
-              params={{ id: event.id }}
-              className="block mt-2 group"
-            >
+            <Link to="/eventos/$id" params={{ id: event.id }} className="block mt-2 group">
               <h2
                 className="font-display text-2xl tracking-tight leading-tight group-hover:text-(color:--color-primary) transition-colors"
                 style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
@@ -221,17 +205,10 @@ function NextEventCard({
           <Mini
             label="Inscritos"
             value={event.registrationCount}
-            hint={
-              event.pendingCount > 0
-                ? `${event.pendingCount} pendentes`
-                : undefined
-            }
+            hint={event.pendingCount > 0 ? `${event.pendingCount} pendentes` : undefined}
           />
           <Mini label="Aprovados" value={event.approvedCount} />
-          <Mini
-            label="Vagas"
-            value={event.maxParticipants ?? '∞'}
-          />
+          <Mini label="Vagas" value={event.maxParticipants ?? '∞'} />
         </div>
 
         <div className="flex flex-wrap gap-2 pt-1">
@@ -292,9 +269,7 @@ function Mini({
       >
         {value}
       </p>
-      {hint && (
-        <p className="text-[10px] text-(color:--color-warning) mt-0.5">{hint}</p>
-      )}
+      {hint && <p className="text-[10px] text-(color:--color-warning) mt-0.5">{hint}</p>}
     </div>
   );
 }

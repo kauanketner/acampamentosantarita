@@ -1,30 +1,20 @@
-import type * as React from 'react';
 import { cn } from '@/lib/cn';
+import type * as React from 'react';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   variant?: 'default' | 'soft' | 'ghost';
 };
 
 const variantClass: Record<NonNullable<Props['variant']>, string> = {
-  default:
-    'bg-(color:--color-surface) border border-(color:--color-border)',
+  default: 'bg-(color:--color-surface) border border-(color:--color-border)',
   soft: 'bg-(color:--color-surface-2) border border-(color:--color-border)',
   ghost: 'border border-dashed border-(color:--color-border-strong)',
 };
 
-export function Card({
-  className,
-  variant = 'default',
-  children,
-  ...props
-}: Props) {
+export function Card({ className, variant = 'default', children, ...props }: Props) {
   return (
     <div
-      className={cn(
-        'rounded-(--radius-lg) overflow-hidden',
-        variantClass[variant],
-        className,
-      )}
+      className={cn('rounded-(--radius-lg) overflow-hidden', variantClass[variant], className)}
       {...props}
     >
       {children}
@@ -38,20 +28,13 @@ export function CardHeader({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div
-      className={cn('px-5 py-4 border-b border-(color:--color-border)', className)}
-      {...props}
-    >
+    <div className={cn('px-5 py-4 border-b border-(color:--color-border)', className)} {...props}>
       {children}
     </div>
   );
 }
 
-export function CardBody({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function CardBody({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={cn('p-5', className)} {...props}>
       {children}
@@ -94,21 +77,14 @@ export function SectionTitle({
   className,
 }: SectionTitleProps) {
   return (
-    <div
-      className={cn(
-        'flex items-end justify-between gap-4 flex-wrap mb-3',
-        className,
-      )}
-    >
+    <div className={cn('flex items-end justify-between gap-4 flex-wrap mb-3', className)}>
       <div>
         {eyebrow && (
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-(color:--color-muted-foreground) mb-1">
             {eyebrow}
           </p>
         )}
-        <h2 className="font-display text-lg leading-tight tracking-tight">
-          {title}
-        </h2>
+        <h2 className="font-display text-lg leading-tight tracking-tight">{title}</h2>
         {description && (
           <p className="text-xs text-(color:--color-muted-foreground) mt-1 max-w-xl">
             {description}

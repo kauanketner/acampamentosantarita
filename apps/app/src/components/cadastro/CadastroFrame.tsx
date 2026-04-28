@@ -1,10 +1,10 @@
-import { Link } from '@tanstack/react-router';
-import type * as React from 'react';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
 import { Stepper } from '@/components/ui/stepper';
 import { cn } from '@/lib/cn';
+import { Link } from '@tanstack/react-router';
+import type * as React from 'react';
 
 type Props = {
   step: number;

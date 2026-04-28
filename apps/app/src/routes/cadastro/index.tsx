@@ -1,11 +1,11 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { motion } from 'motion/react';
-import { useEffect } from 'react';
-import { z } from 'zod';
 import { Logo } from '@/components/motif/Logo';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { useCadastroStore } from '@/lib/cadastro-store';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { motion } from 'motion/react';
+import { useEffect } from 'react';
+import { z } from 'zod';
 
 const searchSchema = z.object({
   phone: z.string().optional(),
@@ -44,8 +44,8 @@ function CadastroEscolha() {
           É a sua primeira <span className="font-display-italic">vez</span> aqui?
         </h1>
         <p className="mt-4 text-[15px] leading-relaxed text-(color:--color-muted-foreground) text-pretty">
-          A resposta muda como te recebemos. Quem volta tem mais um passo —
-          contar de quais acampamentos já participou.
+          A resposta muda como te recebemos. Quem volta tem mais um passo — contar de quais
+          acampamentos já participou.
         </p>
       </div>
 

@@ -1,8 +1,8 @@
-import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useEffect } from 'react';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Topbar } from '@/components/layout/Topbar';
 import { isAdminRole, useSession } from '@/lib/auth';
+import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 
 export const Route = createFileRoute('/_app')({
   component: AppLayout,

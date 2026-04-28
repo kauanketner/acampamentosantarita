@@ -21,11 +21,7 @@ export const healthController = {
       return;
     }
     const parsed = healthUpsertSchema.parse(req.body);
-    const data = await healthService.upsertMine(
-      req.server.db,
-      req.user.personId,
-      parsed,
-    );
+    const data = await healthService.upsertMine(req.server.db, req.user.personId, parsed);
     return data;
   },
 

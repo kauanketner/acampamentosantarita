@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { ApiError } from '@/lib/api';
 import {
   type Post,
@@ -9,6 +7,8 @@ import {
   useDeletePost,
   useUpdatePost,
 } from '@/lib/queries/cms';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/site/posts')({
   component: SitePosts,
@@ -21,7 +21,7 @@ function slugify(s: string): string {
   return s
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/\p{Mn}/gu, '')
     .replace(/[^a-z0-9\s-]/g, '')
     .trim()
     .replace(/\s+/g, '-')
@@ -41,8 +41,7 @@ function SitePosts() {
         <div>
           <h1 className="font-serif text-2xl">Posts (blog)</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Posts do blog do site público. Conteúdo em texto livre (markdown
-            funciona).
+            Posts do blog do site público. Conteúdo em texto livre (markdown funciona).
           </p>
         </div>
         {!creating && (
@@ -137,12 +136,8 @@ function PostRow({ post }: { post: Post }) {
               </span>
             )}
           </p>
-          <p className="text-xs text-muted-foreground mt-0.5 font-mono">
-            /{post.slug}
-          </p>
-          {post.excerpt && (
-            <p className="text-sm text-muted-foreground mt-1.5">{post.excerpt}</p>
-          )}
+          <p className="text-xs text-muted-foreground mt-0.5 font-mono">/{post.slug}</p>
+          {post.excerpt && <p className="text-sm text-muted-foreground mt-1.5">{post.excerpt}</p>}
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <button
@@ -206,10 +201,7 @@ function PostForm({
 }) {
   const create = useCreatePost();
   const update = useUpdatePost();
-  const tagsString =
-    post && Array.isArray(post.tags)
-      ? (post.tags as string[]).join(', ')
-      : '';
+  const tagsString = post && Array.isArray(post.tags) ? (post.tags as string[]).join(', ') : '';
 
   const [form, setForm] = useState({
     slug: post?.slug ?? '',
@@ -226,9 +218,7 @@ function PostForm({
   const isPublished = !!post?.publishedAt;
 
   const onTitleChange = (v: string) => {
-    setForm((s) =>
-      slugTouched ? { ...s, title: v } : { ...s, title: v, slug: slugify(v) },
-    );
+    setForm((s) => (slugTouched ? { ...s, title: v } : { ...s, title: v, slug: slugify(v) }));
   };
 
   const buildPayload = (publish: boolean): PostInput => ({
@@ -255,23 +245,18 @@ function PostForm({
       }
       onSaved();
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
-  const canSubmit =
-    form.title.trim().length >= 2 && form.slug.trim().length >= 2 && !isPending;
+  const canSubmit = form.title.trim().length >= 2 && form.slug.trim().length >= 2 && !isPending;
 
   return (
     <form
       onSubmit={(e) => submit(e, isPublished)}
       className="rounded-lg border bg-card p-5 space-y-3"
     >
-      <h2 className="font-serif text-lg">
-        {mode === 'create' ? 'Novo post' : 'Editar post'}
-      </h2>
+      <h2 className="font-serif text-lg">{mode === 'create' ? 'Novo post' : 'Editar post'}</h2>
       <label className="block">
         <span className="text-sm font-medium">Título</span>
         <input
@@ -300,9 +285,7 @@ function PostForm({
         <span className="text-sm font-medium">Resumo</span>
         <textarea
           value={form.excerpt}
-          onChange={(e) =>
-            setForm((s) => ({ ...s, excerpt: e.target.value }))
-          }
+          onChange={(e) => setForm((s) => ({ ...s, excerpt: e.target.value }))}
           rows={2}
           className={`mt-1 ${inputClass}`}
           placeholder="2-3 linhas que aparecem na lista do blog"
@@ -312,9 +295,7 @@ function PostForm({
         <span className="text-sm font-medium">Conteúdo</span>
         <textarea
           value={form.content}
-          onChange={(e) =>
-            setForm((s) => ({ ...s, content: e.target.value }))
-          }
+          onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))}
           rows={12}
           className={`mt-1 ${inputClass} font-mono text-xs`}
           placeholder="Markdown funciona — # Título, **negrito**, [link](url)…"
@@ -362,11 +343,7 @@ function PostForm({
           disabled={!canSubmit}
           className="rounded-md bg-primary text-primary-foreground px-4 py-1.5 text-sm font-medium disabled:opacity-50"
         >
-          {isPending
-            ? '…'
-            : isPublished
-              ? 'Salvar'
-              : 'Publicar agora'}
+          {isPending ? '…' : isPublished ? 'Salvar' : 'Publicar agora'}
         </button>
         <button
           type="button"

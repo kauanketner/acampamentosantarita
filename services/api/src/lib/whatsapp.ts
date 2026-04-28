@@ -1,8 +1,7 @@
 import { env } from '../env.ts';
 
 const WTS_BASE = 'https://api.wts.chat/chat';
-const UUID_RE =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export type SendResult = {
   delivered: boolean;
@@ -106,15 +105,13 @@ export async function sendOTP(phoneE164: string, code: string): Promise<SendResu
       body: JSON.stringify(payload),
     });
 
-    const data = (await res.json().catch(() => null)) as
-      | {
-          id?: string;
-          status?: string;
-          failedReason?: string;
-          detail?: string;
-          title?: string;
-        }
-      | null;
+    const data = (await res.json().catch(() => null)) as {
+      id?: string;
+      status?: string;
+      failedReason?: string;
+      detail?: string;
+      title?: string;
+    } | null;
 
     if (!res.ok) {
       console.error('[WTS] envio OTP falhou', res.status, data);

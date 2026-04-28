@@ -1,6 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { format, parse } from 'date-fns';
-import { useEffect } from 'react';
 import { CadastroFrame } from '@/components/cadastro/CadastroFrame';
 import { Field, FieldRow } from '@/components/form/Field';
 import { ShirtSizePicker } from '@/components/form/ShirtSizePicker';
@@ -18,6 +15,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useCadastroStore } from '@/lib/cadastro-store';
+import { createFileRoute } from '@tanstack/react-router';
+import { format, parse } from 'date-fns';
+import { useEffect } from 'react';
 
 export const Route = createFileRoute('/cadastro/veterano/passo-1')({
   component: PassoUm,
@@ -40,7 +40,11 @@ function PassoUm() {
       total={6}
       variant="veterano"
       eyebrow="Passo 1 — De volta"
-      title={<>Confirme quem é <span className="font-display-italic">você.</span></>}
+      title={
+        <>
+          Confirme quem é <span className="font-display-italic">você.</span>
+        </>
+      }
       description="Seus dados ajudam a equipe a te encontrar e cuidar bem de você."
       ctaTo="/cadastro/veterano/passo-2"
       ctaDisabled={!canContinue}
@@ -112,10 +116,7 @@ function PassoUm() {
           />
         </Field>
 
-        <Field
-          label={<Label htmlFor="phone">Celular</Label>}
-          hint="WhatsApp preferencialmente."
-        >
+        <Field label={<Label htmlFor="phone">Celular</Label>} hint="WhatsApp preferencialmente.">
           <MaskedInput
             id="phone"
             mask="phone"

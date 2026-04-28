@@ -1,9 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import {
-  addMemberSchema,
-  createTribeSchema,
-  updateTribeSchema,
-} from './schemas.ts';
+import { addMemberSchema, createTribeSchema, updateTribeSchema } from './schemas.ts';
 import { TribeError, tribesService } from './service.ts';
 
 const ERROR_TO_STATUS: Record<TribeError['code'], number> = {
@@ -15,9 +11,7 @@ const ERROR_TO_STATUS: Record<TribeError['code'], number> = {
 };
 
 function sendError(reply: FastifyReply, e: TribeError) {
-  reply
-    .code(ERROR_TO_STATUS[e.code] ?? 400)
-    .send({ error: e.code, message: e.message });
+  reply.code(ERROR_TO_STATUS[e.code] ?? 400).send({ error: e.code, message: e.message });
 }
 
 function requireAdmin(req: FastifyRequest, reply: FastifyReply): boolean {
@@ -121,10 +115,7 @@ export const tribesController = {
       reply.code(401).send({ error: 'UNAUTHORIZED' });
       return;
     }
-    const result = await tribesService.getCurrentForPerson(
-      req.server.db,
-      req.user.personId,
-    );
+    const result = await tribesService.getCurrentForPerson(req.server.db, req.user.personId);
     return result;
   },
 };

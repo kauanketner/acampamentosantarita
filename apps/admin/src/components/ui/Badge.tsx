@@ -1,14 +1,7 @@
-import type * as React from 'react';
 import { cn } from '@/lib/cn';
+import type * as React from 'react';
 
-export type Tone =
-  | 'neutral'
-  | 'primary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'info'
-  | 'accent';
+export type Tone = 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'accent';
 
 const toneClass: Record<Tone, string> = {
   neutral:
@@ -52,12 +45,7 @@ export function Badge({
       )}
       {...props}
     >
-      {dot && (
-        <span
-          aria-hidden
-          className="inline-block size-1.5 rounded-full bg-current"
-        />
-      )}
+      {dot && <span aria-hidden className="inline-block size-1.5 rounded-full bg-current" />}
       {children}
     </span>
   );

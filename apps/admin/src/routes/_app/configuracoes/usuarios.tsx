@@ -1,5 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useMemo, useState } from 'react';
 import { ApiError } from '@/lib/api';
 import { maskPhoneDisplay } from '@/lib/format';
 import {
@@ -8,6 +6,8 @@ import {
   useAdminPersons,
   useUpdatePersonRole,
 } from '@/lib/queries/persons';
+import { createFileRoute } from '@tanstack/react-router';
+import { useMemo, useState } from 'react';
 
 export const Route = createFileRoute('/_app/configuracoes/usuarios')({
   component: ConfiguracoesUsuarios,
@@ -27,9 +27,7 @@ const inputClass =
 function ConfiguracoesUsuarios() {
   const [search, setSearch] = useState('');
   const [showAll, setShowAll] = useState(false);
-  const { data, isLoading } = useAdminPersons(
-    search.length >= 2 ? search : undefined,
-  );
+  const { data, isLoading } = useAdminPersons(search.length >= 2 ? search : undefined);
 
   const filtered = useMemo(() => {
     if (!data) return [];
@@ -43,8 +41,8 @@ function ConfiguracoesUsuarios() {
       <header>
         <h1 className="font-serif text-2xl">Usuários</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Pessoas com acesso ao painel administrativo. Cada pessoa cadastrada no
-          app pode receber uma função.
+          Pessoas com acesso ao painel administrativo. Cada pessoa cadastrada no app pode receber
+          uma função.
         </p>
       </header>
 
@@ -57,11 +55,7 @@ function ConfiguracoesUsuarios() {
           className={`flex-1 min-w-[260px] ${inputClass}`}
         />
         <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={showAll}
-            onChange={(e) => setShowAll(e.target.checked)}
-          />
+          <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} />
           Mostrar participantes (sem acesso admin)
         </label>
       </div>
@@ -71,9 +65,7 @@ function ConfiguracoesUsuarios() {
       {data && filtered.length === 0 && (
         <div className="rounded-md border border-dashed bg-card p-10 text-center">
           <p className="font-serif text-xl">
-            {search.length >= 2
-              ? 'Nenhum usuário encontrado'
-              : 'Nenhum usuário com acesso admin'}
+            {search.length >= 2 ? 'Nenhum usuário encontrado' : 'Nenhum usuário com acesso admin'}
           </p>
           <p className="text-sm text-muted-foreground mt-1.5">
             {search.length < 2
@@ -109,9 +101,7 @@ function ConfiguracoesUsuarios() {
 function UserRow({ person }: { person: AdminPersonRow }) {
   const update = useUpdatePersonRole();
   const [editing, setEditing] = useState(false);
-  const [role, setRole] = useState<AdminRole>(
-    person.user?.role ?? 'participante',
-  );
+  const [role, setRole] = useState<AdminRole>(person.user?.role ?? 'participante');
   const [error, setError] = useState<string | null>(null);
 
   const onSave = async () => {
@@ -120,9 +110,7 @@ function UserRow({ person }: { person: AdminPersonRow }) {
       await update.mutateAsync({ personId: person.id, role });
       setEditing(false);
     } catch (err) {
-      setError(
-        err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-      );
+      setError(err instanceof ApiError ? err.message : 'Não foi possível salvar.');
     }
   };
 
@@ -131,9 +119,7 @@ function UserRow({ person }: { person: AdminPersonRow }) {
       <td className="px-4 py-2">
         <p className="font-medium leading-tight">{person.fullName}</p>
         {person.user?.email && (
-          <p className="text-[11px] text-muted-foreground">
-            {person.user.email}
-          </p>
+          <p className="text-[11px] text-muted-foreground">{person.user.email}</p>
         )}
       </td>
       <td className="px-4 py-2 text-xs text-muted-foreground">
@@ -153,9 +139,7 @@ function UserRow({ person }: { person: AdminPersonRow }) {
             ))}
           </select>
         ) : (
-          <span className="text-sm">
-            {person.user ? roleLabel[person.user.role] : '—'}
-          </span>
+          <span className="text-sm">{person.user ? roleLabel[person.user.role] : '—'}</span>
         )}
         {error && <p className="text-xs text-destructive mt-1">{error}</p>}
       </td>

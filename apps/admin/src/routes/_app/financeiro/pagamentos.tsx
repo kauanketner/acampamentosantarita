@@ -1,7 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import { brl } from '@/lib/format';
 import { useAdminPayments } from '@/lib/queries/reports';
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_app/financeiro/pagamentos')({
   component: Pagamentos,
@@ -85,17 +85,12 @@ function Pagamentos() {
             </thead>
             <tbody>
               {filtered.map((p) => (
-                <tr
-                  key={p.id}
-                  className="border-b last:border-b-0 hover:bg-secondary/30"
-                >
+                <tr key={p.id} className="border-b last:border-b-0 hover:bg-secondary/30">
                   <td className="px-4 py-2 font-medium">{p.person.fullName}</td>
                   <td className="px-4 py-2 text-muted-foreground text-xs">
                     {p.invoice.description ?? p.invoice.type}
                   </td>
-                  <td className="px-4 py-2 text-xs">
-                    {methodLabel[p.method] ?? p.method}
-                  </td>
+                  <td className="px-4 py-2 text-xs">{methodLabel[p.method] ?? p.method}</td>
                   <td className="px-4 py-2 text-xs text-muted-foreground">
                     {new Date(p.paidAt).toLocaleString('pt-BR', {
                       day: '2-digit',
@@ -105,9 +100,7 @@ function Pagamentos() {
                       minute: '2-digit',
                     })}
                   </td>
-                  <td className="px-4 py-2 text-right font-mono">
-                    {brl(Number(p.amount))}
-                  </td>
+                  <td className="px-4 py-2 text-right font-mono">{brl(Number(p.amount))}</td>
                 </tr>
               ))}
             </tbody>

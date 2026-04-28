@@ -1,5 +1,5 @@
-import { buildServer } from './server.ts';
 import { env } from './env.ts';
+import { buildServer } from './server.ts';
 
 const app = await buildServer();
 

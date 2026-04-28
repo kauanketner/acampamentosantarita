@@ -1,7 +1,3 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Loader2, MessageSquare } from 'lucide-react';
-import { motion } from 'motion/react';
-import { useState } from 'react';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { Button } from '@/components/ui/button';
@@ -9,6 +5,10 @@ import { ApiError } from '@/lib/api';
 import { useRegisterFirstTimer } from '@/lib/auth';
 import { buildSignupPayload, useCadastroStore } from '@/lib/cadastro-store';
 import { maskPhoneDisplay } from '@/lib/format';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Loader2, MessageSquare } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/cadastro/primeira-vez/concluido')({
   component: Concluido,
@@ -84,9 +84,7 @@ function Concluido() {
       </div>
 
       {error && (
-        <p className="px-6 text-sm text-(color:--color-destructive) text-center mb-2">
-          {error}
-        </p>
+        <p className="px-6 text-sm text-(color:--color-destructive) text-center mb-2">{error}</p>
       )}
 
       <form onSubmit={onSubmit}>

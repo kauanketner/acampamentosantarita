@@ -16,12 +16,7 @@ export function ArchMotif({ className, variant = 'outline', withInner = true }: 
         ? 'currentColor'
         : 'currentColor';
   return (
-    <svg
-      viewBox="0 0 120 160"
-      fill="none"
-      className={cn('block', className)}
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 120 160" fill="none" className={cn('block', className)} aria-hidden="true">
       <title>Acampamento Santa Rita — arco</title>
       {/* outer arch */}
       <path
@@ -44,15 +39,7 @@ export function ArchMotif({ className, variant = 'outline', withInner = true }: 
           {/* keystone dot */}
           <circle cx={60} cy={20} r={1.5} fill={stroke} opacity={0.7} />
           {/* base line */}
-          <line
-            x1={6}
-            x2={114}
-            y1={158}
-            y2={158}
-            stroke={stroke}
-            strokeWidth={1.2}
-            opacity={0.7}
-          />
+          <line x1={6} x2={114} y1={158} y2={158} stroke={stroke} strokeWidth={1.2} opacity={0.7} />
         </>
       )}
     </svg>

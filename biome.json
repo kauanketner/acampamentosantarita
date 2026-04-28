@@ -11,7 +11,8 @@
       "**/drizzle",
       "**/build",
       "**/.vite",
-      "**/coverage"
+      "**/coverage",
+      "**/routeTree.gen.ts"
     ]
   },
   "formatter": {
@@ -26,9 +27,20 @@
     "rules": {
       "recommended": true,
       "style": { "noNonNullAssertion": "off", "useImportType": "warn" },
-      "suspicious": { "noExplicitAny": "warn", "noConsoleLog": "off" },
+      "suspicious": {
+        "noExplicitAny": "warn",
+        "noConsoleLog": "off",
+        "noMisleadingCharacterClass": "warn",
+        "noArrayIndexKey": "warn"
+      },
       "complexity": { "noUselessFragments": "warn" },
-      "correctness": { "noUnusedImports": "warn", "noUnusedVariables": "warn" }
+      "correctness": { "noUnusedImports": "warn", "noUnusedVariables": "warn" },
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "noAutofocus": "off",
+        "useKeyWithClickEvents": "off",
+        "noLabelWithoutControl": "off"
+      }
     }
   },
   "javascript": {

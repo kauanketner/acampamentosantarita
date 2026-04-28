@@ -1,6 +1,6 @@
+import { cn } from '@/lib/cn';
 import { Camera, ImagePlus, X } from 'lucide-react';
 import * as React from 'react';
-import { cn } from '@/lib/cn';
 
 type Variant = 'avatar' | 'cover';
 
@@ -138,11 +138,7 @@ export function PhotoUpload({
           )}
         >
           {internalUrl ? (
-            <img
-              src={internalUrl}
-              alt="Foto de perfil"
-              className="size-full object-cover"
-            />
+            <img src={internalUrl} alt="Foto de perfil" className="size-full object-cover" />
           ) : (
             <div className="size-full flex flex-col items-center justify-center text-(color:--color-muted-foreground)">
               {name ? (
@@ -236,11 +232,7 @@ export function PhotoUpload({
       >
         {internalUrl ? (
           <>
-            <img
-              src={internalUrl}
-              alt="Imagem do evento"
-              className="size-full object-cover"
-            />
+            <img src={internalUrl} alt="Imagem do evento" className="size-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
           </>
         ) : (
@@ -266,9 +258,7 @@ export function PhotoUpload({
           </div>
         )}
       </button>
-      {hint && !error && (
-        <p className="text-xs text-(color:--color-muted-foreground)">{hint}</p>
-      )}
+      {hint && !error && <p className="text-xs text-(color:--color-muted-foreground)">{hint}</p>}
       {error && <p className="text-xs text-(color:--color-destructive)">{error}</p>}
 
       <input

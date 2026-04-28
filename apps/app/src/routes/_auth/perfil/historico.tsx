@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { Loader2, Lock } from 'lucide-react';
 import { Page } from '@/components/shell/Page';
 import { TopBar } from '@/components/shell/TopBar';
 import { Badge } from '@/components/ui/badge';
-import { useFullProfile } from '@/lib/queries/profile';
 import { cn } from '@/lib/cn';
+import { useFullProfile } from '@/lib/queries/profile';
+import { createFileRoute } from '@tanstack/react-router';
+import { Loader2, Lock } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/perfil/historico')({
   component: PerfilHistorico,

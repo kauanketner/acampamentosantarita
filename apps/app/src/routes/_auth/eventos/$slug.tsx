@@ -1,6 +1,3 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { Calendar, Clock, Loader2, MapPin } from 'lucide-react';
-import { motion } from 'motion/react';
 import { EventCover } from '@/components/EventCover';
 import { ArchGlyph } from '@/components/motif/arch';
 import { Page } from '@/components/shell/Page';
@@ -8,10 +5,13 @@ import { TopBar } from '@/components/shell/TopBar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/cn';
 import { brl, eventGradient, formatDateRange } from '@/lib/format';
 import { useEventBySlug } from '@/lib/queries/events';
 import { mediaUrl } from '@/lib/queries/profile';
-import { cn } from '@/lib/cn';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { Calendar, Clock, Loader2, MapPin } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export const Route = createFileRoute('/_auth/eventos/$slug')({
   component: EventoDetalhe,
@@ -178,8 +178,8 @@ function EventoDetalhe() {
                 Primeira vez?
               </p>
               <p className="text-[13px] text-(color:--color-accent-foreground)/80 mt-0.5 leading-relaxed">
-                Este é um dos eventos onde campistas vivem o Santa Rita pela primeira vez.
-                Vai ser a sua estreia.
+                Este é um dos eventos onde campistas vivem o Santa Rita pela primeira vez. Vai ser a
+                sua estreia.
               </p>
             </div>
           </div>
@@ -219,9 +219,7 @@ function Meta({
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-(color:--color-muted-foreground)">
           {label}
         </p>
-        <p className="text-[15px] text-(color:--color-foreground) mt-0.5 leading-snug">
-          {value}
-        </p>
+        <p className="text-[15px] text-(color:--color-foreground) mt-0.5 leading-snug">{value}</p>
       </div>
     </div>
   );
