@@ -21,7 +21,7 @@ function AppLayout() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">
+      <div className="min-h-screen flex items-center justify-center text-sm text-(color:--color-muted-foreground)">
         Carregando…
       </div>
     );
@@ -32,13 +32,13 @@ function AppLayout() {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-(color:--color-background) text-(color:--color-foreground)">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 min-w-0 flex flex-col">
         <Topbar />
-        <div className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto">
           <Outlet />
-        </div>
+        </main>
       </div>
     </div>
   );

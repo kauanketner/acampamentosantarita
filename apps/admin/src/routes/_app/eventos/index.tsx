@@ -1,5 +1,13 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { type AdminEvent, useAdminEvents } from '@/lib/queries/events';
+import { useMemo, useState } from 'react';
+import { Badge, type Tone } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Toolbar, ToolbarSearch } from '@/components/ui/Toolbar';
+import { Table, THead, TH, TBody, TR, TD } from '@/components/ui/Table';
+import { Select } from '@/components/ui/Input';
+import { type AdminEvent, type EventStatus, useAdminEvents } from '@/lib/queries/events';
 import { formatDateRange } from '@/lib/format';
 
 export const Route = createFileRoute('/_app/eventos/')({
@@ -14,130 +22,190 @@ const typeLabel: Record<AdminEvent['type'], string> = {
   outro: 'Evento',
 };
 
-const statusInfo: Record<
-  AdminEvent['status'],
-  { label: string; tone: 'neutral' | 'green' | 'amber' | 'red' }
-> = {
+const statusInfo: Record<EventStatus, { label: string; tone: Tone }> = {
   rascunho: { label: 'Rascunho', tone: 'neutral' },
-  inscricoes_abertas: { label: 'Inscrições abertas', tone: 'green' },
-  inscricoes_fechadas: { label: 'Inscrições fechadas', tone: 'amber' },
-  em_andamento: { label: 'Em andamento', tone: 'amber' },
+  inscricoes_abertas: { label: 'Inscrições abertas', tone: 'success' },
+  inscricoes_fechadas: { label: 'Inscrições fechadas', tone: 'warning' },
+  em_andamento: { label: 'Acontecendo agora', tone: 'info' },
   finalizado: { label: 'Finalizado', tone: 'neutral' },
-  cancelado: { label: 'Cancelado', tone: 'red' },
-};
-
-const toneClass: Record<'neutral' | 'green' | 'amber' | 'red', string> = {
-  neutral: 'bg-secondary text-secondary-foreground border-border',
-  green:
-    'bg-emerald-100 text-emerald-900 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-200 dark:border-emerald-800',
-  amber:
-    'bg-amber-100 text-amber-900 border-amber-200 dark:bg-amber-900/30 dark:text-amber-200 dark:border-amber-800',
-  red:
-    'bg-red-100 text-red-900 border-red-200 dark:bg-red-900/30 dark:text-red-200 dark:border-red-800',
+  cancelado: { label: 'Cancelado', tone: 'danger' },
 };
 
 function EventosIndex() {
   const { data: events, isLoading, isError } = useAdminEvents();
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | EventStatus>('all');
+
+  const filtered = useMemo(() => {
+    if (!events) return [];
+    const q = search.trim().toLowerCase();
+    return events.filter((e) => {
+      if (statusFilter !== 'all' && e.status !== statusFilter) return false;
+      if (q && !e.name.toLowerCase().includes(q) && !e.location?.toLowerCase().includes(q))
+        return false;
+      return true;
+    });
+  }, [events, search, statusFilter]);
 
   return (
-    <div className="p-6 space-y-5">
-      <header className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="font-serif text-2xl">Eventos</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Acampamentos, retiros, encontros e formações.
-          </p>
-        </div>
-        <Link
-          to="/eventos/novo"
-          className="rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90"
-        >
-          Novo evento
-        </Link>
-      </header>
+    <div className="px-8 py-8 max-w-7xl space-y-6">
+      <PageHeader
+        eyebrow="Operação"
+        title="Eventos"
+        description="Acampamentos, retiros, encontros e formações da comunidade. Crie eventos novos ou ajuste os existentes."
+        actions={
+          <Button asChild>
+            <Link to="/eventos/novo">
+              <svg
+                viewBox="0 0 12 12"
+                fill="none"
+                aria-hidden
+                className="size-3"
+              >
+                <path
+                  d="M6 1.5V10.5M1.5 6H10.5"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                />
+              </svg>
+              Novo evento
+            </Link>
+          </Button>
+        }
+      />
 
-      {isLoading && <p className="text-sm text-muted-foreground">Carregando…</p>}
+      <Toolbar>
+        <ToolbarSearch
+          value={search}
+          onChange={setSearch}
+          placeholder="Buscar por nome ou local…"
+        />
+        <Select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value as 'all' | EventStatus)}
+          className="w-56"
+        >
+          <option value="all">Todos os status</option>
+          {(Object.keys(statusInfo) as EventStatus[]).map((s) => (
+            <option key={s} value={s}>
+              {statusInfo[s].label}
+            </option>
+          ))}
+        </Select>
+      </Toolbar>
+
+      {isLoading && (
+        <p className="text-sm text-(color:--color-muted-foreground)">
+          Carregando…
+        </p>
+      )}
 
       {isError && (
-        <div className="rounded-md border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+        <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) px-4 py-3 text-sm text-(color:--color-danger)">
           Não conseguimos buscar os eventos. Tente recarregar.
         </div>
       )}
 
-      {events && events.length === 0 && (
-        <div className="rounded-md border border-dashed bg-card p-10 text-center">
-          <p className="font-serif text-xl">Nenhum evento ainda</p>
-          <p className="text-sm text-muted-foreground mt-1.5 max-w-md mx-auto">
-            Quando você criar o primeiro evento, ele aparece aqui — e vira disponível
-            no app dos campistas.
-          </p>
-          <Link
-            to="/eventos/novo"
-            className="inline-block mt-4 rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium"
-          >
-            Criar primeiro evento
-          </Link>
-        </div>
+      {events && filtered.length === 0 && (
+        <EmptyState
+          icon={
+            <svg viewBox="0 0 36 36" fill="none" className="size-9" aria-hidden>
+              <rect
+                x="5"
+                y="9"
+                width="26"
+                height="22"
+                rx="3"
+                stroke="currentColor"
+                strokeWidth="1.4"
+              />
+              <path
+                d="M5 15H31M12 5V11M24 5V11"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+            </svg>
+          }
+          title={
+            events.length === 0
+              ? 'Nenhum evento ainda'
+              : 'Nenhum evento corresponde ao filtro'
+          }
+          description={
+            events.length === 0
+              ? 'Quando você criar o primeiro evento, ele aparece aqui — e também no app dos campistas, se as inscrições estiverem abertas.'
+              : 'Ajuste a busca ou o filtro de status pra ver mais.'
+          }
+          action={
+            events.length === 0 ? (
+              <Button asChild>
+                <Link to="/eventos/novo">Criar primeiro evento</Link>
+              </Button>
+            ) : null
+          }
+        />
       )}
 
-      {events && events.length > 0 && (
-        <div className="rounded-lg border bg-card overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b text-left text-xs uppercase tracking-wider text-muted-foreground bg-secondary/30">
-                <th className="px-4 py-3 font-medium">Evento</th>
-                <th className="px-4 py-3 font-medium">Datas</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium text-right">Inscrições</th>
-              </tr>
-            </thead>
-            <tbody>
-              {events.map((e) => {
-                const status = statusInfo[e.status];
-                return (
-                  <tr
-                    key={e.id}
-                    className="border-b last:border-b-0 hover:bg-secondary/30 transition"
-                  >
-                    <td className="px-4 py-3">
-                      <Link
-                        to="/eventos/$id"
-                        params={{ id: e.id }}
-                        className="block"
-                      >
-                        <p className="font-medium leading-tight">{e.name}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {typeLabel[e.type]}
-                          {e.editionNumber ? ` · ${e.editionNumber}º` : ''}
-                          {e.location ? ` · ${e.location}` : ''}
-                        </p>
-                      </Link>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
-                      {formatDateRange(e.startDate, e.endDate)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${toneClass[status.tone]}`}
-                      >
-                        {status.label}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap">
-                      <span className="font-mono">{e.registrationCount}</span>
-                      {e.pendingCount > 0 && (
-                        <span className="ml-2 text-amber-700 dark:text-amber-400 text-xs">
-                          {e.pendingCount} pendentes
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+      {filtered.length > 0 && (
+        <Table>
+          <THead>
+            <tr>
+              <TH>Evento</TH>
+              <TH>Datas</TH>
+              <TH>Status</TH>
+              <TH align="right">Inscrições</TH>
+            </tr>
+          </THead>
+          <TBody>
+            {filtered.map((e) => (
+              <EventRow key={e.id} event={e} />
+            ))}
+          </TBody>
+        </Table>
       )}
+
+      <p className="text-[11px] text-(color:--color-muted-foreground)">
+        {filtered.length} evento{filtered.length === 1 ? '' : 's'}
+        {events && filtered.length !== events.length && ` de ${events.length}`}.
+      </p>
     </div>
+  );
+}
+
+function EventRow({ event }: { event: AdminEvent }) {
+  const status = statusInfo[event.status];
+  return (
+    <TR>
+      <TD>
+        <Link to="/eventos/$id" params={{ id: event.id }} className="block group">
+          <p className="font-medium leading-tight group-hover:text-(color:--color-primary) transition-colors">
+            {event.name}
+          </p>
+          <p className="text-[11px] text-(color:--color-muted-foreground) mt-0.5">
+            {typeLabel[event.type]}
+            {event.editionNumber ? ` · ${event.editionNumber}º` : ''}
+            {event.location ? ` · ${event.location}` : ''}
+          </p>
+        </Link>
+      </TD>
+      <TD className="text-(color:--color-muted-foreground) whitespace-nowrap">
+        {formatDateRange(event.startDate, event.endDate)}
+      </TD>
+      <TD>
+        <Badge tone={status.tone} dot>
+          {status.label}
+        </Badge>
+      </TD>
+      <TD align="right" className="whitespace-nowrap">
+        <span className="font-mono tabular-nums">{event.registrationCount}</span>
+        {event.pendingCount > 0 && (
+          <span className="ml-2 text-[11px] text-(color:--color-warning)">
+            {event.pendingCount} pendentes
+          </span>
+        )}
+      </TD>
+    </TR>
   );
 }

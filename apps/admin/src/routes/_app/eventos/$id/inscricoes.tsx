@@ -1,10 +1,16 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 import {
   PaymentBadge,
   StatusBadge,
 } from '@/components/registrations/StatusBadge';
 import { RegistrationActions } from '@/components/registrations/RegistrationActions';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { Select } from '@/components/ui/Input';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Stat } from '@/components/ui/Stat';
+import { Toolbar, ToolbarSearch } from '@/components/ui/Toolbar';
+import { Table, THead, TH, TBody, TR, TD } from '@/components/ui/Table';
 import { brl, maskPhoneDisplay } from '@/lib/format';
 import { useAdminEvent } from '@/lib/queries/events';
 import {
@@ -76,108 +82,125 @@ function EventoInscricoes() {
   }, [registrations]);
 
   return (
-    <div className="p-6 space-y-5">
-      <header className="space-y-2">
-        <Link
-          to="/eventos/$id"
-          params={{ id }}
-          className="text-xs text-muted-foreground hover:text-foreground"
-        >
-          ← {event?.name ?? 'Evento'}
-        </Link>
-        <h1 className="font-serif text-2xl">Inscrições</h1>
-        <p className="text-sm text-muted-foreground">
-          {stats.total} {stats.total === 1 ? 'pessoa inscrita' : 'pessoas inscritas'}
-          {stats.pendente > 0 && ` · ${stats.pendente} aguardando aprovação`}
-        </p>
-      </header>
+    <div className="px-8 py-8 max-w-7xl space-y-6">
+      <PageHeader
+        eyebrow="Evento · Inscrições"
+        backTo={{ label: event?.name ?? 'Evento', to: '/eventos/$id', params: { id } }}
+        title="Inscrições"
+        description={
+          stats.total > 0
+            ? `${stats.total} ${stats.total === 1 ? 'pessoa inscrita' : 'pessoas inscritas'}${stats.pendente > 0 ? ` · ${stats.pendente} aguardando aprovação` : ''}.`
+            : 'Sem inscrições ainda neste evento.'
+        }
+      />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Stat label="Pendentes" value={stats.pendente} tone="amber" />
-        <Stat label="Aprovadas" value={stats.aprovada} tone="sky" />
-        <Stat label="Confirmadas" value={stats.confirmada} tone="green" />
-        <Stat label="Recusadas" value={stats.cancelada} tone="neutral" />
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        <input
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar por nome…"
-          className="flex-1 min-w-[200px] rounded-md border bg-background px-3 py-1.5 text-sm"
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Stat
+          label="Pendentes"
+          value={stats.pendente}
+          tone={stats.pendente > 0 ? 'warning' : 'neutral'}
         />
-        <select
+        <Stat label="Aprovadas" value={stats.aprovada} tone="info" />
+        <Stat label="Confirmadas" value={stats.confirmada} tone="success" />
+        <Stat label="Recusadas" value={stats.cancelada} tone="neutral" />
+      </section>
+
+      <Toolbar>
+        <ToolbarSearch
+          value={search}
+          onChange={setSearch}
+          placeholder="Buscar por nome…"
+        />
+        <Select
           value={roleFilter}
           onChange={(e) =>
             setRoleFilter(e.target.value as 'all' | 'campista' | 'equipista')
           }
-          className="rounded-md border bg-background px-3 py-1.5 text-sm"
+          className="w-44"
         >
           {ROLE_FILTERS.map((f) => (
             <option key={f.value} value={f.value}>
               {f.label}
             </option>
           ))}
-        </select>
-        <select
+        </Select>
+        <Select
           value={statusFilter}
           onChange={(e) =>
             setStatusFilter(e.target.value as 'all' | RegistrationStatus)
           }
-          className="rounded-md border bg-background px-3 py-1.5 text-sm"
+          className="w-48"
         >
           {STATUS_FILTERS.map((f) => (
             <option key={f.value} value={f.value}>
               {f.label}
             </option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </Toolbar>
 
       {isLoading && (
-        <p className="text-sm text-muted-foreground">Carregando…</p>
+        <p className="text-sm text-(color:--color-muted-foreground)">
+          Carregando…
+        </p>
       )}
 
       {isError && (
-        <div className="rounded-md border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+        <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) px-4 py-3 text-sm text-(color:--color-danger)">
           Não conseguimos buscar as inscrições.
         </div>
       )}
 
       {registrations && filtered.length === 0 && (
-        <div className="rounded-md border border-dashed bg-card p-10 text-center">
-          <p className="font-serif text-xl">
-            {registrations.length === 0
+        <EmptyState
+          icon={
+            <svg viewBox="0 0 36 36" fill="none" className="size-9" aria-hidden>
+              <rect
+                x="6"
+                y="8"
+                width="24"
+                height="22"
+                rx="2.5"
+                stroke="currentColor"
+                strokeWidth="1.4"
+              />
+              <path
+                d="M11 14H25M11 18H21M11 22H18"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+            </svg>
+          }
+          title={
+            registrations.length === 0
               ? 'Sem inscrições ainda'
-              : 'Nenhuma inscrição corresponde ao filtro'}
-          </p>
-          <p className="text-sm text-muted-foreground mt-1.5 max-w-md mx-auto">
-            {registrations.length === 0
+              : 'Nenhuma inscrição corresponde ao filtro'
+          }
+          description={
+            registrations.length === 0
               ? 'Quando alguém se inscrever pelo app, aparece aqui na hora.'
-              : 'Tente limpar o filtro ou buscar por outro nome.'}
-          </p>
-        </div>
+              : 'Tente limpar o filtro ou buscar por outro nome.'
+          }
+        />
       )}
 
       {filtered.length > 0 && (
-        <div className="rounded-lg border bg-card overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b text-left text-xs uppercase tracking-wider text-muted-foreground bg-secondary/30">
-                <th className="px-4 py-3 font-medium">Pessoa</th>
-                <th className="px-4 py-3 font-medium">Papel</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((r) => (
-                <RegistrationRow key={r.id} reg={r} />
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table>
+          <THead>
+            <tr>
+              <TH>Pessoa</TH>
+              <TH>Papel</TH>
+              <TH>Status</TH>
+              <TH align="right">Ações</TH>
+            </tr>
+          </THead>
+          <TBody>
+            {filtered.map((r) => (
+              <RegistrationRow key={r.id} reg={r} />
+            ))}
+          </TBody>
+        </Table>
       )}
     </div>
   );
@@ -185,17 +208,23 @@ function EventoInscricoes() {
 
 function RegistrationRow({ reg }: { reg: EventRegistration }) {
   return (
-    <tr className="border-b last:border-b-0 align-top">
-      <td className="px-4 py-3">
+    <TR>
+      <TD>
         <p className="font-medium leading-tight">{reg.person.fullName}</p>
-        <p className="text-xs text-muted-foreground mt-0.5">
+        <p className="text-[11px] text-(color:--color-muted-foreground) mt-0.5 font-mono tabular-nums">
           {reg.person.mobilePhone
             ? maskPhoneDisplay(reg.person.mobilePhone)
             : '—'}
-          {reg.person.city && ` · ${reg.person.city}`}
-          {reg.person.state && `/${reg.person.state}`}
+          {reg.person.city && (
+            <span className="font-sans"> · {reg.person.city}</span>
+          )}
+          {reg.person.state && (
+            <span className="font-sans text-(color:--color-subtle)">
+              /{reg.person.state}
+            </span>
+          )}
         </p>
-        <p className="text-[11px] text-muted-foreground mt-1">
+        <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-(color:--color-subtle) mt-1">
           Inscrita em{' '}
           {new Date(reg.registeredAt).toLocaleDateString('pt-BR', {
             day: '2-digit',
@@ -204,53 +233,30 @@ function RegistrationRow({ reg }: { reg: EventRegistration }) {
           })}
         </p>
         {reg.cancellationReason && (
-          <p className="text-[11px] text-destructive mt-1 max-w-xs">
+          <p className="text-[11px] text-(color:--color-danger) mt-1 max-w-xs">
             Motivo: {reg.cancellationReason}
           </p>
         )}
-      </td>
-      <td className="px-4 py-3">
+      </TD>
+      <TD>
         <p className="text-sm capitalize">{reg.roleIntent}</p>
         {reg.priceAmount && (
-          <p className="text-[11px] text-muted-foreground mt-0.5 font-mono">
+          <p className="text-[11px] text-(color:--color-muted-foreground) mt-0.5 font-mono tabular-nums">
             {brl(Number(reg.priceAmount))}
           </p>
         )}
-      </td>
-      <td className="px-4 py-3 space-y-1">
-        <StatusBadge status={reg.status} />
-        <div>
-          <PaymentBadge status={reg.paymentStatus} />
+      </TD>
+      <TD>
+        <div className="space-y-1">
+          <StatusBadge status={reg.status} />
+          <div>
+            <PaymentBadge status={reg.paymentStatus} />
+          </div>
         </div>
-      </td>
-      <td className="px-4 py-3 text-right">
+      </TD>
+      <TD align="right">
         <RegistrationActions registration={reg} />
-      </td>
-    </tr>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  tone,
-}: {
-  label: string;
-  value: number;
-  tone: 'amber' | 'sky' | 'green' | 'neutral';
-}) {
-  const ring: Record<typeof tone, string> = {
-    amber: 'border-amber-300 dark:border-amber-800',
-    sky: 'border-sky-300 dark:border-sky-800',
-    green: 'border-emerald-300 dark:border-emerald-800',
-    neutral: 'border-border',
-  };
-  return (
-    <div className={`rounded-lg border bg-card p-4 ${ring[tone]}`}>
-      <p className="text-xs uppercase tracking-wider text-muted-foreground">
-        {label}
-      </p>
-      <p className="font-serif text-2xl mt-1">{value}</p>
-    </div>
+      </TD>
+    </TR>
   );
 }

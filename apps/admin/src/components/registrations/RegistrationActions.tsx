@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 import { ApiError } from '@/lib/api';
 import {
   type EventRegistration,
@@ -73,25 +75,27 @@ export function RegistrationActions({ registration }: Props) {
     const label = confirmReject ? 'Rejeitar inscrição' : 'Cancelar inscrição';
     const action = confirmReject ? onReject : onCancel;
     return (
-      <div className="rounded-md border border-destructive/30 bg-destructive/5 p-3 space-y-2 min-w-[260px]">
-        <p className="text-sm font-medium">{label}</p>
-        <input
+      <div className="rounded-(--radius-md) border border-(color:--color-danger)/40 bg-(color:--color-danger-soft) p-3 space-y-2 min-w-[260px]">
+        <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-(color:--color-danger)">
+          {label}
+        </p>
+        <Input
           type="text"
           placeholder="Motivo (opcional)"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          className="w-full rounded-md border bg-background px-2 py-1 text-xs"
+          className="text-xs"
         />
-        {error && <p className="text-xs text-destructive">{error}</p>}
+        {error && <p className="text-xs text-(color:--color-danger)">{error}</p>}
         <div className="flex items-center gap-2">
-          <button
-            type="button"
+          <Button
+            variant="danger"
+            size="sm"
             onClick={action}
             disabled={isPending}
-            className="rounded-md bg-destructive text-white px-3 py-1 text-xs font-medium disabled:opacity-50"
           >
             {isPending ? '…' : 'Confirmar'}
-          </button>
+          </Button>
           <button
             type="button"
             onClick={() => {
@@ -100,7 +104,7 @@ export function RegistrationActions({ registration }: Props) {
               setReason('');
               setError(null);
             }}
-            className="text-xs text-muted-foreground underline"
+            className="text-xs text-(color:--color-muted-foreground) hover:text-(color:--color-foreground) underline underline-offset-2"
           >
             Voltar
           </button>
@@ -122,52 +126,56 @@ export function RegistrationActions({ registration }: Props) {
 
   return (
     <div className="flex flex-col gap-1.5 items-end">
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      {error && <p className="text-xs text-(color:--color-danger)">{error}</p>}
       <div className="flex flex-wrap gap-1.5 justify-end">
         {showApprove && (
-          <button
-            type="button"
-            onClick={onApprove}
-            disabled={isPending}
-            className="rounded-md bg-emerald-600 text-white px-2.5 py-1 text-xs font-medium disabled:opacity-50 hover:bg-emerald-700"
-          >
+          <Button size="sm" onClick={onApprove} disabled={isPending}>
             {approve.isPending ? '…' : 'Aprovar'}
-          </button>
+          </Button>
         )}
         {showAttend && (
-          <button
-            type="button"
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={onAttend}
             disabled={isPending}
-            className="rounded-md bg-sky-600 text-white px-2.5 py-1 text-xs font-medium disabled:opacity-50 hover:bg-sky-700"
           >
             {attend.isPending ? '…' : 'Marcar presença'}
-          </button>
+          </Button>
         )}
         {showReject && (
-          <button
-            type="button"
+          <Button
+            variant="danger-ghost"
+            size="sm"
             onClick={() => setConfirmReject(true)}
             disabled={isPending}
-            className="rounded-md border border-destructive/40 text-destructive px-2.5 py-1 text-xs hover:bg-destructive/10"
           >
             Rejeitar
-          </button>
+          </Button>
         )}
         {showCancel && !showReject && (
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setConfirmCancel(true)}
             disabled={isPending}
-            className="rounded-md border px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-secondary"
           >
             Cancelar
-          </button>
+          </Button>
         )}
       </div>
       {registration.attended && (
-        <span className="text-[11px] text-emerald-700 dark:text-emerald-400">
-          ✓ presença marcada
+        <span className="text-[11px] text-(color:--color-success-foreground) inline-flex items-center gap-1">
+          <svg viewBox="0 0 20 20" fill="none" className="size-3" aria-hidden>
+            <path
+              d="M5 10.5L8.5 14L15 7"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          presença marcada
         </span>
       )}
     </div>

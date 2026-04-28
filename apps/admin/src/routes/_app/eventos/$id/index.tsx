@@ -2,6 +2,9 @@ import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { CustomQuestionsManager } from '@/components/forms/CustomQuestionsManager';
 import { EventForm } from '@/components/forms/EventForm';
+import { Button } from '@/components/ui/Button';
+import { Card, CardBody } from '@/components/ui/Card';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { ApiError } from '@/lib/api';
 import { brl, formatDateRange } from '@/lib/format';
 import {
@@ -29,14 +32,26 @@ function EventoVisaoGeral() {
   const adminRow = events?.find((e) => e.id === id);
 
   if (isLoading) {
-    return <div className="p-6 text-sm text-muted-foreground">Carregando…</div>;
+    return (
+      <div className="px-8 py-8 text-sm text-(color:--color-muted-foreground)">
+        Carregando…
+      </div>
+    );
   }
   if (isError || !event) {
     return (
-      <div className="p-6">
-        <p className="font-serif text-2xl">Evento não encontrado.</p>
-        <Link to="/eventos" className="text-sm text-primary underline mt-2 inline-block">
-          Voltar pra lista
+      <div className="px-8 py-8 max-w-3xl space-y-3">
+        <p
+          className="font-display text-3xl tracking-tight"
+          style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 50" }}
+        >
+          Evento não encontrado.
+        </p>
+        <Link
+          to="/eventos"
+          className="inline-block text-sm text-(color:--color-primary) underline underline-offset-2"
+        >
+          ← Voltar pra lista
         </Link>
       </div>
     );
@@ -54,135 +69,271 @@ function EventoVisaoGeral() {
   };
 
   return (
-    <div className="p-6 max-w-3xl space-y-6">
-      <header className="space-y-2">
-        <Link
-          to="/eventos"
-          className="text-xs text-muted-foreground hover:text-foreground"
-        >
-          ← Eventos
-        </Link>
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="font-serif text-2xl">{event.name}</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {formatDateRange(event.startDate, event.endDate)}
-              {event.location ? ` · ${event.location}` : ''}
-            </p>
+    <div className="px-8 py-8 max-w-5xl space-y-6">
+      <PageHeader
+        eyebrow="Evento"
+        backTo={{ label: 'Eventos', to: '/eventos' }}
+        title={event.name}
+        description={`${formatDateRange(event.startDate, event.endDate)}${
+          event.location ? ` · ${event.location}` : ''
+        }`}
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button variant="secondary" size="sm" asChild>
+              <Link to="/eventos/$id/inscricoes" params={{ id }}>
+                Inscrições →
+              </Link>
+            </Button>
+            <Button variant="secondary" size="sm" asChild>
+              <Link to="/eventos/$id/tribos" params={{ id }}>
+                Tribos →
+              </Link>
+            </Button>
+            <Button variant="secondary" size="sm" asChild>
+              <Link to="/eventos/$id/equipes" params={{ id }}>
+                Equipes →
+              </Link>
+            </Button>
+            <Button variant="secondary" size="sm" asChild>
+              <Link to="/eventos/$id/relatorios" params={{ id }}>
+                Relatórios →
+              </Link>
+            </Button>
           </div>
-          {adminRow && (
-            <div className="flex items-stretch gap-2">
-              <Link
-                to="/eventos/$id/inscricoes"
-                params={{ id }}
-                className="text-right rounded-md border bg-card p-3 hover:bg-secondary/50 transition"
-              >
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Inscrições
-                </p>
-                <p className="font-mono text-2xl">{adminRow.registrationCount}</p>
-                {adminRow.pendingCount > 0 && (
-                  <p className="text-xs text-amber-700 dark:text-amber-400">
-                    {adminRow.pendingCount} pendentes →
-                  </p>
-                )}
-              </Link>
-              <Link
-                to="/eventos/$id/tribos"
-                params={{ id }}
-                className="rounded-md border bg-card p-3 hover:bg-secondary/50 transition flex flex-col justify-between min-w-[100px]"
-              >
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Tribos
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">Gerenciar →</p>
-              </Link>
-            </div>
-          )}
-        </div>
-      </header>
-
-      {savedAt && (
-        <div className="rounded-md border border-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 dark:border-emerald-700 p-3 text-sm text-emerald-900 dark:text-emerald-200">
-          Salvo. As mudanças aparecem no app dos campistas no próximo refresh.
-        </div>
-      )}
-
-      <EventForm
-        initial={event}
-        submitLabel="Salvar alterações"
-        submitting={update.isPending}
-        errorMessage={error}
-        onSubmit={async (input) => {
-          setError(null);
-          try {
-            await update.mutateAsync(input);
-            setSavedAt(Date.now());
-            setTimeout(() => setSavedAt(null), 3000);
-          } catch (err) {
-            setError(
-              err instanceof ApiError ? err.message : 'Não foi possível salvar.',
-            );
-          }
-        }}
+        }
       />
 
-      <section className="rounded-lg border bg-card p-5 space-y-4">
-        <h2 className="font-serif text-lg">Perguntas customizadas</h2>
-        <p className="text-sm text-muted-foreground">
-          Perguntas que aparecem no formulário de inscrição. Você define se elas
-          aparecem para campistas, equipistas ou ambos.
-        </p>
-        <CustomQuestionsManager eventId={id} />
-      </section>
-
-      {event.priceCampista && event.priceEquipista && (
-        <section className="rounded-lg border bg-card p-5">
-          <h2 className="font-serif text-lg mb-3">Resumo financeiro</h2>
-          <p className="text-sm text-muted-foreground">
-            Campista:{' '}
-            <span className="font-mono">{brl(Number(event.priceCampista))}</span>
-            {' · '}
-            Equipista:{' '}
-            <span className="font-mono">{brl(Number(event.priceEquipista))}</span>
-          </p>
-        </section>
+      {adminRow && (
+        <Card>
+          <CardBody className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <Mini label="Inscrições" value={adminRow.registrationCount} />
+            <Mini
+              label="Aprovados"
+              value={adminRow.approvedCount}
+              tone="success"
+            />
+            <Mini
+              label="Pendentes"
+              value={adminRow.pendingCount}
+              tone={adminRow.pendingCount > 0 ? 'warning' : 'neutral'}
+            />
+            <Mini
+              label="Vagas"
+              value={adminRow.maxParticipants ?? '∞'}
+            />
+          </CardBody>
+        </Card>
       )}
 
-      <section className="rounded-lg border border-destructive/30 bg-destructive/5 p-5 space-y-3">
-        <h2 className="font-serif text-lg text-destructive">Zona perigosa</h2>
-        <p className="text-sm text-muted-foreground">
-          Excluir o evento o esconde do app e do site. Inscrições já feitas continuam
-          armazenadas para histórico, mas o evento some das listas.
-        </p>
+      {savedAt && (
+        <div className="rounded-(--radius-md) border border-(color:--color-success)/40 bg-(color:--color-success-soft) px-4 py-3 text-sm text-(color:--color-success-foreground) flex items-center gap-2">
+          <svg viewBox="0 0 20 20" fill="none" className="size-4" aria-hidden>
+            <path
+              d="M5 10.5L8.5 14L15 7"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span>
+            Salvo. As mudanças aparecem no app dos campistas no próximo refresh.
+          </span>
+        </div>
+      )}
+
+      <Card>
+        <CardBody>
+          <SectionHeader
+            eyebrow="Configuração"
+            title="Detalhes do evento"
+            description="Datas, valores, capacidade e textos públicos."
+          />
+          <div className="mt-5">
+            <EventForm
+              initial={event}
+              submitLabel="Salvar alterações"
+              submitting={update.isPending}
+              errorMessage={error}
+              onSubmit={async (input) => {
+                setError(null);
+                try {
+                  await update.mutateAsync(input);
+                  setSavedAt(Date.now());
+                  setTimeout(() => setSavedAt(null), 3000);
+                } catch (err) {
+                  setError(
+                    err instanceof ApiError
+                      ? err.message
+                      : 'Não foi possível salvar.',
+                  );
+                }
+              }}
+            />
+          </div>
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardBody>
+          <SectionHeader
+            eyebrow="Formulário"
+            title="Perguntas customizadas"
+            description="Perguntas que aparecem no formulário de inscrição. Você define se elas aparecem para campistas, equipistas ou ambos."
+          />
+          <div className="mt-5">
+            <CustomQuestionsManager eventId={id} />
+          </div>
+        </CardBody>
+      </Card>
+
+      {(event.priceCampista || event.priceEquipista) && (
+        <Card variant="soft">
+          <CardBody>
+            <SectionHeader
+              eyebrow="Financeiro"
+              title="Resumo de valores"
+            />
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              {event.priceCampista && (
+                <div>
+                  <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-(color:--color-muted-foreground)">
+                    Campista
+                  </p>
+                  <p
+                    className="font-display text-2xl tabular-nums tracking-tight mt-1"
+                    style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}
+                  >
+                    {brl(Number(event.priceCampista))}
+                  </p>
+                </div>
+              )}
+              {event.priceEquipista && (
+                <div>
+                  <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-(color:--color-muted-foreground)">
+                    Equipista
+                  </p>
+                  <p
+                    className="font-display text-2xl tabular-nums tracking-tight mt-1"
+                    style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}
+                  >
+                    {brl(Number(event.priceEquipista))}
+                  </p>
+                </div>
+              )}
+            </div>
+          </CardBody>
+        </Card>
+      )}
+
+      <div className="rounded-(--radius-lg) border border-(color:--color-danger)/30 bg-(color:--color-danger-soft) p-5 space-y-3">
+        <SectionHeader
+          eyebrow="⚠ Zona perigosa"
+          title="Excluir este evento"
+          description="Esconde o evento do app e do site. As inscrições já feitas continuam armazenadas, mas o evento some das listas."
+          tone="danger"
+        />
         {!confirmingDelete ? (
-          <button
-            type="button"
+          <Button
+            variant="danger-ghost"
+            size="sm"
             onClick={() => setConfirmingDelete(true)}
-            className="rounded-md border border-destructive/40 text-destructive px-4 py-2 text-sm hover:bg-destructive/10"
           >
             Excluir evento
-          </button>
+          </Button>
         ) : (
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
+          <div className="flex items-center gap-3 flex-wrap">
+            <Button
+              variant="danger"
+              size="sm"
               onClick={onDelete}
               disabled={remove.isPending}
-              className="rounded-md bg-destructive text-white px-4 py-2 text-sm font-medium disabled:opacity-50"
             >
               {remove.isPending ? 'Excluindo…' : 'Confirmar exclusão'}
-            </button>
+            </Button>
             <button
               type="button"
               onClick={() => setConfirmingDelete(false)}
-              className="text-sm text-muted-foreground underline"
+              className="text-xs text-(color:--color-muted-foreground) hover:text-(color:--color-foreground) underline underline-offset-2"
             >
               Cancelar
             </button>
           </div>
         )}
-      </section>
+      </div>
     </div>
   );
 }
+
+function SectionHeader({
+  eyebrow,
+  title,
+  description,
+  tone,
+}: {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  tone?: 'default' | 'danger';
+}) {
+  const isDanger = tone === 'danger';
+  return (
+    <div className="space-y-1.5">
+      <p
+        className={
+          'text-[10px] font-mono uppercase tracking-[0.18em] ' +
+          (isDanger
+            ? 'text-(color:--color-danger)'
+            : 'text-(color:--color-muted-foreground)')
+        }
+      >
+        {eyebrow}
+      </p>
+      <h2
+        className={
+          'font-display text-xl leading-tight tracking-tight ' +
+          (isDanger ? 'text-(color:--color-danger)' : '')
+        }
+        style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}
+      >
+        {title}
+      </h2>
+      {description && (
+        <p className="text-sm text-(color:--color-muted-foreground) leading-relaxed">
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function Mini({
+  label,
+  value,
+  tone = 'neutral',
+}: {
+  label: string;
+  value: React.ReactNode;
+  tone?: 'neutral' | 'success' | 'warning';
+}) {
+  const toneClass =
+    tone === 'success'
+      ? 'text-(color:--color-success-foreground)'
+      : tone === 'warning'
+        ? 'text-(color:--color-warning)'
+        : '';
+  return (
+    <div>
+      <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-(color:--color-muted-foreground)">
+        {label}
+      </p>
+      <p
+        className={`font-display text-2xl tabular-nums tracking-tight mt-1 ${toneClass}`}
+        style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 30" }}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
+

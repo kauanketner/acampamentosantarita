@@ -1,54 +1,376 @@
 @import 'tailwindcss';
 
+/* ============================================================
+   Santa Rita — Painel Administrativo
+   Direção: editorial-utilitário com toque litúrgico.
+   Fraunces (display) + Geist Sans (body) + JetBrains Mono (números).
+   ============================================================ */
+
+@theme {
+  --font-sans:
+    'Geist', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+  --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+
+  /* Paleta — claro */
+  --color-background: oklch(98% 0.012 80);
+  --color-foreground: oklch(22% 0.018 60);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-2: oklch(96% 0.013 80);
+  --color-surface-3: oklch(93% 0.014 75);
+
+  --color-muted: oklch(94% 0.012 70);
+  --color-muted-foreground: oklch(46% 0.018 60);
+  --color-subtle: oklch(60% 0.014 60);
+
+  --color-border: oklch(90% 0.012 70);
+  --color-border-strong: oklch(80% 0.018 65);
+
+  --color-primary: oklch(38% 0.075 150);
+  --color-primary-hover: oklch(33% 0.075 150);
+  --color-primary-foreground: oklch(98% 0.012 80);
+  --color-primary-soft: oklch(94% 0.035 150);
+
+  --color-accent: oklch(56% 0.095 70);
+  --color-accent-foreground: oklch(20% 0.02 60);
+
+  --color-success: oklch(50% 0.11 155);
+  --color-success-soft: oklch(94% 0.035 155);
+  --color-warning: oklch(60% 0.13 75);
+  --color-warning-soft: oklch(94% 0.04 75);
+  --color-danger: oklch(48% 0.16 28);
+  --color-danger-soft: oklch(95% 0.03 28);
+  --color-info: oklch(55% 0.10 230);
+  --color-info-soft: oklch(94% 0.025 230);
+}
+
 @layer base {
   :root {
-    --background: 36 20% 97%;
-    --foreground: 25 25% 15%;
-    --card: 36 20% 99%;
-    --card-foreground: 25 25% 15%;
-    --popover: 36 20% 99%;
-    --popover-foreground: 25 25% 15%;
-    --primary: 25 40% 30%;
-    --primary-foreground: 36 30% 97%;
-    --secondary: 36 25% 92%;
-    --secondary-foreground: 25 30% 20%;
-    --muted: 36 15% 90%;
-    --muted-foreground: 25 10% 40%;
-    --accent: 38 60% 55%;
-    --accent-foreground: 25 25% 15%;
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 36 30% 97%;
-    --border: 36 15% 88%;
-    --input: 36 15% 88%;
-    --ring: 25 40% 30%;
-    --radius: 0.5rem;
+    color-scheme: light;
   }
 
   .dark {
-    --background: 25 15% 8%;
-    --foreground: 36 20% 95%;
-    --card: 25 15% 12%;
-    --card-foreground: 36 20% 95%;
-    --popover: 25 15% 12%;
-    --popover-foreground: 36 20% 95%;
-    --primary: 38 60% 60%;
-    --primary-foreground: 25 25% 12%;
-    --secondary: 25 15% 18%;
-    --secondary-foreground: 36 20% 95%;
-    --muted: 25 10% 18%;
-    --muted-foreground: 36 15% 65%;
-    --accent: 38 60% 55%;
-    --accent-foreground: 25 25% 12%;
-    --destructive: 0 70% 50%;
-    --destructive-foreground: 36 30% 97%;
-    --border: 25 10% 22%;
-    --input: 25 10% 22%;
-    --ring: 38 60% 60%;
+    color-scheme: dark;
+
+    --color-background: oklch(16% 0.012 60);
+    --color-foreground: oklch(94% 0.012 80);
+    --color-surface: oklch(20% 0.012 60);
+    --color-surface-2: oklch(22% 0.014 60);
+    --color-surface-3: oklch(26% 0.016 60);
+
+    --color-muted: oklch(22% 0.012 60);
+    --color-muted-foreground: oklch(68% 0.012 70);
+    --color-subtle: oklch(50% 0.012 60);
+
+    --color-border: oklch(28% 0.014 60);
+    --color-border-strong: oklch(38% 0.018 60);
+
+    --color-primary: oklch(72% 0.10 150);
+    --color-primary-hover: oklch(78% 0.10 150);
+    --color-primary-foreground: oklch(15% 0.02 60);
+    --color-primary-soft: oklch(28% 0.05 150);
+
+    --color-accent: oklch(72% 0.10 70);
+    --color-accent-foreground: oklch(15% 0.02 60);
+
+    --color-success: oklch(70% 0.11 155);
+    --color-success-soft: oklch(28% 0.05 155);
+    --color-warning: oklch(72% 0.12 75);
+    --color-warning-soft: oklch(28% 0.05 75);
+    --color-danger: oklch(70% 0.13 28);
+    --color-danger-soft: oklch(28% 0.06 28);
+    --color-info: oklch(72% 0.10 230);
+    --color-info-soft: oklch(28% 0.05 230);
+  }
+
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    background: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-family: system-ui, sans-serif;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv11', 'ss03', 'ss05', 'cv05';
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  /* Scrollbar refinada */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklch, var(--color-border-strong) 70%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-border-strong);
+  }
+
+  /* Selection — toque litúrgico */
+  ::selection {
+    background: color-mix(in oklch, var(--color-primary) 25%, transparent);
+    color: var(--color-foreground);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-feature-settings: 'ss01', 'ss02';
+    letter-spacing: -0.015em;
+  }
+
+  /* Tipografia tabular pra números — sem chacoalhar tabela */
+  .font-mono,
+  [class*='tabular-nums'] {
+    font-feature-settings: 'tnum';
+  }
+}
+
+@layer components {
+  /* ========== Tokens semânticos no Tailwind ==========
+     Permitem usar classes tipo `bg-card`, `text-muted-foreground`
+     em vez do verbose bg-(color:--color-surface). */
+
+  .bg-background {
+    background-color: var(--color-background);
+  }
+  .bg-card {
+    background-color: var(--color-surface);
+  }
+  .bg-card-2 {
+    background-color: var(--color-surface-2);
+  }
+  .bg-secondary {
+    background-color: var(--color-surface-2);
+  }
+  .bg-muted {
+    background-color: var(--color-muted);
+  }
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  .bg-primary-soft {
+    background-color: var(--color-primary-soft);
+  }
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+  .bg-destructive {
+    background-color: var(--color-danger);
+  }
+  .bg-destructive\/5 {
+    background-color: color-mix(in oklch, var(--color-danger) 5%, transparent);
+  }
+  .bg-destructive\/10 {
+    background-color: color-mix(in oklch, var(--color-danger) 10%, transparent);
+  }
+  .bg-destructive\/90 {
+    background-color: color-mix(in oklch, var(--color-danger) 90%, transparent);
+  }
+  .bg-success-soft {
+    background-color: var(--color-success-soft);
+  }
+  .bg-warning-soft {
+    background-color: var(--color-warning-soft);
+  }
+  .bg-info-soft {
+    background-color: var(--color-info-soft);
+  }
+
+  .text-foreground {
+    color: var(--color-foreground);
+  }
+  .text-muted-foreground {
+    color: var(--color-muted-foreground);
+  }
+  .text-subtle {
+    color: var(--color-subtle);
+  }
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-primary-foreground {
+    color: var(--color-primary-foreground);
+  }
+  .text-secondary-foreground {
+    color: var(--color-foreground);
+  }
+  .text-accent-foreground {
+    color: var(--color-accent-foreground);
+  }
+  .text-destructive {
+    color: var(--color-danger);
+  }
+
+  .border-border {
+    border-color: var(--color-border);
+  }
+  .border-border-strong {
+    border-color: var(--color-border-strong);
+  }
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+  .border-destructive\/30 {
+    border-color: color-mix(in oklch, var(--color-danger) 30%, transparent);
+  }
+  .border-destructive\/40 {
+    border-color: color-mix(in oklch, var(--color-danger) 40%, transparent);
+  }
+
+  .ring-ring {
+    --tw-ring-color: color-mix(in oklch, var(--color-primary) 35%, transparent);
+  }
+
+  .font-display {
+    font-family: var(--font-serif);
+  }
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  /* Hover states Tailwind 4 — bg-secondary/30 hover etc */
+  .hover\:bg-secondary:hover {
+    background-color: var(--color-surface-2);
+  }
+  .hover\:bg-secondary\/50:hover {
+    background-color: color-mix(
+      in oklch,
+      var(--color-surface-2) 50%,
+      transparent
+    );
+  }
+  .hover\:bg-secondary\/30:hover {
+    background-color: color-mix(
+      in oklch,
+      var(--color-surface-2) 60%,
+      transparent
+    );
+  }
+  .hover\:bg-destructive\/10:hover {
+    background-color: color-mix(in oklch, var(--color-danger) 10%, transparent);
+  }
+  .hover\:bg-destructive\/90:hover {
+    background-color: color-mix(in oklch, var(--color-danger) 90%, transparent);
+  }
+  .hover\:text-foreground:hover {
+    color: var(--color-foreground);
+  }
+  .hover\:opacity-90:hover {
+    opacity: 0.9;
+  }
+
+  /* Variantes auxiliares */
+  .bg-secondary\/20 {
+    background-color: color-mix(
+      in oklch,
+      var(--color-surface-2) 50%,
+      transparent
+    );
+  }
+  .bg-secondary\/30 {
+    background-color: color-mix(
+      in oklch,
+      var(--color-surface-2) 65%,
+      transparent
+    );
+  }
+  .bg-secondary\/40 {
+    background-color: color-mix(
+      in oklch,
+      var(--color-surface-2) 80%,
+      transparent
+    );
+  }
+
+  /* ============== Componentes utilitários ============== */
+
+  .surface-warmth {
+    background: linear-gradient(
+      180deg,
+      var(--color-surface) 0%,
+      var(--color-surface-2) 100%
+    );
+  }
+
+  .ornament-line {
+    position: relative;
+    background: var(--color-border);
+    height: 1px;
+  }
+  .ornament-line::before,
+  .ornament-line::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--color-border-strong);
+    transform: translateY(-50%);
+  }
+  .ornament-line::before {
+    left: -2px;
+  }
+  .ornament-line::after {
+    right: -2px;
+  }
+
+  /* Tabular figures pra valores em tabelas */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  /* Animations */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-up {
+    animation: fade-up 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+  .animate-pulse-soft {
+    animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 }
