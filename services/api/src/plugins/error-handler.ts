@@ -1,4 +1,4 @@
-import type { FastifyPluginAsync } from 'fastify';
+import type { FastifyError, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { ZodError } from 'zod';
 
@@ -11,10 +11,11 @@ const plugin: FastifyPluginAsync = async (app) => {
         details: error.flatten(),
       });
     }
-    if (error.statusCode && error.statusCode < 500) {
-      return reply.code(error.statusCode).send({
-        error: error.code ?? 'CLIENT_ERROR',
-        message: error.message,
+    const fe = error as FastifyError;
+    if (fe.statusCode && fe.statusCode < 500) {
+      return reply.code(fe.statusCode).send({
+        error: fe.code ?? 'CLIENT_ERROR',
+        message: fe.message,
       });
     }
     app.log.error(error);

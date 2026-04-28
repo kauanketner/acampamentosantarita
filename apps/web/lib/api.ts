@@ -4,9 +4,10 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3333';
 
 export async function fetchPublic<T>(path: string, init?: RequestInit): Promise<T> {
+  const extraNext = (init as { next?: Record<string, unknown> } | undefined)?.next ?? {};
   const res = await fetch(`${API_URL}/public${path}`, {
     ...init,
-    next: { revalidate: 60, ...(init as { next?: unknown })?.next },
+    next: { revalidate: 60, ...extraNext },
   });
   if (!res.ok) {
     throw new Error(`fetchPublic ${path} → ${res.status}`);

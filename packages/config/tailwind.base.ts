@@ -4,7 +4,7 @@ import type { Config } from 'tailwindcss';
 // branco-creme contemplativo). Por ora mantemos o token set padrão shadcn.
 
 const base = {
-  darkMode: ['class'],
+  darkMode: 'class',
   content: [],
   theme: {
     container: {

@@ -28,7 +28,7 @@ const plugin: FastifyPluginAsync = async (app) => {
         id: found.user.id,
         role: found.user.role,
         personId: found.user.personId,
-        email: found.user.email,
+        email: found.user.email ?? '',
       };
     }
   });
