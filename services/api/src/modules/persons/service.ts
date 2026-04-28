@@ -63,6 +63,29 @@ export const personsService = {
     };
   },
 
+  async updateUserRole(
+    db: Database,
+    personId: string,
+    role:
+      | 'admin'
+      | 'equipe_acampamento'
+      | 'tesouraria'
+      | 'comunicacao'
+      | 'participante',
+  ) {
+    const [user] = await db
+      .select({ id: schema.users.id })
+      .from(schema.users)
+      .where(eq(schema.users.personId, personId))
+      .limit(1);
+    if (!user) return null;
+    await db
+      .update(schema.users)
+      .set({ role, updatedAt: new Date() })
+      .where(eq(schema.users.id, user.id));
+    return user.id;
+  },
+
   async getFullProfile(db: Database, personId: string) {
     const [person] = await db
       .select()

@@ -19,4 +19,10 @@ export const personsRoutes: FastifyPluginAsync = async (app) => {
     { schema: { tags: ['persons'] } },
     personsController.updateAvatar,
   );
+  // POST /v1/persons/:id/role — admin promove/rebaixa
+  app.post(
+    '/:id/role',
+    { schema: { tags: ['persons'] } },
+    personsController.updateRole,
+  );
 };

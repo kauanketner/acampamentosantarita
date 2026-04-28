@@ -87,6 +87,42 @@ export const personsController = {
     return data;
   },
 
+  async updateRole(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    if (req.user!.role !== 'admin') {
+      reply
+        .code(403)
+        .send({ error: 'FORBIDDEN', message: 'Apenas admins podem alterar funções.' });
+      return;
+    }
+    const { id } = req.params as { id: string };
+    const { role } = (req.body as { role?: string } | undefined) ?? {};
+    const validRoles = [
+      'admin',
+      'equipe_acampamento',
+      'tesouraria',
+      'comunicacao',
+      'participante',
+    ] as const;
+    if (!role || !validRoles.includes(role as (typeof validRoles)[number])) {
+      reply.code(400).send({ error: 'INVALID_ROLE' });
+      return;
+    }
+    const updated = await personsService.updateUserRole(
+      req.server.db,
+      id,
+      role as (typeof validRoles)[number],
+    );
+    if (!updated) {
+      reply.code(404).send({
+        error: 'USER_NOT_FOUND',
+        message: 'Esta pessoa ainda não tem login no sistema.',
+      });
+      return;
+    }
+    return { ok: true };
+  },
+
   async updateAvatar(req: FastifyRequest, reply: FastifyReply) {
     if (!req.user?.personId) {
       reply.code(401).send({ error: 'UNAUTHORIZED' });

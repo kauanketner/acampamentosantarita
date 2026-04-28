@@ -121,4 +121,18 @@ export function useUpdatePerson(id: string) {
   });
 }
 
+export function useUpdatePersonRole() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ personId, role }: { personId: string; role: AdminRole }) =>
+      api<{ ok: true }>(`/v1/persons/${personId}/role`, {
+        method: 'POST',
+        json: { role },
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: PERSONS_KEY });
+    },
+  });
+}
+
 export const adminPersonsQueryKey = PERSONS_KEY;
