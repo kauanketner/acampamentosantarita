@@ -1,10 +1,68 @@
 import { schema } from '@santarita/db';
 import type { Database } from '@santarita/db';
-import { eq } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, isNull, or } from 'drizzle-orm';
 import { toE164 } from '../../lib/whatsapp.ts';
 import type { PersonUpdate } from './schemas.ts';
 
 export const personsService = {
+  async listAdmin(
+    db: Database,
+    opts: { search?: string; limit?: number } = {},
+  ) {
+    const limit = opts.limit ?? 200;
+    const where = [isNull(schema.persons.deletedAt)];
+    if (opts.search?.trim()) {
+      const q = `%${opts.search.trim()}%`;
+      where.push(
+        or(
+          ilike(schema.persons.fullName, q),
+          ilike(schema.persons.cpf, q),
+          ilike(schema.persons.mobilePhone, q),
+        )!,
+      );
+    }
+    const rows = await db
+      .select({
+        person: schema.persons,
+        userId: schema.users.id,
+        role: schema.users.role,
+        email: schema.users.email,
+      })
+      .from(schema.persons)
+      .leftJoin(schema.users, eq(schema.users.personId, schema.persons.id))
+      .where(and(...where))
+      .orderBy(asc(schema.persons.fullName))
+      .limit(limit);
+
+    return rows.map((r) => ({
+      ...r.person,
+      user: r.userId
+        ? { id: r.userId, role: r.role!, email: r.email }
+        : null,
+    }));
+  },
+
+  async getByIdAdmin(db: Database, personId: string) {
+    const [row] = await db
+      .select({
+        person: schema.persons,
+        userId: schema.users.id,
+        role: schema.users.role,
+        email: schema.users.email,
+      })
+      .from(schema.persons)
+      .leftJoin(schema.users, eq(schema.users.personId, schema.persons.id))
+      .where(eq(schema.persons.id, personId))
+      .limit(1);
+    if (!row) return null;
+    return {
+      ...row.person,
+      user: row.userId
+        ? { id: row.userId, role: row.role!, email: row.email }
+        : null,
+    };
+  },
+
   async getFullProfile(db: Database, personId: string) {
     const [person] = await db
       .select()

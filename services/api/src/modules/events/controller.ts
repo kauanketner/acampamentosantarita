@@ -1,5 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { registrationsService } from '../registrations/service.ts';
+import { serviceTeamsService } from '../service-teams/service.ts';
 import { tribesService } from '../tribes/service.ts';
 import {
   createCustomQuestionSchema,
@@ -106,7 +107,12 @@ export const eventsController = {
     return { items };
   },
 
-  listServiceTeams: notImplemented,
+  async listServiceTeams(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { id } = req.params as { id: string };
+    const items = await serviceTeamsService.listByEvent(req.server.db, id);
+    return { items };
+  },
 
   async listCustomQuestions(req: FastifyRequest, reply: FastifyReply) {
     const { id } = req.params as { id: string };

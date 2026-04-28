@@ -25,10 +25,39 @@ function resolveTargetId(req: FastifyRequest): {
   return { ok: true, id: target };
 }
 
+function requireAdmin(req: FastifyRequest, reply: FastifyReply): boolean {
+  if (!req.user) {
+    reply.code(401).send({ error: 'UNAUTHORIZED' });
+    return false;
+  }
+  if (req.user.role === 'participante') {
+    reply.code(403).send({ error: 'FORBIDDEN' });
+    return false;
+  }
+  return true;
+}
+
 export const personsController = {
-  list: notImplemented,
+  async list(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { search } = req.query as { search?: string };
+    const items = await personsService.listAdmin(req.server.db, { search });
+    return { items };
+  },
+
   create: notImplemented,
-  getById: notImplemented,
+
+  async getById(req: FastifyRequest, reply: FastifyReply) {
+    if (!requireAdmin(req, reply)) return;
+    const { id } = req.params as { id: string };
+    const data = await personsService.getByIdAdmin(req.server.db, id);
+    if (!data) {
+      reply.code(404).send({ error: 'NOT_FOUND' });
+      return;
+    }
+    return data;
+  },
+
   softDelete: notImplemented,
 
   async update(req: FastifyRequest, reply: FastifyReply) {
